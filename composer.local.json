@@ -1,0 +1,42 @@
+{
+	"name": "doubleedesign/comet-plugin",
+	"type": "wordpress-plugin",
+	"description": "WordPress plugin implementing the Comet Components library for use as ACF Flexible Content modules.",
+	"version": "0.0.3",
+	"homepage": "https://cometcomponents.io",
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"authors": [
+		{
+			"name": "Leesa Ward",
+			"email": "leesa@doubleedesign.com.au"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"Doubleedesign\\Comet\\WordPress\\Classic\\": "src/"
+		}
+	},
+	"require": {
+		"doubleedesign/comet-components-core": "*"
+	},
+	"repositories": [
+		{
+			"type": "path",
+			"url": "../core",
+			"options": {
+				"symlink": true
+			}
+		},
+		{
+			"type": "vcs",
+			"url": "https://github.com/doubleedesign/baguetteBox.js"
+		}
+	],
+	"archive": {
+		"exclude": [
+			"src/*.scss",
+			"src/*.css.map"
+		]
+	}
+}
