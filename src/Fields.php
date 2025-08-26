@@ -5,6 +5,7 @@ class Fields {
 
     public function __construct() {
         add_action('acf/include_fields', [$this, 'register_flexible_content_fields'], 5, 0);
+        add_filter('acf/load_value/name=content_modules', [$this, 'set_default_modules'], 10, 3);
         add_filter('acf/fields/flexible_content/no_value_message', [$this, 'customise_no_value_message'], 10, 2);
     }
 
@@ -449,5 +450,33 @@ class Fields {
             ),
             'modified' => 1755999529,
         ));
+    }
+
+    public function set_default_modules($value, $post_id, $field) {
+        if (!$value) {
+            $all_modules = acf_get_field('field_content-modules')['layouts'];
+            $page_header = $all_modules['layout_page-header'];
+            $copy = $all_modules['layout_copy'];
+            $value = array();
+
+            if (isset($page_header)) {
+                $fields = array_map(fn($sub_field) => $sub_field['key'], $page_header['sub_fields']);
+                $defaults = array_combine($fields, array_fill(0, count($fields), ''));
+                array_push($value, array(
+                    'acf_fc_layout' => 'page_header',
+                    ...$defaults
+                ));
+            }
+            if (isset($copy)) {
+                $fields = array_map(fn($sub_field) => $sub_field['key'], $copy['sub_fields']);
+                $defaults = array_combine($fields, array_fill(0, count($fields), ''));
+                array_push($value, array(
+                    'acf_fc_layout' => 'copy',
+                    ...$defaults
+                ));
+            }
+        }
+
+        return $value;
     }
 }
