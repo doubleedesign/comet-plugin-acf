@@ -88,7 +88,7 @@ class Fields {
                             'display'    => 'block',
                             'sub_fields' => array(
                                 array(
-                                    'key'           => 'field_61c4385824ff1',
+                                    'key'           => 'field__page-header__heading',
                                     'label'         => 'Heading',
                                     'name'          => 'heading',
                                     'type'          => 'text',
@@ -100,7 +100,7 @@ class Fields {
                                 $this->create_select_field('page-header', 'Background colour', 'white'),
                                 // TODO: Only add this field if Breadcrumbs plugin is active
                                 array(
-                                    'key'           => 'field_61c438d824ff2',
+                                    'key'           => 'field__page-header__show-breadcrumbs',
                                     'label'         => 'Show breadcrumbs',
                                     'name'          => 'show_breadcrumbs',
                                     'type'          => 'true_false',
@@ -122,14 +122,14 @@ class Fields {
                             'display'    => 'block',
                             'sub_fields' => array(
                                 array(
-                                    'key'               => 'field_5ef6dd0c7828d',
+                                    'key'               => 'field__accordion__heading',
                                     'label'             => 'Heading',
                                     'name'              => 'heading',
                                     'type'              => 'text',
                                     'repeatable'        => true,
                                 ),
                                 array(
-                                    'key'               => 'field_5ef6dd177828e',
+                                    'key'               => 'field_accordion__intro',
                                     'label'             => 'Intro copy',
                                     'name'              => 'intro_copy',
                                     'type'              => 'wysiwyg',
@@ -142,11 +142,11 @@ class Fields {
                                 $this->create_select_field('accordion', 'Colour theme'),
                                 $this->create_select_field('accordion', 'Width'),
                                 array(
-                                    'key'               => 'field_5ef5c8184d1f3',
+                                    'key'               => 'field__accordion__panels',
                                     'label'             => 'Panels',
                                     'name'              => 'panels',
                                     'type'              => 'repeater',
-                                    'collapsed'         => 'field_5ef5c81f4d1f4',
+                                    'collapsed'         => 'field_accordion-panel__heading',
                                     'min'               => 0,
                                     'max'               => 20,
                                     'layout'            => 'block',
@@ -155,15 +155,15 @@ class Fields {
                                     'repeatable'        => true,
                                     'sub_fields'        => array(
                                         array(
-                                            'key'               => 'field_5ef5c81f4d1f4',
+                                            'key'               => 'field__accordion-panel__heading',
                                             'label'             => 'Heading',
                                             'name'              => 'heading',
                                             'type'              => 'text',
-                                            'parent_repeater'   => 'field_5ef5c8184d1f3',
+                                            'parent_repeater'   => 'field__accordion__panels',
                                             'repeatable'        => true,
                                         ),
                                         array(
-                                            'key'               => 'field_5ef5c82a4d1f5',
+                                            'key'               => 'field__accordion-panel__content',
                                             'label'             => 'Content',
                                             'name'              => 'content',
                                             'type'              => 'wysiwyg',
@@ -171,7 +171,7 @@ class Fields {
                                             'toolbar'           => 'full',
                                             'media_upload'      => 1,
                                             'delay'             => 0,
-                                            'parent_repeater'   => 'field_5ef5c8184d1f3',
+                                            'parent_repeater'   => 'field__accordion__panels',
                                             'repeatable'        => true,
                                         ),
                                     ),
@@ -185,7 +185,7 @@ class Fields {
                             'display'    => 'block',
                             'sub_fields' => array(
                                 array(
-                                    'key'               => 'field_62ca950f097c4',
+                                    'key'               => 'field__call-to-action__heading',
                                     'label'             => 'Heading',
                                     'name'              => 'heading',
                                     'type'              => 'text',
@@ -194,7 +194,7 @@ class Fields {
                                     'repeatable'        => true,
                                 ),
                                 array(
-                                    'key'               => 'field_62ca9523097c5',
+                                    'key'               => 'field__call-to-action__description',
                                     'label'             => 'Description',
                                     'name'              => 'description',
                                     'type'              => 'wysiwyg',
@@ -204,7 +204,7 @@ class Fields {
                                     'repeatable'        => true,
                                 ),
                                 array(
-                                    'key'               => 'field_62ca952a097c6',
+                                    'key'               => 'field__call-to-action__button',
                                     'label'             => 'Button',
                                     'name'              => 'button',
                                     'type'              => 'link',
@@ -223,7 +223,7 @@ class Fields {
                             'display'    => 'block',
                             'sub_fields' => array(
                                 array(
-                                    'key'               => 'field_62cfcf2612d8c',
+                                    'key'               => 'field__child-pages__message',
                                     'type'              => 'message',
                                     'message'           => 'Automatic preview cards of this page\'s sub-pages, linked to the page.',
                                     'new_lines'         => 'wpautop',
@@ -239,7 +239,7 @@ class Fields {
                             'display'    => 'block',
                             'sub_fields' => array(
                                 array(
-                                    'key'               => 'field_5d8f039098f5c',
+                                    'key'               => 'field__copy__content',
                                     'label'             => 'Content',
                                     'name'              => 'copy',
                                     'type'              => 'wysiwyg',
@@ -259,7 +259,7 @@ class Fields {
                             'display'    => 'block',
                             'sub_fields' => array(
                                 array(
-                                    'key'               => 'field_5d8f026a98f53',
+                                    'key'               => 'field__copy-image__image',
                                     'label'             => 'Image',
                                     'name'              => 'image',
                                     'type'              => 'image',
@@ -272,7 +272,7 @@ class Fields {
                                     'repeatable'    => true,
                                 ),
                                 array(
-                                    'key'               => 'field_5d8f028198f55',
+                                    'key'               => 'field__copy-image__copy',
                                     'label'             => 'Copy',
                                     'name'              => 'copy',
                                     'type'              => 'wysiwyg',
@@ -286,7 +286,7 @@ class Fields {
                                     'repeatable'    => true,
                                 ),
                                 array(
-                                    'key'               => 'field_5ef6c04a8856b',
+                                    'key'               => 'field__copy-image__order',
                                     'label'             => 'Order',
                                     'name'              => 'order',
                                     'type'              => 'radio',
@@ -305,7 +305,7 @@ class Fields {
                                 $this->create_select_field('copy-image', 'Background colour', 'white'),
                                 $this->create_select_field('copy-image', 'Width'),
                                 array(
-                                    'key'               => 'field_640926f6a3d99',
+                                    'key'               => 'field__copy-image__image-cropping',
                                     'label'             => 'Image cropping',
                                     'name'              => 'image_cropping',
                                     'type'              => 'select',
@@ -327,13 +327,13 @@ class Fields {
                             ),
                         ),
                         'layout_hero' => array(
-                            'key'        => 'layout_5ef5c8bb4d1f6',
+                            'key'        => 'layout_hero',
                             'name'       => 'hero',
                             'label'      => 'Hero',
                             'display'    => 'block',
                             'sub_fields' => array(
                                 array(
-                                    'key'               => 'field_5ef5c8c14d1f7',
+                                    'key'               => 'field__hero__image',
                                     'label'             => 'Image',
                                     'name'              => 'image',
                                     'type'              => 'image',
@@ -346,7 +346,7 @@ class Fields {
                                     'repeatable'    => true,
                                 ),
                                 array(
-                                    'key'               => 'field_64085568a545f',
+                                    'key'               => 'field__hero__copy',
                                     'label'             => 'Copy',
                                     'name'              => 'copy',
                                     'type'              => 'group',
@@ -357,14 +357,14 @@ class Fields {
                                     'repeatable'              => true,
                                     'sub_fields'              => array(
                                         array(
-                                            'key'               => 'field_5ef5c8d94d1f8',
+                                            'key'               => 'field__hero__copy__heading',
                                             'label'             => 'Heading',
                                             'name'              => 'heading',
                                             'type'              => 'text',
                                             'repeatable'        => true,
                                         ),
                                         array(
-                                            'key'               => 'field_62ca923c3f401',
+                                            'key'               => 'field__hero__copy__copy',
                                             'label'             => 'Copy',
                                             'name'              => 'copy',
                                             'type'              => 'wysiwyg',
@@ -375,7 +375,7 @@ class Fields {
                                             'repeatable'        => true,
                                         ),
                                         array(
-                                            'key'               => 'field_5ef5c8f14d1f9',
+                                            'key'               => 'field__hero__copy__button',
                                             'label'             => 'Button',
                                             'name'              => 'button',
                                             'type'              => 'link',
@@ -390,20 +390,25 @@ class Fields {
                             ),
                         ),
                         'layout_latest-posts' => array(
-                            'key'        => 'layout_62cfd164dc9f3',
+                            'key'        => 'layout_latest-posts',
                             'name'       => 'latest_posts',
                             'label'      => 'Latest posts',
                             'display'    => 'block',
                             'sub_fields' => array(
                                 array(
-                                    'key'               => 'field_62cfd16cdc9f4',
+                                    'key'               => 'field__latest-posts__heading',
                                     'label'             => 'Heading',
                                     'name'              => 'heading',
                                     'type'              => 'text',
+                                    'default_value'     => 'Latest Posts',
+                                    'placeholder'       => 'Latest Posts',
                                     'repeatable'        => true,
+                                    'wrapper'           => array(
+                                        'width' => 66,
+                                    )
                                 ),
                                 array(
-                                    'key'                  => 'field_62cfd175dc9f5',
+                                    'key'                  => 'field__latest-posts__category',
                                     'label'                => 'Show posts from',
                                     'name'                 => 'show_posts_from',
                                     'type'                 => 'taxonomy',
@@ -411,6 +416,24 @@ class Fields {
                                     'field_type'           => 'checkbox',
                                     'return_format'        => 'id',
                                     'repeatable'           => true,
+                                    'wrapper'              => array(
+                                        'width' => 33,
+                                    )
+                                ),
+                                $this->create_select_field('latest-posts', 'Colour theme'),
+                                array(
+                                    'key'               => 'field__latest-posts__number',
+                                    'label'             => 'Number of posts to show',
+                                    'name'              => 'number',
+                                    'type'              => 'number',
+                                    'default_value'     => 3,
+                                    'min'               => 1,
+                                    'max'               => 30,
+                                    'step'              => 1,
+                                    'repeatable'        => true,
+                                    'wrapper'           => array(
+                                        'width' => 33,
+                                    )
                                 ),
                             ),
                         ),

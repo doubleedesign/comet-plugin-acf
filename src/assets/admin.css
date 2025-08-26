@@ -1,0 +1,17 @@
+#acf-group_content-modules .layout[data-layout=latest_posts]:not(.-collapsed):not([data-mode=preview]) > .acf-fields {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+}
+#acf-group_content-modules .layout[data-layout=latest_posts]:not(.-collapsed):not([data-mode=preview]) > .acf-fields > .acf-field {
+  width: unset !important;
+  min-height: unset !important;
+}
+#acf-group_content-modules .layout[data-layout=latest_posts]:not(.-collapsed):not([data-mode=preview]) > .acf-fields > .acf-field[data-width="66"] {
+  grid-column: span 2;
+}
+#acf-group_content-modules .layout[data-layout=latest_posts]:not(.-collapsed):not([data-mode=preview]) > .acf-fields > .acf-field[data-type=taxonomy] {
+  grid-row: span 2;
+}
+
+/*# sourceMappingURL=admin.css.map */

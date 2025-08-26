@@ -1,0 +1,23 @@
+#acf-group_content-modules {
+
+	.layout[data-layout="latest_posts"]:not(.-collapsed):not([data-mode="preview"]) {
+		> .acf-fields {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			grid-template-rows: repeat(2, auto);
+
+			> .acf-field {
+				width: unset !important;
+				min-height: unset !important;
+
+				&[data-width="66"] {
+					grid-column: span 2;
+				}
+
+				&[data-type="taxonomy"] {
+					grid-row: span 2;
+				}
+			}
+		}
+	}
+}

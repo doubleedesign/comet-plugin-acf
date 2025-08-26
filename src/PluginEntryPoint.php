@@ -7,6 +7,11 @@ class PluginEntrypoint {
     public function __construct() {
         new Fields();
         new TemplateHandler();
+        new AssetHandler();
+
+        if (is_admin()) {
+            new AdminUI();
+        }
     }
 
     public static function get_version(): string {
