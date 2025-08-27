@@ -24,15 +24,14 @@ use Doubleedesign\Comet\WordPress\Classic\PluginEntrypoint;
 new PluginEntrypoint();
 
 function activate_comet_plugin_acf(): void {
-	PluginEntrypoint::activate();
+    PluginEntrypoint::activate();
 }
 function deactivate_comet_plugin_acf(): void {
-	PluginEntrypoint::deactivate();
+    PluginEntrypoint::deactivate();
 }
 function uninstall_comet_plugin_acf(): void {
-	PluginEntrypoint::uninstall();
+    PluginEntrypoint::uninstall();
 }
 register_activation_hook(__FILE__, 'activate_comet_plugin_acf');
 register_deactivation_hook(__FILE__, 'deactivate_comet_plugin_acf');
 register_uninstall_hook(__FILE__, 'uninstall_comet_plugin_acf');
-

@@ -33,7 +33,7 @@ class Fields {
                     'dark'      => 'Dark',
                 ),
                 'Background colour' => array(
-                    'theme' => 'Colour theme',
+                    'theme' => 'Inherit from colour theme',
                     'light' => 'Light',
                     'dark'  => 'Dark',
                     'white' => 'White'
@@ -62,6 +62,7 @@ class Fields {
             'multiple'          => false,
             'repeatable'        => true,
             'allow_null'        => 0,
+            'ui'                => 1, // enables select2
             ...$extra ?? []
         );
     }
