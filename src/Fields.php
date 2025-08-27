@@ -72,7 +72,7 @@ class Fields {
     }
 
     public function register_flexible_content_fields(): void {
-        acf_add_local_field_group(array(
+        $default = array(
             'key'    => 'group_content-modules',
             'title'  => 'Content modules',
             'fields' => array(
@@ -473,7 +473,11 @@ class Fields {
                 'appearances'   => '',
             ),
             'modified' => 1755999529,
-        ));
+        );
+
+        $final = apply_filters('comet_canvas_acf_flexible_modules', $default);
+
+        acf_add_local_field_group($final);
     }
 
     public function set_default_modules($value, $post_id, $field) {

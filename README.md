@@ -2,13 +2,25 @@
 
 This plugin is a WordPress implementation of a selection of Double-E Design's Comet Components library for use as ACF Flexible Content modules.
 
-This plugin is a foundational requirement for all Double-E Design themes developed for the Classic Editor + ACF from August 2025.
+## Usage
+
+This plugin provides default fields, template parts, CSS, and occasionally JS for their output as per the Comet Components library. Some filter hooks are provided to enable some theme-level customisation without having to override entire templates, remove actions, run duplicate functions at higher priority, etc.
+
+Usage with the Comet Canvas (Classic) theme as a parent theme is also recommended as this provides even more integration with Comet Components for a clean and consistent experience for both users and admins. This plugin has not been tested with themes other than Comet Canvas (Classic) and custom themes based on it.
+
+You might also be interested in using Double-E Design's [ACF Dynamic Preview](https://github.com/doubleedesign/acf-dynamic-preview) plugin, which this plugin is designed to be compatible with.
+
+### Filters
+
+| Filter                              | Usage                                                                                                                                                                                                                                                                                                                          |
+|-------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `comet_canvas_acf_flexible_modules` | Enables theme-level customisation of the ACF fields for the page layout modules. Use with extreme caution - renaming or removing fields will remove them and/or their current data from the UI, but will not remove it from the database. The intention of this hook is primarily to allow themes to _add_ fields and options. |
+
+## Developer notes
 
 If you're reading this from GitHub, you're seeing the mirror of the [Comet Components WordPress ACF Plugin package](https://github.com/doubleedesign/comet-components/tree/master/packages/comet-plugin) that is here for the purposes of publishing to Packagist and installing via Composer.
 
 Development of this project belongs in the main Comet Components monorepo.
-
-## Developer notes
 
 ### Local development
 
