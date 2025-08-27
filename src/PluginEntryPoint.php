@@ -7,7 +7,7 @@ class PluginEntrypoint {
     public function __construct() {
         new Fields();
         new TemplateHandler();
-        new AssetHandler();
+        new ComponentAssets();
 
         if (is_admin()) {
             new AdminUI();

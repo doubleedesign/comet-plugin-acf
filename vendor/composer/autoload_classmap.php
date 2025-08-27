@@ -223,7 +223,7 @@ return array(
     'Doubleedesign\\Comet\\Core\\UIComponent' => $vendorDir . '/doubleedesign/comet-components-core/src/base/components/UIComponent.php',
     'Doubleedesign\\Comet\\Core\\Utils' => $vendorDir . '/doubleedesign/comet-components-core/src/base/Utils.php',
     'Doubleedesign\\Comet\\WordPress\\Classic\\AdminUI' => $baseDir . '/src/AdminUI.php',
-    'Doubleedesign\\Comet\\WordPress\\Classic\\AssetHandler' => $baseDir . '/src/AssetHandler.php',
+    'Doubleedesign\\Comet\\WordPress\\Classic\\ComponentAssets' => $baseDir . '/src/ComponentAssets.php',
     'Doubleedesign\\Comet\\WordPress\\Classic\\Fields' => $baseDir . '/src/Fields.php',
     'Doubleedesign\\Comet\\WordPress\\Classic\\TemplateHandler' => $baseDir . '/src/TemplateHandler.php',
     'HTMLPurifier' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier.php',
