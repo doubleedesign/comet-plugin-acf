@@ -72,6 +72,13 @@ class Fields {
     }
 
     public function register_flexible_content_fields(): void {
+        $post_types = apply_filters('comet_canvas_acf_flexible_modules_post_types', ['page']);
+        $locations = array_map(fn($post_type) => array(
+            'param'    => 'post_type',
+            'operator' => '==',
+            'value'    => $post_type,
+        ), $post_types);
+
         $default = array(
             'key'    => 'group_content-modules',
             'title'  => 'Content modules',
@@ -442,15 +449,7 @@ class Fields {
                     'button_label' => 'Add module',
                 ),
             ),
-            'location' => array(
-                array(
-                    array(
-                        'param'    => 'post_type',
-                        'operator' => '==',
-                        'value'    => 'page',
-                    ),
-                ),
-            ),
+            'location'              => array($locations),
             'menu_order'            => 0,
             'position'              => 'normal',
             'style'                 => 'default',

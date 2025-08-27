@@ -12,9 +12,10 @@ You might also be interested in using Double-E Design's [ACF Dynamic Preview](ht
 
 ### Filters
 
-| Filter                              | Usage                                                                                                                                                                                                                                                                                                                          |
-|-------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `comet_canvas_acf_flexible_modules` | Enables theme-level customisation of the ACF fields for the page layout modules. Use with extreme caution - renaming or removing fields will remove them and/or their current data from the UI, but will not remove it from the database. The intention of this hook is primarily to allow themes to _add_ fields and options. |
+| Filter                                         | Usage                                                                                                                                                                                                                                                                                                                          |
+|------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `comet_canvas_acf_flexible_modules`            | Enables theme-level customisation of the ACF fields for the page layout modules. Use with extreme caution - renaming or removing fields will remove them and/or their current data from the UI, but will not remove it from the database. The intention of this hook is primarily to allow themes to _add_ fields and options. |
+| `comet_canvas_acf_flexible_modules_post_types` | Allows theme-level customisation of the post types that the provided flexible modules are enabled for.                                                                                                                                                                                                                         |
 
 ## Developer notes
 
