@@ -401,6 +401,8 @@ class ComposerStaticInit90f34f1e4b1ca132eaa0252c3b1ec2a8
         'Doubleedesign\\Comet\\Core\\TychoService' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/services/TychoService.php',
         'Doubleedesign\\Comet\\Core\\UIComponent' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/base/components/UIComponent.php',
         'Doubleedesign\\Comet\\Core\\Utils' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/base/Utils.php',
+        'Doubleedesign\\Comet\\WordPress\\Classic\\AdminUI' => __DIR__ . '/../..' . '/src/AdminUI.php',
+        'Doubleedesign\\Comet\\WordPress\\Classic\\AssetHandler' => __DIR__ . '/../..' . '/src/AssetHandler.php',
         'Doubleedesign\\Comet\\WordPress\\Classic\\Fields' => __DIR__ . '/../..' . '/src/Fields.php',
         'Doubleedesign\\Comet\\WordPress\\Classic\\TemplateHandler' => __DIR__ . '/../..' . '/src/TemplateHandler.php',
         'HTMLPurifier' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.php',
