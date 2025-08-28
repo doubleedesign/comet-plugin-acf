@@ -79,6 +79,22 @@ class Fields {
             'value'    => $post_type,
         ), $post_types);
 
+        $breadcrumbs_for_page_header = class_exists('Doubleedesign\Breadcrumbs\Breadcrumbs') ? (
+            array(
+                'key'           => 'field__page-header__show-breadcrumbs',
+                'label'         => 'Show breadcrumbs',
+                'name'          => 'show_breadcrumbs',
+                'type'          => 'true_false',
+                'ui'            => 1,
+                'ui_on_text'    => 'Yes',
+                'ui_off_text'   => 'No',
+                'default_value' => 1,
+                'wrapper'       => array(
+                    'width' => 25,
+                ),
+                'repeatable' => false
+            )) : array();
+
         $default = array(
             'key'    => 'group_content-modules',
             'title'  => 'Content modules',
@@ -104,24 +120,12 @@ class Fields {
                                     'default_value' => '',
                                     'placeholder'   => '',
                                 ),
-                                $this->create_select_field('page-header', 'Colour theme'),
-                                $this->create_select_field('page-header', 'Background colour', 'white'),
-                                // TODO: Only add this field if Breadcrumbs plugin is active
-                                array(
-                                    'key'           => 'field__page-header__show-breadcrumbs',
-                                    'label'         => 'Show breadcrumbs',
-                                    'name'          => 'show_breadcrumbs',
-                                    'type'          => 'true_false',
-                                    'ui'            => 1,
-                                    'ui_on_text'    => 'Yes',
-                                    'ui_off_text'   => 'No',
-                                    'default_value' => 1,
-                                    'wrapper'       => array(
-                                        'width' => 33,
-                                    ),
-                                    'repeatable' => true,
-                                )
-                            )
+                                $this->create_select_field('page-header', 'Colour theme', 'primary', !empty($breadcrumbs_for_page_header) ? 25 : 33),
+                                $this->create_select_field('page-header', 'Background colour', 'white', !empty($breadcrumbs_for_page_header) ? 25 : 33),
+                                $this->create_select_field('page_header', 'Width', 'contained', !empty($breadcrumbs_for_page_header) ? 25 : 33),
+                                $breadcrumbs_for_page_header
+                            ),
+                            'max' => 1, // only allow one page header per page
                         ),
                         'layout_accordion' => array(
                             'key'        => 'layout_accordion',
