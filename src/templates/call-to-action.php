@@ -1,14 +1,31 @@
 <?php
-$dynamic_preview_plugin_active = is_plugin_active('acf-dynamic-preview/index.php');
-// These variables come from the function that processes the AJAX request for a dynamic preview, when using the plugin.
-/** @var ?bool $is_backend_preview */
-/** @var ?array $fields */
-$is_backend_dynamic_preview = $dynamic_preview_plugin_active && isset($is_backend_preview) && $is_backend_preview;
+/** @var $fields array */
+use Doubleedesign\Comet\WordPress\Classic\{PreprocessedHTML, TemplateHandler};
+use Doubleedesign\Comet\Core\{Container, CallToAction, Heading, ButtonGroup, Button};
 
-if($is_backend_dynamic_preview && $fields) {
-	echo 'hello world';
-}
-else {
-	$heading = get_sub_field('heading');
-	echo $heading;
-}
+$attributes = TemplateHandler::transform_fields_to_comet_attributes($fields);
+
+$button = $attributes['component']['button'] ?? null;
+$innerComponents = [
+    new Heading([], $attributes['heading'] ?? get_the_title() ?? 'New page'),
+    ...(!empty($attributes['component']['description']) ? [new PreprocessedHTML([], $attributes['component']['description'])] : []),
+    ...(isset($attributes['component']['button']) && is_array($attributes['component']['button']) ? [
+        new ButtonGroup([],
+            array(
+                new Button(
+                    array_merge(
+                        ['colorTheme' => $attributes['component']['colorTheme'] ?? 'primary'],
+                        $attributes['component']['button']
+                    ),
+                    $attributes['component']['button']['title']
+                )
+            )
+        )] : [])
+];
+
+unset($attributes['component']['heading']);
+unset($attributes['component']['button']);
+unset($attributes['component']['description']);
+
+$component = new Container($attributes['container'], [new CallToAction($attributes['component'], $innerComponents)]);
+$component->render();

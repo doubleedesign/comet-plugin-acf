@@ -19,19 +19,30 @@ if (!defined('COMET_COMPOSER_VENDOR_URL')) {
 const COMET_VERSION = '0.0.3';
 require_once __DIR__ . '/vendor/autoload.php';
 
-use Doubleedesign\Comet\WordPress\Classic\PluginEntrypoint;
+use Doubleedesign\Comet\WordPress\Classic\{PluginEntrypoint, TemplateHandler};
 
-new PluginEntrypoint();
+new PluginEntryPoint();
 
 function activate_comet_plugin_acf(): void {
-    PluginEntrypoint::activate();
+    PluginEntryPoint::activate();
 }
 function deactivate_comet_plugin_acf(): void {
-    PluginEntrypoint::deactivate();
+    PluginEntryPoint::deactivate();
 }
 function uninstall_comet_plugin_acf(): void {
-    PluginEntrypoint::uninstall();
+    PluginEntryPoint::uninstall();
 }
 register_activation_hook(__FILE__, 'activate_comet_plugin_acf');
 register_deactivation_hook(__FILE__, 'deactivate_comet_plugin_acf');
 register_uninstall_hook(__FILE__, 'uninstall_comet_plugin_acf');
+
+/**
+ * Add a global alias for the content rendering method so themes can use it without namespacing/autoloading/etc issues.
+ *
+ * @param  $post_id
+ *
+ * @return string
+ */
+function comet_acf_render_flexible_content($post_id): string {
+    return TemplateHandler::render_flexible_content($post_id);
+}

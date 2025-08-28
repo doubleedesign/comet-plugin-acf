@@ -13,5 +13,9 @@
 #acf-group_content-modules .layout[data-layout=latest_posts]:not(.-collapsed):not([data-mode=preview]) > .acf-fields > .acf-field[data-type=taxonomy] {
   grid-row: span 2;
 }
+#acf-group_content-modules .layout[data-layout=call_to_action] .mce-edit-area iframe {
+  height: 100px !important;
+  min-height: 100px !important;
+}
 
 /*# sourceMappingURL=admin.css.map */

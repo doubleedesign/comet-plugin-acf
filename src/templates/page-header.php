@@ -1,14 +1,16 @@
 <?php
-$dynamic_preview_plugin_active = is_plugin_active('acf-dynamic-preview/index.php');
-// These variables come from the function that processes the AJAX request for a dynamic preview, when using the plugin.
-/** @var ?bool $is_backend_preview */
-/** @var ?array $fields */
-$is_backend_dynamic_preview = $dynamic_preview_plugin_active && isset($is_backend_preview) && $is_backend_preview;
+/** @var $fields array */
+use Doubleedesign\Comet\WordPress\Classic\TemplateHandler;
+use Doubleedesign\Comet\Core\{PageHeader};
 
-if ($is_backend_dynamic_preview && $fields) {
-    print_r($fields);
+$attributes = TemplateHandler::transform_fields_to_comet_attributes($fields);
+$heading = !empty($attributes['component']['heading']) ? $attributes['component']['heading'] : get_the_title();
+if (class_exists('Doubleedesign\Breadcrumbs\Breadcrumbs') && $attributes['component']['showBreadcrumbs']) {
+    $breadcrumbs = Doubleedesign\Breadcrumbs\Breadcrumbs::$instance->get_raw_breadcrumbs();
 }
-else {
-    $heading = get_sub_field('heading');
-    echo "<h2>" . $heading ?? get_the_title() . "</h2>";
-}
+
+unset($attributes['component']['heading']);
+unset($attributes['component']['showBreadcrumbs']);
+
+$component = new PageHeader(array_merge($attributes['container'], $attributes['component']), $heading, $breadcrumbs ?? []);
+$component->render();

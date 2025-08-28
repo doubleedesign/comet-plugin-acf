@@ -16,6 +16,14 @@ class AdminUI {
             [],
             PluginEntryPoint::get_version()
         );
+
+        wp_enqueue_script(
+            'comet-acf-admin',
+            plugins_url('src/assets/admin.js', __DIR__),
+            ['jquery', 'acf'],
+            PluginEntryPoint::get_version(),
+            true
+        );
     }
 
     /**

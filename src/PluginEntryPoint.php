@@ -1,7 +1,7 @@
 <?php
 namespace Doubleedesign\Comet\WordPress\Classic;
 
-class PluginEntrypoint {
+class PluginEntryPoint {
     private static string $version = '0.0.3';
 
     public function __construct() {
@@ -11,6 +11,7 @@ class PluginEntrypoint {
 
         if (is_admin()) {
             new AdminUI();
+            new TinyMCEConfig();
         }
     }
 
