@@ -483,7 +483,7 @@ class Fields {
         acf_add_local_field_group($final);
     }
 
-    public function set_default_modules($value, $post_id, $field) {
+    public function set_default_modules($value, $post_id, $field): array {
         if (!$value) {
             $all_modules = acf_get_field('field_content-modules')['layouts'];
             $page_header = $all_modules['layout_page-header'];
@@ -492,7 +492,8 @@ class Fields {
 
             if (isset($page_header)) {
                 $fields = array_map(fn($sub_field) => $sub_field['key'], $page_header['sub_fields']);
-                $defaults = array_combine($fields, array_fill(0, count($fields), ''));
+                $default_values = array_map(fn($sub_field) => $sub_field['default_value'] ?? '', $page_header['sub_fields']);
+                $defaults = array_combine($fields, $default_values);
                 array_push($value, array(
                     'acf_fc_layout' => 'page_header',
                     ...$defaults
@@ -500,7 +501,8 @@ class Fields {
             }
             if (isset($copy)) {
                 $fields = array_map(fn($sub_field) => $sub_field['key'], $copy['sub_fields']);
-                $defaults = array_combine($fields, array_fill(0, count($fields), ''));
+                $default_values = array_map(fn($sub_field) => $sub_field['default_value'] ?? '', $copy['sub_fields']);
+                $defaults = array_combine($fields, $default_values);
                 array_push($value, array(
                     'acf_fc_layout' => 'copy',
                     ...$defaults
