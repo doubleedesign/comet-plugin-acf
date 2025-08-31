@@ -287,10 +287,13 @@ class Fields {
                         'type'              => 'link',
                         'return_format'     => 'array',
                         'repeatable'        => true,
+                        'wrapper'           => array(
+                            'width' => 25
+                        )
                     ),
-                    $this->create_select_field('call-to-action', 'Colour theme'),
-                    $this->create_select_field('call-to-action', 'Background colour', 'white'),
-                    $this->create_select_field('call-to-action', 'Width'),
+                    $this->create_select_field('call-to-action', 'Colour theme', 'primary', 25),
+                    $this->create_select_field('call-to-action', 'Background colour', 'white', 25),
+                    $this->create_select_field('call-to-action', 'Width', 'contained', 25),
                 ),
             ),
             'layout_child-pages' => array(
@@ -434,6 +437,15 @@ class Fields {
         $default = array_filter($this->get_basic_modules(), function($module) {
             return !in_array($module['name'], array('page_header', 'latest_posts', 'child_pages', 'banner'));
         });
+
+        // Remove sub-fields that are not suitable for nested instances
+        $default = array_map(function($module) {
+            $module['sub_fields'] = array_filter($module['sub_fields'], function($field) {
+                return !in_array($field['name'], array('width'));
+            });
+
+            return $module;
+        }, $default);
 
         return apply_filters('comet_acf_get_nestable_modules', $default);
     }

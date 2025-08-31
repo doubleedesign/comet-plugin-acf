@@ -1,0 +1,85 @@
+.select2-selection[aria-labelledby*=colour] [role=textbox] {
+  display: flex !important;
+  align-items: center;
+  gap: 0.25rem;
+}
+.select2-selection[aria-labelledby*=colour] [role=textbox]:before {
+  content: "";
+  display: inline-block;
+  height: 1rem;
+  width: 1rem;
+}
+.select2-selection[aria-labelledby*=colour] [role=textbox][title=Primary]:before {
+  background: var(--color-primary);
+}
+.select2-selection[aria-labelledby*=colour] [role=textbox][title=Secondary]:before {
+  background: var(--color-secondary);
+}
+.select2-selection[aria-labelledby*=colour] [role=textbox][title=Accent]:before {
+  background: var(--color-accent);
+}
+.select2-selection[aria-labelledby*=colour] [role=textbox][title=Info]:before {
+  background: var(--color-info);
+}
+.select2-selection[aria-labelledby*=colour] [role=textbox][title=Success]:before {
+  background: var(--color-success);
+}
+.select2-selection[aria-labelledby*=colour] [role=textbox][title=Warning]:before {
+  background: var(--color-warning);
+}
+.select2-selection[aria-labelledby*=colour] [role=textbox][title=Error]:before {
+  background: var(--color-error);
+}
+.select2-selection[aria-labelledby*=colour] [role=textbox][title=Light]:before {
+  background: var(--color-light);
+}
+.select2-selection[aria-labelledby*=colour] [role=textbox][title=Dark]:before {
+  background: var(--color-dark);
+}
+.select2-selection[aria-labelledby*=colour] [role=textbox][title=White]:before {
+  background: var(--color-white);
+}
+
+.select2-results [role=listbox]:has([data-select2-id*=colour]) [role=option] {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.select2-results [role=listbox]:has([data-select2-id*=colour]) [role=option]:before {
+  content: "";
+  display: inline-block;
+  height: 1rem;
+  width: 1rem;
+}
+.select2-results [role=listbox]:has([data-select2-id*=colour]) [role=option][data-select2-id*=colour][data-select2-id*=primary]:before {
+  background: var(--color-primary);
+}
+.select2-results [role=listbox]:has([data-select2-id*=colour]) [role=option][data-select2-id*=colour][data-select2-id*=secondary]:before {
+  background: var(--color-secondary);
+}
+.select2-results [role=listbox]:has([data-select2-id*=colour]) [role=option][data-select2-id*=colour][data-select2-id*=accent]:before {
+  background: var(--color-accent);
+}
+.select2-results [role=listbox]:has([data-select2-id*=colour]) [role=option][data-select2-id*=colour][data-select2-id*=info]:before {
+  background: var(--color-info);
+}
+.select2-results [role=listbox]:has([data-select2-id*=colour]) [role=option][data-select2-id*=colour][data-select2-id*=success]:before {
+  background: var(--color-success);
+}
+.select2-results [role=listbox]:has([data-select2-id*=colour]) [role=option][data-select2-id*=colour][data-select2-id*=warning]:before {
+  background: var(--color-warning);
+}
+.select2-results [role=listbox]:has([data-select2-id*=colour]) [role=option][data-select2-id*=colour][data-select2-id*=error]:before {
+  background: var(--color-error);
+}
+.select2-results [role=listbox]:has([data-select2-id*=colour]) [role=option][data-select2-id*=colour][data-select2-id*=light]:before {
+  background: var(--color-light);
+}
+.select2-results [role=listbox]:has([data-select2-id*=colour]) [role=option][data-select2-id*=colour][data-select2-id*=dark]:before {
+  background: var(--color-dark);
+}
+.select2-results [role=listbox]:has([data-select2-id*=colour]) [role=option][data-select2-id*=colour][data-select2-id*=white]:before {
+  background: var(--color-white);
+}
+
+/*# sourceMappingURL=select2.css.map */

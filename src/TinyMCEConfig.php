@@ -106,7 +106,12 @@ class TinyMCEConfig {
     }
 
     public function add_select2_custom_css(): void {
-        wp_enqueue_style('select2-admin-custom', get_template_directory_uri() . '/src/assets/select2.css', [], '0.0.3');
+        wp_enqueue_style(
+            'comet-select2-admin-custom',
+            plugins_url('src/assets/select2.css', __DIR__),
+            [],
+            PluginEntryPoint::get_version()
+        );
     }
 
 }

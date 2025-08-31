@@ -1,0 +1,53 @@
+@use "sass:string";
+
+// Dropdown container with selected item
+.select2-selection[aria-labelledby*="colour"] {
+	[role="textbox"] {
+		display: flex !important;
+		align-items: center;
+		gap: 0.25rem;
+
+		&:before {
+			content: '';
+			display: inline-block;
+			height: 1rem;
+			width: 1rem;
+		}
+
+		@each $colour in 'Primary', 'Secondary', 'Accent', 'Info', 'Success', 'Warning', 'Error', 'Light', 'Dark', 'White' {
+			&[title="#{$colour}"] {
+				&:before {
+					background: var(--color-#{string.to-lower-case($colour)});
+				}
+			}
+		}
+	}
+}
+
+// Dropdown options
+.select2-results {
+	[role="listbox"]:has([data-select2-id*="colour"]) {
+		[role="option"] {
+			display: flex;
+			align-items: center;
+			gap: 0.25rem;
+
+			&:before {
+				content: '';
+				display: inline-block;
+				height: 1rem;
+				width: 1rem;
+			}
+
+			&[data-select2-id*="colour"] {
+				@each $colour in primary, secondary, accent, info, success, warning, error, light, dark, white {
+					&[data-select2-id*="#{$colour}"] {
+						&:before {
+							background: var(--color-#{$colour})
+						}
+					}
+				}
+			}
+		}
+	}
+}
