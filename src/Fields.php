@@ -25,7 +25,7 @@ class Fields {
             'operator' => '==',
             'value'    => $post_type,
         ), $post_types);
-        
+
         $exclusions = [get_option('page_for_posts')];
         if (!empty($exclusions)) {
             $locations[] = array(

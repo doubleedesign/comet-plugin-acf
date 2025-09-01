@@ -10,6 +10,7 @@ class PluginEntryPoint {
         new Fields();
         new TemplateHandler();
         new ComponentAssets();
+	    new GlobalSettings();
 
         if (is_admin()) {
             new AdminUI();
