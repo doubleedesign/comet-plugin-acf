@@ -357,9 +357,9 @@ class Fields {
                         'min'               => 3,
                         'max'               => 24,
                         'preview_size'      => 'medium',
-                    )
+                    ),
+                    $this->create_select_field('gallery', 'Width', 'contained'),
                 )
-
             ),
             'layout_image' => array(
                 'key'        => 'layout_image',
