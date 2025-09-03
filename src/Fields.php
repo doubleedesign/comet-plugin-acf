@@ -1,7 +1,6 @@
 <?php
 namespace Doubleedesign\Comet\WordPress\Classic;
-
-use Doubleedesign\Comet\Core\Utils;
+use Doubleedesign\Comet\Core\{Utils,AspectRatio};
 
 class Fields {
 
@@ -76,6 +75,11 @@ class Fields {
             'modified' => 1755999529,
         );
 
+        // Sort the final list by name
+        uasort($final['fields'][0]['layouts'], function($a, $b) {
+            return strcmp($a['name'], $b['name']);
+        });
+
         acf_add_local_field_group($final);
     }
 
@@ -137,6 +141,67 @@ class Fields {
         );
     }
 
+    private function create_aspect_ratio_field(string $parent, AspectRatio $default = AspectRatio::SQUARE): array {
+        $enum_array = array_combine(
+            array_column(AspectRatio::cases(), 'name'),
+            array_column(AspectRatio::cases(), 'value')
+        );
+
+        $options = array_reduce(array_keys($enum_array), function($carry, $key) use ($enum_array) {
+            $value = $enum_array[$key];
+            $label = str_replace('_', ' ', strtolower($key));
+            $carry[$value] = ucwords($label) . " ($value)";
+
+            return $carry;
+        }, []);
+
+        return array(
+            'key'           => $parent . '__aspect-ratio',
+            'label'         => 'Aspect ratio',
+            'name'          => 'aspect_ratio',
+            'type'          => 'select',
+            'choices'       => $options,
+            'default_value' => $default->value,
+            'return_format' => 'value',
+            'multiple'      => false,
+            'repeatable'    => true,
+            'allow_null'    => 0,
+            'ui'            => 0
+        );
+    }
+
+	private function create_focal_point_field(string $parent): array {
+		return array(
+			'key'        => $parent . '__focal_point',
+			'label'      => 'Focal point',
+			'name'       => 'focal_point',
+			'instructions' => 'Enter values from top left corner, or click on the image to select',
+			'type'       => 'group',
+			'layout'     => 'block',
+			'sub_fields' => array(
+				array(
+					'key' => $parent . '__focal-point__x',
+					'label' => 'X',
+					'name' => 'x',
+					'type' => 'number',
+					'default_value' => 50,
+					'min' => 0,
+					'max' => 100,
+					'append' => '%'
+				),
+				array(
+					'key' => $parent . '__focal-point__y',
+					'label' => 'Y',
+					'name' => 'y',
+					'type' => 'number',
+					'default_value' => 50,
+					'min' => 0,
+					'max' => 100,
+					'append' => '%'
+				),
+			)
+		);
+	}
     protected function get_basic_modules(): array {
         $breadcrumbs_for_page_header = class_exists('Doubleedesign\Breadcrumbs\Breadcrumbs') ? (
             array(
@@ -372,12 +437,27 @@ class Fields {
                         'label'         => 'Image',
                         'name'          => 'image',
                         'type'          => 'image',
-                        'instructions'  => 'Recommended size: 1200px wide or larger',
                         'required'      => 1,
                         'return_format' => 'array',
-                        'preview_size'  => 'medium',
+                        'preview_size'  => 'full',
                         'library'       => 'all',
-                    )
+                        'wrapper'       => array(
+                            'width' => 65
+                        )
+                    ),
+                    array(
+                        'key'     => 'field__image__options',
+                        'label'   => 'Options',
+                        'name'    => 'image_options',
+                        'type'    => 'group',
+                        'wrapper' => array(
+                            'width' => 35
+                        ),
+                        'sub_fields' => array(
+                            $this->create_aspect_ratio_field('field__image__options'),
+	                        $this->create_focal_point_field('field__image')
+                        )
+                    ),
                 )
             ),
             'layout_latest-posts' => array(
@@ -435,7 +515,7 @@ class Fields {
 
     protected function get_nestable_modules(): array {
         $default = array_filter($this->get_basic_modules(), function($module) {
-            return !in_array($module['name'], array('page_header', 'latest_posts', 'child_pages', 'banner'));
+            return !in_array($module['name'], array('page_header', 'latest_posts', 'child_pages', 'banner', 'gallery'));
         });
 
         // Remove sub-fields that are not suitable for nested instances
@@ -534,7 +614,43 @@ class Fields {
                     ),
                 ),
             ),
-            // TODO: Add columns module - repeater of columns with nestable modules and various settings as per Comet capabilities.
+            'layout_columns' => array(
+                'key'        => 'layout_columns',
+                'name'       => 'columns',
+                'label'      => 'Columns',
+                'display'    => 'block',
+                'sub_fields' => array(
+                    array(
+                        'key'           => 'field_columns-repeater',
+                        'label'         => 'Column',
+                        'name'          => 'column',
+                        'aria-label'    => '',
+                        'type'          => 'repeater',
+                        'instructions'  => '',
+                        'layout'        => 'block',
+                        'min'           => 1,
+                        'max'           => 4,
+                        'button_label'  => 'Add column',
+                        'rows_per_page' => 4,
+                        'sub_fields'    => array(
+                            array(
+                                'key'     => 'field_column__content',
+                                'label'   => 'Column content',
+                                'name'    => 'column_content',
+                                'type'    => 'flexible_content',
+                                'wrapper' => array(
+                                    'width' => '',
+                                    'class' => '',
+                                    'id'    => '',
+                                ),
+                                'layouts'         => $this->get_nestable_modules(),
+                                'button_label'    => 'Add module',
+                                'parent_repeater' => 'field_columns-repeater',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
         );
 
         return apply_filters('comet_acf_get_complex_modules', $default);
