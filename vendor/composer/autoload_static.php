@@ -404,6 +404,7 @@ class ComposerStaticInit90f34f1e4b1ca132eaa0252c3b1ec2a8
         'Doubleedesign\\Comet\\WordPress\\Classic\\AdminUI' => __DIR__ . '/../..' . '/src/AdminUI.php',
         'Doubleedesign\\Comet\\WordPress\\Classic\\ComponentAssets' => __DIR__ . '/../..' . '/src/ComponentAssets.php',
         'Doubleedesign\\Comet\\WordPress\\Classic\\Fields' => __DIR__ . '/../..' . '/src/Fields.php',
+        'Doubleedesign\\Comet\\WordPress\\Classic\\GlobalSettings' => __DIR__ . '/../..' . '/src/GlobalSettings.php',
         'Doubleedesign\\Comet\\WordPress\\Classic\\PluginEntryPoint' => __DIR__ . '/../..' . '/src/PluginEntryPoint.php',
         'Doubleedesign\\Comet\\WordPress\\Classic\\PreprocessedHTML' => __DIR__ . '/../..' . '/src/PreprocessedHTML.php',
         'Doubleedesign\\Comet\\WordPress\\Classic\\TemplateHandler' => __DIR__ . '/../..' . '/src/TemplateHandler.php',

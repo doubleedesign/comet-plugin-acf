@@ -1,13 +1,13 @@
 <?php return array(
     'root' => array(
-        'name' => 'doubleedesign/comet-plugin',
+        'name' => 'doubleedesign/comet-plugin-acf',
         'pretty_version' => '0.0.3',
         'version' => '0.0.3.0',
         'reference' => null,
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'dev' => true,
+        'dev' => false,
     ),
     'versions' => array(
         'carbonphp/carbon-doctrine-types' => array(
@@ -29,15 +29,17 @@
             'dev_requirement' => false,
         ),
         'doubleedesign/comet-components-core' => array(
-            'pretty_version' => '0.1.1',
-            'version' => '0.1.1.0',
-            'reference' => 'd9a7b308986f7ae6d6739333714d3373d515c3dd',
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '96c4fb965a77ec2c762b9f3dda9cde27dbeceaa9',
             'type' => 'library',
             'install_path' => __DIR__ . '/../doubleedesign/comet-components-core',
-            'aliases' => array(),
+            'aliases' => array(
+                0 => '9999999-dev',
+            ),
             'dev_requirement' => false,
         ),
-        'doubleedesign/comet-plugin' => array(
+        'doubleedesign/comet-plugin-acf' => array(
             'pretty_version' => '0.0.3',
             'version' => '0.0.3.0',
             'reference' => null,

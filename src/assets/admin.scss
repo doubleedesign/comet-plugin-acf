@@ -29,4 +29,90 @@
 			}
 		}
 	}
+
+	.acf-field[data-name="image_options"] {
+		.acf-field {
+		}
+	}
+
+	.acf-field[data-name="focal_point"] {
+		.acf-fields {
+			display: flex;
+			border: 0;
+			gap: 0.5rem;
+
+			.acf-field-number {
+				border: 0;
+				padding: 0;
+				display: flex;
+				gap: 0.25rem;
+				flex-wrap: nowrap;
+				align-items: center;
+
+				.acf-label {
+					margin: 0;
+				}
+			}
+		}
+	}
+
+
+	.layout[data-layout="image"] {
+		// Focal point picker (see JS for full implementation details)
+		.image-wrap {
+			position: relative;
+			cursor: crosshair;
+			overflow: hidden;
+
+			.focal-point-indicator {
+				width: 2rem;
+				height: 2rem;
+				border: 2px solid white;
+				border-radius: 50%;
+				box-shadow: 0 0 4px rgba(0, 0, 0, 0.75);
+				position: absolute;
+			}
+		}
+
+		// Aspect ratio preview handling (see JS for full implementation details)
+		.image-wrap {
+			//transition: height 0.3s ease-in-out;
+			//overflow: hidden;
+
+			img {
+				//width: 100%;
+				//height: 100%;
+				//min-width: 100%;
+				//object-fit: cover;
+				//object-position: var(--object-position-x) var(--object-position-y);
+				//transform: scale(var(--object-scale));
+				//transform-origin: center center;
+				//transition: transform 0.3s ease-in-out, object-position 0.3s ease-in-out;
+			}
+		}
+	}
+
 }
+
+// Custom icon + tooltip instructions in labels
+label:has(button.acf-js-tooltip) {
+	display: flex !important;
+	align-items: center;
+	gap: 0.125rem;
+
+	button.acf-js-tooltip {
+		appearance: none;
+		border: 0;
+		background: transparent;
+		opacity: 0.5;
+		transition: opacity 0.2s ease-in-out;
+		padding: 0;
+		font-size: 0.8rem;
+
+		&:hover, &:focus {
+			opacity: 1;
+		}
+	}
+}
+
+
