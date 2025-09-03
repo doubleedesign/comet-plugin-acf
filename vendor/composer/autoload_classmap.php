@@ -225,6 +225,7 @@ return array(
     'Doubleedesign\\Comet\\WordPress\\Classic\\AdminUI' => $baseDir . '/src/AdminUI.php',
     'Doubleedesign\\Comet\\WordPress\\Classic\\ComponentAssets' => $baseDir . '/src/ComponentAssets.php',
     'Doubleedesign\\Comet\\WordPress\\Classic\\Fields' => $baseDir . '/src/Fields.php',
+    'Doubleedesign\\Comet\\WordPress\\Classic\\GlobalSettings' => $baseDir . '/src/GlobalSettings.php',
     'Doubleedesign\\Comet\\WordPress\\Classic\\PluginEntryPoint' => $baseDir . '/src/PluginEntryPoint.php',
     'Doubleedesign\\Comet\\WordPress\\Classic\\PreprocessedHTML' => $baseDir . '/src/PreprocessedHTML.php',
     'Doubleedesign\\Comet\\WordPress\\Classic\\TemplateHandler' => $baseDir . '/src/TemplateHandler.php',
