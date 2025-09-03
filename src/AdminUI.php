@@ -86,7 +86,7 @@ class AdminUI {
 	}
 
 	protected function should_render_instructions_as_tooltips($field): bool {
-		return in_array($field['label'], ['Focal point']);
+		return in_array($field['label'], ['Focal point', 'Image offset']);
 	}
 
 

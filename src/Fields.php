@@ -170,38 +170,70 @@ class Fields {
         );
     }
 
-	private function create_focal_point_field(string $parent): array {
-		return array(
-			'key'        => $parent . '__focal_point',
-			'label'      => 'Focal point',
-			'name'       => 'focal_point',
-			'instructions' => 'Enter values from top left corner, or click on the image to select',
-			'type'       => 'group',
-			'layout'     => 'block',
-			'sub_fields' => array(
-				array(
-					'key' => $parent . '__focal-point__x',
-					'label' => 'X',
-					'name' => 'x',
-					'type' => 'number',
-					'default_value' => 50,
-					'min' => 0,
-					'max' => 100,
-					'append' => '%'
-				),
-				array(
-					'key' => $parent . '__focal-point__y',
-					'label' => 'Y',
-					'name' => 'y',
-					'type' => 'number',
-					'default_value' => 50,
-					'min' => 0,
-					'max' => 100,
-					'append' => '%'
-				),
-			)
-		);
-	}
+    private function create_focal_point_field(string $parent): array {
+        return array(
+            'key'          => $parent . '__focal_point',
+            'label'        => 'Focal point',
+            'name'         => 'focal_point',
+            'instructions' => 'A point on the image to prioritise when cropping; enter values from top left corner or click on the image to select',
+            'type'         => 'group',
+            'layout'       => 'block',
+            'sub_fields'   => array(
+                array(
+                    'key'           => $parent . '__focal-point__x',
+                    'label'         => 'X',
+                    'name'          => 'x',
+                    'type'          => 'number',
+                    'default_value' => 50,
+                    'min'           => 0,
+                    'max'           => 100,
+                    'append'        => '%'
+                ),
+                array(
+                    'key'           => $parent . '__focal-point__y',
+                    'label'         => 'Y',
+                    'name'          => 'y',
+                    'type'          => 'number',
+                    'default_value' => 50,
+                    'min'           => 0,
+                    'max'           => 100,
+                    'append'        => '%'
+                ),
+            )
+        );
+    }
+
+    private function create_offset_field(string $parent): array {
+        return array(
+            'key'          => $parent . '__image_offset',
+            'label'        => 'Image offset',
+            'name'         => 'image_offset',
+            'instructions' => 'Automatically-calculated offsets used to crop the image to suit the aspect ratio and focal point selections',
+            'type'         => 'group',
+            'layout'       => 'block',
+            'sub_fields'   => array(
+                array(
+                    'key'           => $parent . '__offset__x',
+                    'label'         => 'X',
+                    'name'          => 'x',
+                    'type'          => 'number',
+                    'default_value' => 0,
+                    'append'        => '%',
+                    'readonly'      => true,
+                ),
+                array(
+                    'key'           => $parent . '__offset__y',
+                    'label'         => 'Y',
+                    'name'          => 'y',
+                    'type'          => 'number',
+                    'default_value' => 0,
+                    'append'        => '%',
+                    'readonly'      => true,
+                ),
+            )
+        );
+    }
+
     protected function get_basic_modules(): array {
         $breadcrumbs_for_page_header = class_exists('Doubleedesign\Breadcrumbs\Breadcrumbs') ? (
             array(
@@ -455,7 +487,8 @@ class Fields {
                         ),
                         'sub_fields' => array(
                             $this->create_aspect_ratio_field('field__image__options'),
-	                        $this->create_focal_point_field('field__image')
+                            $this->create_focal_point_field('field__image__options'),
+                            $this->create_offset_field('field__image__options')
                         )
                     ),
                 )

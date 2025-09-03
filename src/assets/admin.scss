@@ -31,23 +31,30 @@
 	}
 
 	.acf-field[data-name="image_options"] {
-		.acf-field {
-		}
+		container-type: inline-size;
 	}
 
-	.acf-field[data-name="focal_point"] {
+	.acf-field[data-name="focal_point"],
+	.acf-field[data-name="image_offset"] {
+
 		.acf-fields {
-			display: flex;
 			border: 0;
-			gap: 0.5rem;
+			display: flex;
+			flex-direction: column;
+			gap: 0.25rem;
+
+			@container (min-width: 200px) {
+				flex-direction: row;
+				gap: 0.5rem;
+			}
 
 			.acf-field-number {
-				border: 0;
-				padding: 0;
 				display: flex;
 				gap: 0.25rem;
 				flex-wrap: nowrap;
 				align-items: center;
+				padding: 0;
+				border: 0;
 
 				.acf-label {
 					margin: 0;
@@ -58,36 +65,46 @@
 
 
 	.layout[data-layout="image"] {
-		// Focal point picker (see JS for full implementation details)
-		.image-wrap {
-			position: relative;
-			cursor: crosshair;
+
+		// Focal point and aspect ratio preview handling (see JS for full implementation details,
+		// including the CSS variable definitions used here and further inline styles added to these elements dynamically)
+		.acf-image-uploader.has-value {
+			aspect-ratio: var(--aspect-ratio, auto);
+			transition: aspect-ratio 0.2s ease-in-out;
 			overflow: hidden;
 
-			.focal-point-indicator {
-				width: 2rem;
-				height: 2rem;
-				border: 2px solid white;
-				border-radius: 50%;
-				box-shadow: 0 0 4px rgba(0, 0, 0, 0.75);
-				position: absolute;
-			}
-		}
+			.image-wrap {
+				cursor: crosshair;
+				overflow: hidden;
+				float: none;
+				min-width: 100%;
+				min-height: 100%;
+				max-width: none !important;
+				width: fit-content;
+				height: fit-content;
+				transition: top 0.2s ease-in-out, left 0.2s ease-in-out;
+				position: relative;
+				top: var(--image-offset-y, 0);
+				left: var(--image-offset-x, 0);
 
-		// Aspect ratio preview handling (see JS for full implementation details)
-		.image-wrap {
-			//transition: height 0.3s ease-in-out;
-			//overflow: hidden;
+				.focal-point-indicator {
+					width: 2rem;
+					height: 2rem;
+					border: 2px solid white;
+					border-radius: 50%;
+					box-shadow: 0 0 4px rgba(0, 0, 0, 0.75);
+					position: absolute;
+					top: calc(var(--focal-point-y, 50) * 1% - 1rem);
+					left: calc(var(--focal-point-x, 50) * 1% - 1rem);
+				}
 
-			img {
-				//width: 100%;
-				//height: 100%;
-				//min-width: 100%;
-				//object-fit: cover;
-				//object-position: var(--object-position-x) var(--object-position-y);
-				//transform: scale(var(--object-scale));
-				//transform-origin: center center;
-				//transition: transform 0.3s ease-in-out, object-position 0.3s ease-in-out;
+				img {
+					width: auto;
+					max-width: none;
+					max-height: none !important;
+					min-height: 100%;
+					min-width: 100%;
+				}
 			}
 		}
 	}
