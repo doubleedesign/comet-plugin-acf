@@ -81,7 +81,7 @@ class TemplateHandler {
                 while (have_rows('content_modules')) {
                     the_row();
                     $layout = get_row_layout();
-                    $fields = get_row();
+                    $fields = get_row(true);
                     try {
                         $template_path = self::get_template_path($layout);
                         if ($template_path) {
