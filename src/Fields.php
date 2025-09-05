@@ -1,6 +1,6 @@
 <?php
 namespace Doubleedesign\Comet\WordPress\Classic;
-use Doubleedesign\Comet\Core\{Utils,AspectRatio};
+use Doubleedesign\Comet\Core\{Utils};
 
 class Fields {
 
@@ -138,99 +138,6 @@ class Fields {
             'allow_null'        => 0,
             'ui'                => 1, // enables select2
             ...$extra ?? []
-        );
-    }
-
-    private function create_aspect_ratio_field(string $parent, AspectRatio $default = AspectRatio::SQUARE): array {
-        $enum_array = array_combine(
-            array_column(AspectRatio::cases(), 'name'),
-            array_column(AspectRatio::cases(), 'value')
-        );
-
-        $options = array_reduce(array_keys($enum_array), function($carry, $key) use ($enum_array) {
-            $value = $enum_array[$key];
-            $label = str_replace('_', ' ', strtolower($key));
-            $carry[$value] = ucwords($label) . " ($value)";
-
-            return $carry;
-        }, []);
-
-        return array(
-            'key'           => $parent . '__aspect-ratio',
-            'label'         => 'Aspect ratio',
-            'name'          => 'aspect_ratio',
-            'type'          => 'select',
-            'choices'       => $options,
-            'default_value' => $default->value,
-            'return_format' => 'value',
-            'multiple'      => false,
-            'repeatable'    => true,
-            'allow_null'    => 0,
-            'ui'            => 0
-        );
-    }
-
-    private function create_focal_point_field(string $parent): array {
-        return array(
-            'key'          => $parent . '__focal_point',
-            'label'        => 'Focal point',
-            'name'         => 'focal_point',
-            'instructions' => 'A point on the image to prioritise when cropping; enter values from top left corner or click on the image to select',
-            'type'         => 'group',
-            'layout'       => 'block',
-            'sub_fields'   => array(
-                array(
-                    'key'           => $parent . '__focal-point__x',
-                    'label'         => 'X',
-                    'name'          => 'x',
-                    'type'          => 'number',
-                    'default_value' => 50,
-                    'min'           => 0,
-                    'max'           => 100,
-                    'append'        => '%'
-                ),
-                array(
-                    'key'           => $parent . '__focal-point__y',
-                    'label'         => 'Y',
-                    'name'          => 'y',
-                    'type'          => 'number',
-                    'default_value' => 50,
-                    'min'           => 0,
-                    'max'           => 100,
-                    'append'        => '%'
-                ),
-            )
-        );
-    }
-
-    private function create_offset_field(string $parent): array {
-        return array(
-            'key'          => $parent . '__image_offset',
-            'label'        => 'Image offset',
-            'name'         => 'image_offset',
-            'instructions' => 'Automatically-calculated offsets used to crop the image to suit the aspect ratio and focal point selections',
-            'type'         => 'group',
-            'layout'       => 'block',
-            'sub_fields'   => array(
-                array(
-                    'key'           => $parent . '__offset__x',
-                    'label'         => 'X',
-                    'name'          => 'x',
-                    'type'          => 'number',
-                    'default_value' => 0,
-                    'append'        => '%',
-                    'readonly'      => true,
-                ),
-                array(
-                    'key'           => $parent . '__offset__y',
-                    'label'         => 'Y',
-                    'name'          => 'y',
-                    'type'          => 'number',
-                    'default_value' => 0,
-                    'append'        => '%',
-                    'readonly'      => true,
-                ),
-            )
         );
     }
 
@@ -468,28 +375,11 @@ class Fields {
                         'key'           => 'field__image__image',
                         'label'         => 'Image',
                         'name'          => 'image',
-                        'type'          => 'image',
+                        'type'          => class_exists('Doubleedesign\ACF\AdvancedImageField\AdvancedImageField') ? 'image_advanced' : 'image',
                         'required'      => 1,
                         'return_format' => 'array',
                         'preview_size'  => 'full',
                         'library'       => 'all',
-                        'wrapper'       => array(
-                            'width' => 65
-                        )
-                    ),
-                    array(
-                        'key'     => 'field__image__options',
-                        'label'   => 'Options',
-                        'name'    => 'image_options',
-                        'type'    => 'group',
-                        'wrapper' => array(
-                            'width' => 35
-                        ),
-                        'sub_fields' => array(
-                            $this->create_aspect_ratio_field('field__image__options'),
-                            $this->create_focal_point_field('field__image__options'),
-                            $this->create_offset_field('field__image__options')
-                        )
                     ),
                 )
             ),

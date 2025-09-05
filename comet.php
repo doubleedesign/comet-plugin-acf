@@ -8,7 +8,7 @@
  * Version:             0.0.3
  * Requires PHP:        8.3
  * Requires plugins:    advanced-custom-fields-pro
- * Recommends plugins:	doublee-breadcrumbs
+ * Recommends plugins:	doublee-breadcrumbs, acf-advanced-image-field
  * Text Domain:         comet
  *
  * @package Comet
