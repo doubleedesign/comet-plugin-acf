@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2c6652060b54a7a9ac7581eb2fd0e734",
+    "content-hash": "770e9e49b18eb5fbf41656428f94ca4d",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -171,12 +171,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doubleedesign/comet-components-core.git",
-                "reference": "96c4fb965a77ec2c762b9f3dda9cde27dbeceaa9"
+                "reference": "472ccf645b3a5508cbba7b1874003f7baa7c379b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doubleedesign/comet-components-core/zipball/96c4fb965a77ec2c762b9f3dda9cde27dbeceaa9",
-                "reference": "96c4fb965a77ec2c762b9f3dda9cde27dbeceaa9",
+                "url": "https://api.github.com/repos/doubleedesign/comet-components-core/zipball/472ccf645b3a5508cbba7b1874003f7baa7c379b",
+                "reference": "472ccf645b3a5508cbba7b1874003f7baa7c379b",
                 "shasum": ""
             },
             "require": {
@@ -221,7 +221,7 @@
             "support": {
                 "source": "https://github.com/doubleedesign/comet-components-core/tree/master"
             },
-            "time": "2025-08-28T08:23:42+00:00"
+            "time": "2025-09-01T15:02:09+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",

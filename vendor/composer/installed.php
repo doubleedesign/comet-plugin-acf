@@ -1,8 +1,8 @@
 <?php return array(
     'root' => array(
         'name' => 'doubleedesign/comet-plugin-acf',
-        'pretty_version' => '0.0.3',
-        'version' => '0.0.3.0',
+        'pretty_version' => '0.1.0',
+        'version' => '0.1.0.0',
         'reference' => null,
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
@@ -31,7 +31,7 @@
         'doubleedesign/comet-components-core' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '96c4fb965a77ec2c762b9f3dda9cde27dbeceaa9',
+            'reference' => '472ccf645b3a5508cbba7b1874003f7baa7c379b',
             'type' => 'library',
             'install_path' => __DIR__ . '/../doubleedesign/comet-components-core',
             'aliases' => array(
@@ -40,8 +40,8 @@
             'dev_requirement' => false,
         ),
         'doubleedesign/comet-plugin-acf' => array(
-            'pretty_version' => '0.0.3',
-            'version' => '0.0.3.0',
+            'pretty_version' => '0.1.0',
+            'version' => '0.1.0.0',
             'reference' => null,
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
