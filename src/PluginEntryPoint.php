@@ -2,7 +2,7 @@
 namespace Doubleedesign\Comet\WordPress\Classic;
 
 class PluginEntryPoint {
-    private static string $version = '0.0.3';
+    private static string $version = '0.1.0';
 
     public function __construct() {
         add_action('admin_init', [$this, 'handle_no_acf'], 1);
@@ -10,7 +10,7 @@ class PluginEntryPoint {
         new Fields();
         new TemplateHandler();
         new ComponentAssets();
-	    new GlobalSettings();
+        new GlobalSettings();
 
         if (is_admin()) {
             new AdminUI();

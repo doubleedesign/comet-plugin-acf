@@ -2,7 +2,7 @@
 	"name": "doubleedesign/comet-plugin-acf",
 	"type": "wordpress-plugin",
 	"description": "WordPress plugin implementing the Comet Components library for use as ACF Flexible Content modules.",
-	"version": "0.0.3",
+	"version": "0.1.0",
 	"homepage": "https://cometcomponents.io",
 	"minimum-stability": "dev",
 	"prefer-stable": true,

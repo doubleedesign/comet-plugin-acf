@@ -131,17 +131,32 @@ class TemplateHandler {
 
         // The width field is generally expected to align with the Container component size field
         // Add exceptions here in future if necessary
-        $container = array(
-            'size' => $result['width'] ?? 'contained'
-        );
-        // Filter out the container attributes for the inner ones
-        $component = array_filter($result, function($key) use ($container) {
-            return !in_array($key, array_keys($container));
-        }, ARRAY_FILTER_USE_KEY);
+        if (isset($result['width'])) {
+            $container = array(
+                'size' => $result['width'] ?? 'contained'
+            );
+            // Filter out the container attributes for the inner ones
+            $component = array_filter($result, function($key) use ($container) {
+                return !in_array($key, array_keys($container));
+            }, ARRAY_FILTER_USE_KEY);
 
-        return [
-            'container' => $container,
-            'component' => $component
-        ];
+            return [
+                'container' => $container,
+                'component' => $component
+            ];
+        }
+
+        // If we've ended up with an empty array key, such as happens for the advanced image field,
+        // flatten the result and camel-case the keys
+        // TODO: This needs refinement so we don't double up on processing
+        if (count($result) === 1 && array_key_exists('', $result)) {
+            $result = $result[''];
+            $result = array_combine(
+                array_map(fn($key) => Utils::camel_case($key), array_keys($result)),
+                $result
+            );
+        }
+
+        return ['component' => $result];
     }
 }

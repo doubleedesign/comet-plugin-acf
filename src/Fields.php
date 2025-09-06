@@ -47,7 +47,7 @@ class Fields {
                         $this->get_basic_modules(),
                         $this->get_complex_modules()
                     ),
-                    'button_label'      => 'Add module',
+                    'button_label'      => 'Add section',
                 ),
             ),
             'location'              => array($locations),
@@ -531,49 +531,120 @@ class Fields {
                                 'name'              => 'panel_content__modules',
                                 'type'              => 'flexible_content',
                                 'layouts'           => $this->get_nestable_modules(),
-                                'button_label'      => 'Add module to panel',
+                                'button_label'      => 'Add content',
+                                'wrapper'           => array(
+                                    'data-nested' => true
+                                )
                             ),
                         ),
                     ),
                 ),
             ),
-            'layout_columns' => array(
-                'key'        => 'layout_columns',
-                'name'       => 'columns',
-                'label'      => 'Columns',
+            'layout_copy-image' => array(
+                'key' 	      => 'layout_copy-image',
+                'name' 	     => 'copy_image',
+                'label'      => 'Copy + image',
                 'display'    => 'block',
                 'sub_fields' => array(
+                    $this->create_select_field('copy-image', 'Width', 'contained', 25),
+                    $this->create_select_field('copy-image', 'Colour theme', 'primary', 25),
+                    $this->create_select_field('copy-image', 'Background colour', 'white', 25),
+                    $this->create_select_field('copy-image', 'Order', 'copy-image', 25, array(
+                        'copy-image' => 'Copy + Image',
+                        'image-copy' => 'Image + Copy',
+                    )),
                     array(
-                        'key'           => 'field_columns-repeater',
-                        'label'         => 'Column',
-                        'name'          => 'column',
-                        'aria-label'    => '',
-                        'type'          => 'repeater',
-                        'instructions'  => '',
-                        'layout'        => 'block',
-                        'min'           => 1,
-                        'max'           => 4,
-                        'button_label'  => 'Add column',
-                        'rows_per_page' => 4,
+                        'key'           => 'field__copy-image__content',
+                        'label'         => 'Content',
+                        'name'          => 'content',
+                        'type'          => 'group',
                         'sub_fields'    => array(
                             array(
-                                'key'     => 'field_column__content',
-                                'label'   => 'Column content',
-                                'name'    => 'column_content',
-                                'type'    => 'flexible_content',
-                                'wrapper' => array(
-                                    'width' => '',
-                                    'class' => '',
-                                    'id'    => '',
+                                'key'           => 'field__copy-image__content__heading',
+                                'label'         => 'Heading (optional)',
+                                'name'          => 'heading',
+                                'type'          => 'text',
+                                'repeatable'    => true,
+                            ),
+                            array(
+                                'key'           => 'field__copy-image__content__body',
+                                'label'         => 'Body text',
+                                'name'          => 'Body text',
+                                'type'          => 'wysiwyg',
+                                'toolbar'       => 'minimal',
+                                'tabs'          => 'visual',
+                                'media_upload'  => false,
+                                'repeatable'    => true,
+                            ),
+                            array(
+                                'key'          => 'field__copy-image__content__buttons',
+                                'label'        => 'Buttons',
+                                'name'         => 'buttons',
+                                'type'         => 'repeater',
+                                'button_label' => 'Add button',
+                                'sub_fields'   => array(
+                                    array(
+                                        'key'           => 'field__copy-image__content__buttons__button',
+                                        'label'         => 'Button',
+                                        'name'          => 'button',
+                                        'type'          => 'link',
+                                        'return_format' => 'array',
+                                        'repeatable'    => true,
+                                    ),
                                 ),
-                                'layouts'         => $this->get_nestable_modules(),
-                                'button_label'    => 'Add module',
-                                'parent_repeater' => 'field_columns-repeater',
                             ),
                         ),
+                        'wrapper'       => array('width' => 50)
+                    ),
+                    array(
+                        'key'           => 'field__copy-image__image',
+                        'label'         => 'Image',
+                        'name'          => 'image',
+                        'type'          => class_exists('Doubleedesign\ACF\AdvancedImageField\AdvancedImageField') ? 'image_advanced' : 'image',
+                        'required'      => 1,
+                        'return_format' => 'array',
+                        'preview_size'  => 'full',
+                        'library'       => 'all',
+                        'wrapper'       => array('width' => 50)
                     ),
                 ),
             ),
+            // TODO Make columns a bit less clunky in the admin with expanding/collapsing and stuff
+            //            'layout_columns' => array(
+            //                'key'        => 'layout_columns',
+            //                'name'       => 'columns',
+            //                'label'      => 'Columns',
+            //                'display'    => 'block',
+            //                'sub_fields' => array(
+            //                    array(
+            //                        'key'           => 'field_columns-repeater',
+            //                        'label'         => 'Columns',
+            //                        'name'          => 'columns',
+            //                        'aria-label'    => '',
+            //                        'type'          => 'repeater',
+            //                        'instructions'  => '',
+            //                        'layout'        => 'block',
+            //                        'min'           => 2,
+            //                        'max'           => 4,
+            //                        'button_label'  => 'Add column',
+            //                        'rows_per_page' => 4,
+            //                        'wrapper'       => array(
+            //                            'class' => 'comet-acf-columns',
+            //                        ),
+            //                        'sub_fields'    => array(
+            //                            array(
+            //                                'key'             => 'field_column__content',
+            //                                'label'           => 'Column content',
+            //                                'name'            => 'column_content',
+            //                                'type'            => 'flexible_content',
+            //                                'layouts'         => $this->get_nestable_modules(),
+            //                                'button_label'    => 'Add content',
+            //                                'parent_repeater' => 'field_columns-repeater',
+            //                            ),
+            //                        ),
+            //                    ),
+            //                ),
+            //            ),
         );
 
         return apply_filters('comet_acf_get_complex_modules', $default);
