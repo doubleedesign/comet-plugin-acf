@@ -67,7 +67,7 @@ class TemplateHandler {
     }
 
     /**
-     * Return the flexible content as HTML for a given post ID.
+     * Return the top-level flexible content as HTML for a given post ID.
      *
      * @param  $post_id
      *
@@ -75,13 +75,17 @@ class TemplateHandler {
      */
     public static function render_flexible_content($post_id): string {
         $post_types = apply_filters('comet_acf_flexible_modules_post_types', ['page']);
+
         if (in_array(get_post_type($post_id), $post_types)) {
             ob_start();
+            // Top-level field is called content_modules
             if (have_rows('content_modules', $post_id)) {
                 while (have_rows('content_modules')) {
                     the_row();
                     $layout = get_row_layout();
                     $fields = get_row(true);
+                    // Indicate to the template parts and components that this is a top-level component instance
+                    $fields['isNested'] = false;
                     try {
                         $template_path = self::get_template_path($layout);
                         if ($template_path) {
@@ -102,6 +106,54 @@ class TemplateHandler {
     }
 
     /**
+     * Return nested flexible content a HTML from a given set of module data.
+     *
+     * @param  array{acf_fc_layout:string, array}  $modules
+     *
+     * @return string
+     */
+    public static function get_nested_flexible_content(array $modules): string {
+        ob_start();
+        if (count($modules) > 0) {
+            foreach ($modules as $module) {
+                if (is_array($module) && array_key_exists('acf_fc_layout', $module)) {
+                    $layout = $module['acf_fc_layout'];
+                    $fields = array_slice($module, 1);
+
+                    // If this is a copy module content string, just return that
+                    if (isset($fields['copy']) && is_string($fields['copy'])) {
+                        echo Utils::sanitise_content($fields['copy']);
+                        continue;
+                    }
+
+                    // If this is a nested module with its own fields, we need to extract those
+                    // It will be an associative array of ['module_name' => [fields]], we want the fields
+                    if (count($fields) === 1) {
+                        $fields = array_values($fields)[0];
+                    }
+                    // If there's more than one, that's something I didn't expect at the time of writing
+                    // and thus have not handled
+
+                    // Indicate to the template parts and components that this is nested content,
+                    // where that has been accounted for
+                    $fields['isNested'] = true;
+                    try {
+                        $template_path = self::get_template_path($layout);
+                        if ($template_path) {
+                            include $template_path;
+                        }
+                    }
+                    catch (Exception $e) {
+                        echo '<!-- ' . esc_html($e->getMessage()) . ' -->';
+                    }
+                }
+            }
+        }
+
+        return ob_get_clean();
+    }
+
+    /**
      * We expect $fields to be passed from the function that includes a template part
      * that calls this function, either within a has_rows() loop
      * or as a standalone include such as by the ACF Dynamic Preview plugin.
@@ -115,6 +167,7 @@ class TemplateHandler {
 
         // Simplify the field names to get as many of them as possible to automatically match Comet Components attribute names
         $result = array_combine(
+            // Transform the keys to camelCase, removing the "field_" prefix and the component name
             array_map(function($key) use ($kebab_case_component) {
                 $first = str_replace('field_', '', $key);
                 $second = str_replace($kebab_case_component, '', $first);
@@ -124,21 +177,25 @@ class TemplateHandler {
 
                 return Utils::camel_case($fourth);
             }, array_keys($fields)),
+            // Leave the values as they are
             $fields
         );
-
-        unset($result['acfFcLayout']); // This is not needed as an attribute
 
         // The width field is generally expected to align with the Container component size field
         // Add exceptions here in future if necessary
         if (isset($result['width'])) {
             $container = array(
-                'size' => $result['width'] ?? 'contained'
+                'size' => $result['width']
             );
             // Filter out the container attributes for the inner ones
             $component = array_filter($result, function($key) use ($container) {
                 return !in_array($key, array_keys($container));
             }, ARRAY_FILTER_USE_KEY);
+
+            // Unset the now-not-needed attributes
+            unset($component['width']);
+            unset($component['acfFcLayout']);
+            unset($component['editIntro']); // admin option not relevant to front-end rendering
 
             return [
                 'container' => $container,

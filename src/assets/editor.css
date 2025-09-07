@@ -48,52 +48,42 @@
 
 [data-color-theme=primary] {
   --theme-color: var(--color-primary);
-  --theme-text-color: var(--readable-color-primary);
 }
 
 [data-color-theme=secondary] {
   --theme-color: var(--color-secondary);
-  --theme-text-color: var(--readable-color-secondary);
 }
 
 [data-color-theme=accent] {
   --theme-color: var(--color-accent);
-  --theme-text-color: var(--readable-color-accent);
 }
 
 [data-color-theme=info] {
   --theme-color: var(--color-info);
-  --theme-text-color: var(--readable-color-info);
 }
 
 [data-color-theme=warning] {
   --theme-color: var(--color-warning);
-  --theme-text-color: var(--readable-color-warning);
 }
 
 [data-color-theme=success] {
   --theme-color: var(--color-success);
-  --theme-text-color: var(--readable-color-success);
 }
 
 [data-color-theme=error] {
   --theme-color: var(--color-error);
-  --theme-text-color: var(--readable-color-error);
 }
 
 [data-color-theme=light] {
   --theme-color: var(--color-light);
-  --theme-text-color: var(--readable-color-light);
 }
 
 [data-color-theme=dark] {
   --theme-color: var(--color-dark);
-  --theme-text-color: var(--readable-color-dark);
 }
 
 [data-color-theme=white] {
   --theme-color: var(--color-white);
-  --theme-text-color: var(--readable-color-white);
 }
 
 [data-text-color=primary] {
@@ -913,6 +903,44 @@ form input[type=submit],
 form input[type=button] {
   font-family: var(--font-family-body);
   font-size: 1rem;
+}
+
+.image[data-align=left] {
+  float: left;
+  margin-right: var(--spacing-md);
+}
+.image[data-align=right] {
+  float: right;
+  margin-left: var(--spacing-md);
+}
+.image[data-align=center] {
+  width: auto;
+  margin: 0 auto;
+  display: block;
+}
+.image [data-aspect-ratio=square],
+.image > [data-aspect-ratio=square] {
+  aspect-ratio: 1/1;
+}
+.image [data-aspect-ratio=standard],
+.image > [data-aspect-ratio=standard] {
+  aspect-ratio: 4/3;
+}
+.image [data-aspect-ratio=portrait],
+.image > [data-aspect-ratio=portrait] {
+  aspect-ratio: 3/4;
+}
+.image [data-aspect-ratio="16-9"],
+.image > [data-aspect-ratio="16-9"] {
+  aspect-ratio: 16/9;
+}
+.image [data-aspect-ratio=classic],
+.image > [data-aspect-ratio=classic] {
+  aspect-ratio: 3/2;
+}
+.image [data-aspect-ratio=classic_portrait],
+.image > [data-aspect-ratio=classic_portrait] {
+  aspect-ratio: 2/3;
 }
 
 #tinymce {

@@ -171,12 +171,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doubleedesign/comet-components-core.git",
-                "reference": "472ccf645b3a5508cbba7b1874003f7baa7c379b"
+                "reference": "9f0b25952cbd009764fd941e82f4f5719fa5ea39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doubleedesign/comet-components-core/zipball/472ccf645b3a5508cbba7b1874003f7baa7c379b",
-                "reference": "472ccf645b3a5508cbba7b1874003f7baa7c379b",
+                "url": "https://api.github.com/repos/doubleedesign/comet-components-core/zipball/9f0b25952cbd009764fd941e82f4f5719fa5ea39",
+                "reference": "9f0b25952cbd009764fd941e82f4f5719fa5ea39",
                 "shasum": ""
             },
             "require": {
@@ -221,7 +221,7 @@
             "support": {
                 "source": "https://github.com/doubleedesign/comet-components-core/tree/master"
             },
-            "time": "2025-09-01T15:02:09+00:00"
+            "time": "2025-09-07T01:22:52+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",

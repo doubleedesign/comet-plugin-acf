@@ -2,7 +2,7 @@
 namespace Doubleedesign\Comet\WordPress\Classic;
 
 class PluginEntryPoint {
-    private static string $version = '0.1.0';
+    private static string $version = '0.2.0';
 
     public function __construct() {
         add_action('admin_init', [$this, 'handle_no_acf'], 1);

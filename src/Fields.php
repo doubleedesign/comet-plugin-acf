@@ -141,6 +141,49 @@ class Fields {
         );
     }
 
+    private function create_button_group_field($parent_key, $wrapper_width = 100): array {
+        return array(
+            'key'               => "field__{$parent_key}__button-group",
+            'label'             => 'Buttons',
+            'name'              => 'buttons',
+            'type'              => 'repeater',
+            'min'               => 1,
+            'max'               => 5,
+            'layout'            => 'table',
+            'button_label'      => 'Add button',
+            'repeatable'        => true,
+            'wrapper'           => array(
+                'width' => $wrapper_width,
+            ),
+            'sub_fields'        => array(
+                array(
+                    'key'               => "field__{$parent_key}__button-group__button",
+                    'label'             => 'Button',
+                    'name'              => 'button',
+                    'type'              => 'link',
+                    'return_format'     => 'array',
+                    'repeatable'        => true,
+                    'wrapper'           => array(
+                        'width' => 70,
+                    ),
+                ),
+                array(
+                    'key'           => "field__{$parent_key}__button-group__button__style",
+                    'label'         => 'Style',
+                    'name'          => 'style',
+                    'type'          => 'button_group',
+                    'choices'       => array(
+                        'default'   => 'Solid',
+                        'isOutline' => 'Outline',
+                    ),
+                    'wrapper' => array(
+                        'width' => 30,
+                    ),
+                )
+            ),
+        );
+    }
+
     protected function get_basic_modules(): array {
         $breadcrumbs_for_page_header = class_exists('Doubleedesign\Breadcrumbs\Breadcrumbs') ? (
             array(
@@ -205,31 +248,11 @@ class Fields {
                 'label'      => 'Button group',
                 'display'    => 'block',
                 'sub_fields' => array(
-                    $this->create_select_field('button-group', 'Colour theme'),
-                    $this->create_select_field('button-group', 'Alignment'),
-                    $this->create_select_field('button-group', 'Orientation'),
-                    array(
-                        'key'               => 'field__button-group__buttons',
-                        'label'             => 'Buttons',
-                        'name'              => 'buttons',
-                        'type'              => 'repeater',
-                        'collapsed'         => 'field__button-group__button',
-                        'min'               => 1,
-                        'max'               => 5,
-                        'layout'            => 'block',
-                        'button_label'      => 'Add button',
-                        'repeatable'        => true,
-                        'sub_fields'        => array(
-                            array(
-                                'key'               => 'field__button-group__button',
-                                'label'             => 'Button',
-                                'name'              => 'button',
-                                'type'              => 'link',
-                                'return_format'     => 'array',
-                                'repeatable'        => true,
-                            ),
-                        ),
-                    ),
+                    $this->create_select_field('button-group', 'Colour theme', 'Primary', 25),
+                    $this->create_select_field('button-group', 'Alignment', 'inherit', 25),
+                    $this->create_select_field('button-group', 'Orientation', 'horizontal', 25),
+                    $this->create_select_field('button-group', 'Width', 'contained', 25),
+                    $this->create_button_group_field('button-group'),
                 ),
             ),
             'layout_call-to-action' => array(
@@ -284,20 +307,10 @@ class Fields {
                             ),
                         ),
                     ),
-                    array(
-                        'key'               => 'field__call-to-action__button',
-                        'label'             => 'Button',
-                        'name'              => 'button',
-                        'type'              => 'link',
-                        'return_format'     => 'array',
-                        'repeatable'        => true,
-                        'wrapper'           => array(
-                            'width' => 25
-                        )
-                    ),
-                    $this->create_select_field('call-to-action', 'Colour theme', 'primary', 25),
-                    $this->create_select_field('call-to-action', 'Background colour', 'white', 25),
-                    $this->create_select_field('call-to-action', 'Width', 'contained', 25),
+                    $this->create_button_group_field('call-to-action'),
+                    $this->create_select_field('call-to-action', 'Colour theme', 'primary', 33),
+                    $this->create_select_field('call-to-action', 'Background colour', 'white', 33),
+                    $this->create_select_field('call-to-action', 'Width', 'contained', 33),
                 ),
             ),
             'layout_child-pages' => array(
@@ -344,6 +357,16 @@ class Fields {
                     ),
                     $this->create_select_field('copy', 'Width'),
                 ),
+            ),
+            'layout_divider' => array(
+                'key' 	      => 'layout_divider',
+                'name'       => 'divider',
+                'label'      => 'Divider',
+                'display'    => 'block',
+                'sub_fields' => array(
+                    $this->create_select_field('divider', 'Width', 'contained', 25),
+                    $this->create_select_field('divider', 'Colour theme', 'light', 25),
+                )
             ),
             'layout_gallery' => array(
                 'key'        => 'layout_gallery',
@@ -438,7 +461,7 @@ class Fields {
 
     protected function get_nestable_modules(): array {
         $default = array_filter($this->get_basic_modules(), function($module) {
-            return !in_array($module['name'], array('page_header', 'latest_posts', 'child_pages', 'banner', 'gallery'));
+            return !in_array($module['name'], array('page_header', 'latest_posts', 'child_pages', 'banner', 'gallery', 'call-to-action'));
         });
 
         // Remove sub-fields that are not suitable for nested instances
@@ -463,7 +486,7 @@ class Fields {
                 'sub_fields' => array(
                     array(
                         'key'               => 'field__accordion__heading',
-                        'label'             => 'Heading',
+                        'label'             => 'Heading (optional)',
                         'name'              => 'heading',
                         'type'              => 'text',
                         'repeatable'        => true,

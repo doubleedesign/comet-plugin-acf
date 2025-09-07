@@ -1,31 +1,44 @@
 <?php
 /** @var $fields array */
 use Doubleedesign\Comet\WordPress\Classic\{PreprocessedHTML, TemplateHandler};
-use Doubleedesign\Comet\Core\{Container, CallToAction, Heading, ButtonGroup, Button};
+use Doubleedesign\Comet\Core\{Config, CallToAction, Heading, ButtonGroup, Button};
 
 $attributes = TemplateHandler::transform_fields_to_comet_attributes($fields);
-
-$button = $attributes['component']['button'] ?? null;
-$innerComponents = [
-    new Heading([], $attributes['heading'] ?? get_the_title() ?? 'New page'),
-    ...(!empty($attributes['component']['description']) ? [new PreprocessedHTML([], $attributes['component']['description'])] : []),
-    ...(isset($attributes['component']['button']) && is_array($attributes['component']['button']) ? [
-        new ButtonGroup([],
-            array(
-                new Button(
+$buttons = $attributes['component']['buttons'] ?? null;
+if (is_array($buttons) && count($buttons) > 0) {
+    $buttonGroup = new ButtonGroup(
+        [],
+        array_map(
+            function($button) use ($attributes) {
+                return new Button(
                     array_merge(
                         ['colorTheme' => $attributes['component']['colorTheme'] ?? 'primary'],
-                        $attributes['component']['button']
+                        $button['button'],
+                        ['isOutline' => $button['style'] === 'isOutline']
                     ),
-                    $attributes['component']['button']['title']
-                )
-            )
-        )] : [])
+                    $button['button']['title']
+                );
+            },
+            $buttons
+        )
+    );
+}
+
+$defaults = Config::getInstance()->get_component_defaults('call-to-action');
+
+$innerComponents = [
+    new Heading($defaults['headingAttrs' ?? []], $fields['heading'] ?? ''),
+    ...(!empty($attributes['component']['description']) ? [new PreprocessedHTML([], $attributes['component']['description'])] : []),
+    ...(isset($buttonGroup) ? [$buttonGroup] : []),
 ];
 
 unset($attributes['component']['heading']);
 unset($attributes['component']['button']);
 unset($attributes['component']['description']);
 
-$component = new Container($attributes['container'], [new CallToAction($attributes['component'], $innerComponents)]);
+// This component is declared not nestable in Fields.php, if that changes in the future this will need to account for that
+$attributes['component']['isNested'] = false;
+$attributes['component']['hAlign'] = $defaults['hAlign'] ?? null;
+
+$component = new CallToAction(array_merge($attributes['container'], $attributes['component']), $innerComponents);
 $component->render();
