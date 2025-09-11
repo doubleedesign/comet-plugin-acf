@@ -11,28 +11,42 @@ class Fields {
     }
 
     public function customise_no_value_message($message, $field): string {
-        return sprintf(
-            __('Click the "%s" button to add a section to the page', 'acf-dynamic-preview'),
-            $field['button_label']
-        );
+        if ($field['key'] === 'field_content-modules') {
+            return sprintf(
+                __('Click the "%s" button to add a section to the page', 'comet'),
+                $field['button_label']
+            );
+        }
+
+        if ($field['parent'] === 'field__accordion__panels') {
+            return sprintf(
+                __('Click the "%s" button to add content to this panel', 'comet'),
+                $field['button_label']
+            );
+        }
+
+        return $message;
     }
 
     public function register_flexible_content_fields(): void {
         $post_types = apply_filters('comet_acf_flexible_modules_post_types', ['page']);
+
         $locations = array_map(fn($post_type) => array(
-            'param'    => 'post_type',
-            'operator' => '==',
-            'value'    => $post_type,
+            array(
+                'param'    => 'post_type',
+                'operator' => '==',
+                'value'    => $post_type,
+            )
         ), $post_types);
 
-        $exclusions = [get_option('page_for_posts')];
-        if (!empty($exclusions)) {
-            $locations[] = array(
-                'param'    => 'post',
-                'operator' => '!=',
-                'value'    => implode(',', $exclusions),
-            );
-        }
+        //        $exclusions = [get_option('page_for_posts')];
+        //        if (!empty($exclusions)) {
+        //            $locations[] = array(
+        //                'param'    => 'post',
+        //                'operator' => '!=',
+        //                'value'    => implode(',', $exclusions),
+        //            );
+        //        }
 
         $final = array(
             'key'    => 'group_content-modules',
@@ -50,7 +64,7 @@ class Fields {
                     'button_label'      => 'Add section',
                 ),
             ),
-            'location'              => array($locations),
+            'location'              => $locations,
             'menu_order'            => 0,
             'position'              => 'normal',
             'style'                 => 'default',
@@ -345,6 +359,13 @@ class Fields {
                 'display'    => 'block',
                 'sub_fields' => array(
                     array(
+                        'key'               => 'field__copy__heading',
+                        'label'             => 'Heading (optional)',
+                        'name'              => 'heading',
+                        'type'              => 'text',
+                        'repeatable'        => true,
+                    ),
+                    array(
                         'key'               => 'field__copy__content',
                         'label'             => 'Content',
                         'name'              => 'copy',
@@ -459,7 +480,7 @@ class Fields {
         return apply_filters('comet_acf_get_basic_modules', $default);
     }
 
-    protected function get_nestable_modules(): array {
+    private function get_nestable_modules(): array {
         $default = array_filter($this->get_basic_modules(), function($module) {
             return !in_array($module['name'], array('page_header', 'latest_posts', 'child_pages', 'banner', 'gallery', 'call-to-action'));
         });
@@ -476,7 +497,7 @@ class Fields {
         return apply_filters('comet_acf_get_nestable_modules', $default);
     }
 
-    protected function get_complex_modules(): array {
+    private function get_complex_modules(): array {
         $default = array(
             'layout_accordion' => array(
                 'key'        => 'layout_accordion',
@@ -532,7 +553,7 @@ class Fields {
                         'label'             => 'Panels',
                         'name'              => 'panels',
                         'type'              => 'repeater',
-                        'collapsed'         => 'field_accordion-panel__heading',
+                        'collapsed'         => 'field__accordion-panel__heading',
                         'min'               => 0,
                         'max'               => 20,
                         'layout'            => 'block',
@@ -680,15 +701,20 @@ class Fields {
             $copy = $all_modules['layout_copy'];
             $value = array();
 
-            if (isset($page_header)) {
-                $fields = array_map(fn($sub_field) => $sub_field['key'], $page_header['sub_fields']);
-                $default_values = array_map(fn($sub_field) => $sub_field['default_value'] ?? '', $page_header['sub_fields']);
-                $defaults = array_combine($fields, $default_values);
-                array_push($value, array(
-                    'acf_fc_layout' => 'page_header',
-                    ...$defaults
-                ));
+            // If this is a page, add a page header to start with
+            if (get_post_type($post_id) === 'page') {
+                if (isset($page_header)) {
+                    $fields = array_map(fn($sub_field) => $sub_field['key'], $page_header['sub_fields']);
+                    $default_values = array_map(fn($sub_field) => $sub_field['default_value'] ?? '', $page_header['sub_fields']);
+                    $defaults = array_combine($fields, $default_values);
+                    array_push($value, array(
+                        'acf_fc_layout' => 'page_header',
+                        ...$defaults
+                    ));
+                }
             }
+
+            // Always add a copy block to start with
             if (isset($copy)) {
                 $fields = array_map(fn($sub_field) => $sub_field['key'], $copy['sub_fields']);
                 $default_values = array_map(fn($sub_field) => $sub_field['default_value'] ?? '', $copy['sub_fields']);

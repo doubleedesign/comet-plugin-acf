@@ -38,14 +38,19 @@ if (is_array($buttons) && !empty($buttons)) {
 $content_col = new Column(['colorTheme' => $colorTheme], $content);
 
 $image = TemplateHandler::transform_fields_to_comet_attributes($attributes['component']['image']);
-$image = new ContentImageAdvanced($image);
+$image = new ContentImageAdvanced($image['component']);
 $image_col = new Column([], [$image]);
 
+$columnsAttrs = [
+    'backgroundColor' => $backgroundColor,
+    'vAlign'          => 'center',
+];
+
 if ($attributes['component']['order'] === 'copy-image') {
-    $columns = new Columns(['backgroundColor' => $backgroundColor], [$content_col, $image_col]);
+    $columns = new Columns($columnsAttrs, [$content_col, $image_col]);
 }
 else {
-    $columns = new Columns(['backgroundColor' => $backgroundColor], [$image_col, $content_col]);
+    $columns = new Columns($columnsAttrs, [$image_col, $content_col]);
 }
 
 $component = new Container(

@@ -170,8 +170,10 @@ class TemplateHandler {
             // Transform the keys to camelCase, removing the "field_" prefix and the component name
             array_map(function($key) use ($kebab_case_component) {
                 $first = str_replace('field_', '', $key);
-                $second = str_replace($kebab_case_component, '', $first);
-                $third = trim($second, '_');
+                if ($kebab_case_component !== $key) {
+                    $second = str_replace($kebab_case_component, '', $first);
+                }
+                $third = trim($second ?? $first, '_');
                 // Transform Australian/British spelling because Comet uses American spelling for "color" because that's what CSS uses
                 $fourth = str_replace('colour', 'color', $third);
 
@@ -201,17 +203,6 @@ class TemplateHandler {
                 'container' => $container,
                 'component' => $component
             ];
-        }
-
-        // If we've ended up with an empty array key, such as happens for the advanced image field,
-        // flatten the result and camel-case the keys
-        // TODO: This needs refinement so we don't double up on processing
-        if (count($result) === 1 && array_key_exists('', $result)) {
-            $result = $result[''];
-            $result = array_combine(
-                array_map(fn($key) => Utils::camel_case($key), array_keys($result)),
-                $result
-            );
         }
 
         return ['component' => $result];
