@@ -54,3 +54,10 @@ register_uninstall_hook(__FILE__, 'uninstall_comet_plugin_acf');
 function comet_acf_render_flexible_content($post_id): string {
     return TemplateHandler::render_flexible_content($post_id);
 }
+
+// Workaround for a missing ACF function in ClassicPress
+if (!function_exists('has_blocks')) {
+    function has_blocks() {
+        return false;
+    }
+}
