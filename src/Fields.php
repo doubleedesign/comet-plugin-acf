@@ -146,6 +146,141 @@ class Fields {
         );
     }
 
+    private function create_conditional_width_field(string $module, string $label, ?int $wrapper_width = 25): array {
+        $field_slug = Utils::kebab_case($label);
+
+        $field_common = array(
+            'label'   => 'Container width',
+            'name'    => 'container_width',
+            'type'    => 'select',
+            'wrapper' => [
+                'width' => $wrapper_width
+            ]
+        );
+
+        $common_conditions = array(
+            'field'    => "field_width_{$module}",
+            'operator' => '==',
+        );
+
+        return array(
+            // Full-width module - all container widths available
+            array(
+                ...$field_common,
+                'key'               => "field__{$module}__{$field_slug}__full",
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            ...$common_conditions,
+                            'value'    => 'fullwidth',
+                        ),
+                    ),
+                ),
+                'choices' => array(
+                    'fullwidth'      => 'Full-width',
+                    'wide'           => 'Wide',
+                    'contained'      => 'Contained',
+                    'narrow'         => 'Narrow',
+                ),
+            ),
+            // Wide module
+            array(
+                ...$field_common,
+                'key'               => "field__{$module}__{$field_slug}__wide",
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            ...$common_conditions,
+                            'value'    => 'wide',
+                        ),
+                    ),
+                ),
+                'choices' => array(
+                    'wide'      => 'Wide',
+                    'contained' => 'Contained',
+                    'narrow'    => 'Narrow',
+                ),
+            ),
+            // Contained module
+            array(
+                ...$field_common,
+                'key'               => "field__{$module}__{$field_slug}__contained",
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            ...$common_conditions,
+                            'value'    => 'contained',
+                        ),
+                    ),
+                ),
+                'choices' => array(
+                    'contained' => 'Contained',
+                    'narrow'    => 'Narrow',
+                ),
+            ),
+            // Narrow module - only narrow container available
+            array(
+                ...$field_common,
+                'key'               => "field__{$module}__{$field_slug}__narrow",
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            ...$common_conditions,
+                            'value'    => 'narrow',
+                        ),
+                    ),
+                ),
+                'choices' => array(
+                    'narrow'    => 'Narrow',
+                ),
+            ),
+        );
+    }
+
+    private function create_horizontal_alignment_field(string $parent_key, ?string $label = 'Horizontal alignment', ?string $default_value = 'start', ?int $wrapper_width = 30): array {
+        return array(
+            'key'           => "field__{$parent_key}__horizontal-alignment",
+            'label'         => $label,
+            'name'          => 'horizontal_alignment',
+            'type'          => 'button_group',
+            'choices'       => array(
+                'start'   => '<span class="acf-js-tooltip" title="Start"><i class="fa-solid fa-objects-align-left"></i></span>',
+                'center'  => '<span class="acf-js-tooltip" title="Middle"><i class="fa-solid fa-objects-align-center-horizontal"></i></span>',
+                'end'     => '<span class="acf-js-tooltip" title="End"><i class="fa-solid fa-objects-align-right"></i></span>',
+            ),
+            'default_value' => $default_value,
+            'return_format' => 'value',
+            'multiple'      => false,
+            'allow_null'    => 0,
+            'ui'            => 1,
+            'wrapper'       => [
+                'width' => $wrapper_width
+            ]
+        );
+    }
+
+    private function create_vertical_alignment_field(string $parent_key, ?string $label = 'Vertical alignment', ?string $default_value = 'center', ?int $wrapper_width = 30): array {
+        return array(
+            'key'           => "field__{$parent_key}__vertical-alignment",
+            'label'         => $label,
+            'name'          => 'vertical_alignment',
+            'type'          => 'button_group',
+            'choices'       => array(
+                'start'   => '<span class="acf-js-tooltip" title="Top"><i class="fa-solid fa-objects-align-top"></i></span></span>',
+                'center'  => '<span class="acf-js-tooltip" title="Middle"><i class="fa-solid fa-objects-align-center-vertical"></i></span>',
+                'end'     => '<span class="acf-js-tooltip" title="Bottom"><i class="fa-solid fa-objects-align-bottom"></i></span>',
+            ),
+            'default_value' => $default_value,
+            'return_format' => 'value',
+            'multiple'      => false,
+            'allow_null'    => 0,
+            'ui'            => 1,
+            'wrapper'       => [
+                'width' => $wrapper_width
+            ]
+        );
+    }
+
     private function create_button_group_field($parent_key, $wrapper_width = 100): array {
         return array(
             'key'               => "field__{$parent_key}__button-group",
@@ -168,7 +303,7 @@ class Fields {
                     'type'              => 'link',
                     'return_format'     => 'array',
                     'repeatable'        => true,
-                    'required'          => true,
+                    'required'          => $parent_key != 'banner-content', // buttons in banner content are optional
                     'wrapper'           => array(
                         'width' => 70,
                     ),
@@ -305,11 +440,75 @@ class Fields {
                         'key'           => 'field__banner__image',
                         'label'         => 'Image',
                         'name'          => 'image',
-                        'type'          => 'image',
+                        'type'          => 'image_advanced',
                         'required'      => 1,
                         'return_format' => 'array',
                         'preview_size'  => 'full',
                         'library'       => 'all',
+                    ),
+                    array(
+                        'key'           => 'field__banner__content',
+                        'label'         => 'Content',
+                        'name'          => 'content',
+                        'type'          => 'group',
+                        'repeatable'    => true,
+                        'wrapper'       => ['width' => 60],
+                        'sub_fields'    => array(
+                            array(
+                                'key'           => 'field__banner__content__heading',
+                                'label'         => 'Heading',
+                                'name'          => 'heading',
+                                'type'          => 'text',
+                                'required'      => 0,
+                                'maxlength'     => 120,
+                                'repeatable'    => true,
+                            ),
+                            array(
+                                'key'           => 'field__banner__content__text',
+                                'label'         => 'Text',
+                                'name'          => 'text',
+                                'type'          => 'wysiwyg',
+                                'tabs'          => 'all',
+                                'toolbar'       => 'minimal',
+                                'media_upload'  => 0,
+                                'default_value' => '',
+                                'repeatable'    => true,
+                            ),
+                            $this->create_button_group_field('banner-content')
+                        ),
+                    ),
+                    array(
+                        'key'           => 'field__banner__options',
+                        'type'          => 'group',
+                        'name'          => 'options',
+                        'wrapper'       => ['width' => 40],
+                        'sub_fields'    => array(
+                            $this->create_select_field('banner', 'Colour theme', 'Primary', 100),
+                            $this->create_select_field('banner', 'Width', 'full', 50),
+                            ...$this->create_conditional_width_field('banner', 'Container width', 50),
+                            array(
+                                'key'           => 'field__banner__content-width',
+                                'label'         => 'Content max width',
+                                'name'          => 'content_max_width',
+                                'type'          => 'button_group',
+                                'choices'       => array(
+                                    '25' => '25% (1/4)',
+                                    '75' => '75% (3/4)',
+                                    '33' => '33% (1/3)',
+                                    '66' => '66% (2/3)',
+                                    '50' => '50% (1/2)',
+                                    '100'=> '100%',
+                                ),
+                                'default_value' => '50',
+                                'return_format' => 'value',
+                                'append'        => '%',
+                                'wrapper'       => [
+                                    'width' => 100
+                                ]
+                            ),
+                            $this->create_horizontal_alignment_field('banner', 'Horizontal alignment', 'start', 50),
+                            $this->create_vertical_alignment_field('banner', 'Vertical alignment', 'middle', 50)
+                        )
                     )
                 )
             ),

@@ -2,6 +2,36 @@
 	display: none;
 }
 
+.acf-field--banner--content-width .acf-button-group {
+	display: flex;
+	flex-wrap: wrap;
+	min-width: 300px;
+	gap: 2px;
+
+	> label {
+		box-sizing: border-box;
+
+		&:has(input[value="25"]) {
+			flex: 0 0 25%;
+		}
+		&:has(input[value="33"]) {
+			flex: 0 0 33%;
+		}
+		&:has(input[value="50"]) {
+			flex: 0 0 50%;
+		}
+		&:has(input[value="66"]) {
+			flex: 0 0 67%;
+		}
+		&:has(input[value="75"]) {
+			flex: 0 0 75%;
+		}
+		&:has(input[value="100"]) {
+			flex: 0 0 100%;
+		}
+	}
+}
+
 #acf-group_content-modules {
 
 	.layout[data-layout="latest_posts"]:not(.-collapsed):not([data-mode="preview"]) {
