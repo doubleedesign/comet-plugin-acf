@@ -8,6 +8,10 @@ class TinyMCEConfig {
         add_filter('mce_buttons_2', [$this, 'add_styleselect'], 10, 1);
         add_filter('tiny_mce_before_init', [$this, 'populate_styleselect'], 10, 1);
         add_action('admin_init', [$this, 'add_select2_custom_css']);
+
+        // Wondering where the main block formats (H1, H2, paragraph, etc) for ACF WYSIWYG fields are configured?
+        // It's in JavaScript - there's no PHP filter for it.
+        // Look for acf.addFilter('wysiwyg_tinymce_settings' ... )
     }
 
     /**

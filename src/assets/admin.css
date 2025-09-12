@@ -1,3 +1,7 @@
+.acf-label:has(label[for=acf-field_content-modules]) {
+  display: none;
+}
+
 #acf-group_content-modules .layout[data-layout=latest_posts]:not(.-collapsed):not([data-mode=preview]) > .acf-fields {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

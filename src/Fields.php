@@ -1,6 +1,6 @@
 <?php
 namespace Doubleedesign\Comet\WordPress\Classic;
-use Doubleedesign\Comet\Core\{Utils};
+use Doubleedesign\Comet\Core\{AspectRatio, Utils};
 
 class Fields {
 
@@ -38,15 +38,6 @@ class Fields {
                 'value'    => $post_type,
             )
         ), $post_types);
-
-        //        $exclusions = [get_option('page_for_posts')];
-        //        if (!empty($exclusions)) {
-        //            $locations[] = array(
-        //                'param'    => 'post',
-        //                'operator' => '!=',
-        //                'value'    => implode(',', $exclusions),
-        //            );
-        //        }
 
         $final = array(
             'key'    => 'group_content-modules',
@@ -177,6 +168,7 @@ class Fields {
                     'type'              => 'link',
                     'return_format'     => 'array',
                     'repeatable'        => true,
+                    'required'          => true,
                     'wrapper'           => array(
                         'width' => 70,
                     ),
@@ -198,6 +190,73 @@ class Fields {
         );
     }
 
+    private function create_link_group_field($parent_key, $wrapper_width = 100): array {
+        return array(
+            'key'               => "field__{$parent_key}__link-group",
+            'label'             => 'Links',
+            'name'              => 'links',
+            'type'              => 'repeater',
+            'min'               => 1,
+            'max'               => 5,
+            'layout'            => 'table',
+            'button_label'      => 'Add link',
+            'repeatable'        => true,
+            'wrapper'           => array(
+                'width' => $wrapper_width,
+            ),
+            'sub_fields'        => array(
+                array(
+                    'key'               => "field__{$parent_key}__link-group__link",
+                    'label'             => 'Link',
+                    'name'              => 'link',
+                    'type'              => 'link',
+                    'return_format'     => 'array',
+                    'repeatable'        => true,
+                    'required'          => true,
+                ),
+            ),
+        );
+    }
+
+    private function create_aspect_ratio_field(string $parent, ?string $label = 'Aspect ratio', ?AspectRatio $default_value = AspectRatio::SQUARE, ?int $wrapper_width = 33): array {
+        $enum_array = array_combine(
+            array_column(AspectRatio::cases(), 'name'),
+            array_column(AspectRatio::cases(), 'value')
+        );
+
+        $options = array_reduce(array_keys($enum_array), function($carry, $key) use ($enum_array) {
+            $value = $enum_array[$key];
+            $label = str_replace('_', ' ', strtolower($key));
+            $carry[$value] = ucwords($label) . " ($value)";
+
+            return $carry;
+        }, []);
+
+        return array(
+            'key'           => $parent . '__aspect_ratio',
+            'label'         => $label,
+            'name'          => 'aspect_ratio',
+            'type'          => 'select',
+            'choices'       => $options,
+            'default_value' => $default_value->value,
+            'return_format' => 'value',
+            'multiple'      => false,
+            'allow_null'    => 0,
+            'ui'            => 0,
+            'wrapper'       => [
+                'width' => $wrapper_width
+            ]
+        );
+    }
+
+    /**
+     * Default definitions of basic flexible content modules.
+     * Note that these may be overridden by filters in other plugins and themes;
+     * notably width field is stripped when these are used as nested modules
+     * and in single post context in the Comet Canvas Classic theme.
+     *
+     * @return array
+     */
     protected function get_basic_modules(): array {
         $breadcrumbs_for_page_header = class_exists('Doubleedesign\Breadcrumbs\Breadcrumbs') ? (
             array(
@@ -228,8 +287,6 @@ class Fields {
                         'name'          => 'heading',
                         'type'          => 'text',
                         'instructions'  => 'If nothing is entered, the page title will be used.',
-                        'default_value' => '',
-                        'placeholder'   => '',
                     ),
                     $this->create_select_field('page-header', 'Colour theme', 'primary', !empty($breadcrumbs_for_page_header) ? 25 : 33),
                     $this->create_select_field('page-header', 'Background colour', 'white', !empty($breadcrumbs_for_page_header) ? 25 : 33),
@@ -394,20 +451,35 @@ class Fields {
                 'name'       => 'gallery',
                 'label'      => 'Gallery',
                 'display'    => 'block',
-                'sub_fields' => array(
-                    array(
+                'sub_fields' => [
+                    [
                         'key'               => 'field__gallery__images',
                         'label'             => 'Images',
                         'name'              => 'images',
                         'type'              => 'gallery',
                         'insert'            => 'append',
                         'library'           => 'all',
-                        'min'               => 3,
+                        'min'               => 2,
                         'max'               => 24,
                         'preview_size'      => 'medium',
-                    ),
-                    $this->create_select_field('gallery', 'Width', 'contained'),
-                )
+                    ],
+                    $this->create_select_field('gallery', 'Width', 'contained', 25),
+                    $this->create_aspect_ratio_field('gallery', 'Thumbnail aspect ratio', AspectRatio::SQUARE, 25),
+                    [
+                        'key'           => 'field__gallery__lightbox',
+                        'label'         => 'Enable lightbox',
+                        'name'          => 'lightbox',
+                        'instructions'  => 'Overlay with full-size images opens when an image is clicked',
+                        'type'          => 'true_false',
+                        'ui'            => 1,
+                        'ui_on_text'    => 'Yes',
+                        'ui_off_text'   => 'No',
+                        'default_value' => 1,
+                        'wrapper'       => [
+                            'width' => 50,
+                        ],
+                    ]
+                ]
             ),
             'layout_image' => array(
                 'key'        => 'layout_image',
@@ -425,6 +497,7 @@ class Fields {
                         'preview_size'  => 'full',
                         'library'       => 'all',
                     ),
+                    $this->create_select_field('image', 'Width', 'contained', 33)
                 )
             ),
             'layout_latest-posts' => array(
@@ -473,6 +546,24 @@ class Fields {
                             'width' => 33,
                         )
                     ),
+                ),
+            ),
+            'layout_link-group' => array(
+                'key'        => 'layout_link-group',
+                'name'       => 'link_group',
+                'label'      => 'Link group',
+                'display'    => 'block',
+                'sub_fields' => array(
+                    array(
+                        'key'           => 'field__link-group__heading',
+                        'label'         => 'Heading (optional)',
+                        'name'          => 'heading',
+                        'type'          => 'text',
+                        'repeatable'    => true,
+                    ),
+                    $this->create_link_group_field('link-group'),
+                    $this->create_select_field('link-group', 'Colour theme', 'Primary', 25),
+                    $this->create_select_field('link-group', 'Width', 'contained', 25),
                 ),
             ),
         );
@@ -701,28 +792,26 @@ class Fields {
             $copy = $all_modules['layout_copy'];
             $value = array();
 
-            // If this is a page, add a page header to start with
-            if (get_post_type($post_id) === 'page') {
-                if (isset($page_header)) {
-                    $fields = array_map(fn($sub_field) => $sub_field['key'], $page_header['sub_fields']);
-                    $default_values = array_map(fn($sub_field) => $sub_field['default_value'] ?? '', $page_header['sub_fields']);
+            if (isset($page_header)) {
+                $fields = array_map(fn($sub_field) => $sub_field['key'], $page_header['sub_fields']);
+                $default_values = array_map(fn($sub_field) => $sub_field['default_value'] ?? '', $page_header['sub_fields']);
+                $defaults = array_combine($fields, $default_values);
+                array_push($value, array(
+                    'acf_fc_layout' => 'page_header',
+                    ...$defaults
+                ));
+            }
+
+            if (get_the_id() != get_option('page_for_posts')) {
+                if (isset($copy)) {
+                    $fields = array_map(fn($sub_field) => $sub_field['key'], $copy['sub_fields']);
+                    $default_values = array_map(fn($sub_field) => $sub_field['default_value'] ?? '', $copy['sub_fields']);
                     $defaults = array_combine($fields, $default_values);
                     array_push($value, array(
-                        'acf_fc_layout' => 'page_header',
+                        'acf_fc_layout' => 'copy',
                         ...$defaults
                     ));
                 }
-            }
-
-            // Always add a copy block to start with
-            if (isset($copy)) {
-                $fields = array_map(fn($sub_field) => $sub_field['key'], $copy['sub_fields']);
-                $default_values = array_map(fn($sub_field) => $sub_field['default_value'] ?? '', $copy['sub_fields']);
-                $defaults = array_combine($fields, $default_values);
-                array_push($value, array(
-                    'acf_fc_layout' => 'copy',
-                    ...$defaults
-                ));
             }
         }
 

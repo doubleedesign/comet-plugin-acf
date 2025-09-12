@@ -28,7 +28,7 @@ $buttonGroup = new ButtonGroup(
 );
 
 // Nested button groups should not have the width field - only top-level ones should potentially have a container
-if ($fields['width']) {
+if ($fields['width'] && $fields['isNested'] != false) {
     $container = new Container($attributes['container'], [$buttonGroup]);
     $container->render();
 }

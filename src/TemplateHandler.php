@@ -78,14 +78,19 @@ class TemplateHandler {
 
         if (in_array(get_post_type($post_id), $post_types)) {
             ob_start();
-            // Top-level field is called content_modules
-            if (have_rows('content_modules', $post_id)) {
-                while (have_rows('content_modules')) {
-                    the_row();
-                    $layout = get_row_layout();
-                    $fields = get_row(true);
-                    // Indicate to the template parts and components that this is a top-level component instance
-                    $fields['isNested'] = false;
+
+            // Get the raw field data instead of using have_rows() because it's more reliable with multiple instances of modules and whatnot
+            $content_modules = get_field('content_modules', $post_id);
+
+            if ($content_modules && is_array($content_modules)) {
+                foreach ($content_modules as $index => $module) {
+                    $layout = $module['acf_fc_layout'] ?? '';
+                    $fields = $module;
+                    // There are some cases where top-level modules are treated as nested before they get here
+                    // because they're intended to be put into container in the template (or some other similar reason).
+                    // We can specify that contextually using this filter.
+                    $fields['isNested'] = apply_filters('comet_acf_flexible_content_is_nested', false, $layout, $post_id);
+
                     try {
                         $template_path = self::get_template_path($layout);
                         if ($template_path) {
@@ -101,7 +106,6 @@ class TemplateHandler {
             return ob_get_clean();
         }
 
-        // Fallback to default content if called for a post type that doesn't support flexible content
         return get_the_content();
     }
 
@@ -182,6 +186,15 @@ class TemplateHandler {
             // Leave the values as they are
             $fields
         );
+
+        // Recurse into nested field arrays and camelCase their keys
+        $result = array_map(function($value) {
+            if (is_array($value)) {
+                return Utils::camel_case_array_keys($value);
+            }
+
+            return $value;
+        }, $result);
 
         // The width field is generally expected to align with the Container component size field
         // Add exceptions here in future if necessary

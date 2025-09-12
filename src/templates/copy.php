@@ -8,7 +8,7 @@ $heading = $attributes['component']['heading'] ? new Heading([], $attributes['co
 $content = $attributes['component']['copy'] ?? '';
 $content = new PreprocessedHTML([], Utils::sanitise_content($content));
 
-if ($fields['isNested']) {
+if ($fields['isNested'] || !isset($attributes['container'])) {
     if ($heading) {
         $heading->render();
     }
