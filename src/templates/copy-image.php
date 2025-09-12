@@ -7,7 +7,7 @@ $attributes = TemplateHandler::transform_fields_to_comet_attributes($fields);
 
 extract($attributes['component']);
 list('colorTheme' => $colorTheme, 'backgroundColor' => $backgroundColor) = $attributes['component'];
-list('heading' => $heading, 'Body text' => $bodyText, 'buttons' => $buttons) = $attributes['component']['content'];
+list('heading' => $heading, 'bodyText' => $bodyText, 'buttons' => $buttons) = $attributes['component']['content'];
 
 $content = [];
 if (!empty($heading)) {
