@@ -18,14 +18,17 @@ if (!defined('COMET_COMPOSER_VENDOR_URL')) {
 }
 
 require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/vendor/doubleedesign/comet-components-core/src/base/Config.php';
+use Doubleedesign\Comet\Core\Config;
 
 add_action('plugins_loaded', function() {
     if (!class_exists('Doubleedesign\Comet\Core\Config')) {
         wp_die('<p>Comet Components Core Config class not found in Comet Components ACF plugin. Perhaps you need to install or update Composer dependencies.</p><p>If you are working locally with symlinked packages, you might want <code>$env:COMPOSER = "composer.local.json"; composer update</code>.</p>');
     }
-    // Ensure global config is initialized
-    Doubleedesign\Comet\Core\Config::getInstance();
-});
+
+    // Ensure Config is initialised early
+    Config::init();
+}, 5);
 
 use Doubleedesign\Comet\WordPress\Classic\{PluginEntrypoint, TemplateHandler};
 
