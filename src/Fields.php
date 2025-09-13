@@ -141,7 +141,7 @@ class Fields {
             'multiple'          => false,
             'repeatable'        => true,
             'allow_null'        => 0,
-            'ui'                => 1, // enables select2
+            'ui'                => str_contains(strtolower($label), 'colour'), // enables select2
             ...$extra ?? []
         );
     }
@@ -490,6 +490,7 @@ class Fields {
                                 'key'           => 'field__banner__content-width',
                                 'label'         => 'Content max width',
                                 'name'          => 'content_max_width',
+                                'instructions'  => 'Width relative to the container at its max-width; may appear differently on smaller screens',
                                 'type'          => 'button_group',
                                 'choices'       => array(
                                     '25' => '25% (1/4)',
@@ -910,23 +911,7 @@ class Fields {
                                 'media_upload'  => false,
                                 'repeatable'    => true,
                             ),
-                            array(
-                                'key'          => 'field__copy-image__content__buttons',
-                                'label'        => 'Buttons',
-                                'name'         => 'buttons',
-                                'type'         => 'repeater',
-                                'button_label' => 'Add button',
-                                'sub_fields'   => array(
-                                    array(
-                                        'key'           => 'field__copy-image__content__buttons__button',
-                                        'label'         => 'Button',
-                                        'name'          => 'button',
-                                        'type'          => 'link',
-                                        'return_format' => 'array',
-                                        'repeatable'    => true,
-                                    ),
-                                ),
-                            ),
+                            $this->create_button_group_field('field__copy-image__content')
                         ),
                         'wrapper'       => array('width' => 50)
                     ),
@@ -943,42 +928,6 @@ class Fields {
                     ),
                 ),
             ),
-            // TODO Make columns a bit less clunky in the admin with expanding/collapsing and stuff
-            //            'layout_columns' => array(
-            //                'key'        => 'layout_columns',
-            //                'name'       => 'columns',
-            //                'label'      => 'Columns',
-            //                'display'    => 'block',
-            //                'sub_fields' => array(
-            //                    array(
-            //                        'key'           => 'field_columns-repeater',
-            //                        'label'         => 'Columns',
-            //                        'name'          => 'columns',
-            //                        'aria-label'    => '',
-            //                        'type'          => 'repeater',
-            //                        'instructions'  => '',
-            //                        'layout'        => 'block',
-            //                        'min'           => 2,
-            //                        'max'           => 4,
-            //                        'button_label'  => 'Add column',
-            //                        'rows_per_page' => 4,
-            //                        'wrapper'       => array(
-            //                            'class' => 'comet-acf-columns',
-            //                        ),
-            //                        'sub_fields'    => array(
-            //                            array(
-            //                                'key'             => 'field_column__content',
-            //                                'label'           => 'Column content',
-            //                                'name'            => 'column_content',
-            //                                'type'            => 'flexible_content',
-            //                                'layouts'         => $this->get_nestable_modules(),
-            //                                'button_label'    => 'Add content',
-            //                                'parent_repeater' => 'field_columns-repeater',
-            //                            ),
-            //                        ),
-            //                    ),
-            //                ),
-            //            ),
         );
 
         return apply_filters('comet_acf_get_complex_modules', $default);
