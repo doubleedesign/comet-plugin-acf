@@ -14,18 +14,23 @@
 		&:has(input[value="25"]) {
 			flex: 0 0 25%;
 		}
+
 		&:has(input[value="33"]) {
 			flex: 0 0 33%;
 		}
+
 		&:has(input[value="50"]) {
 			flex: 0 0 50%;
 		}
+
 		&:has(input[value="66"]) {
 			flex: 0 0 67%;
 		}
+
 		&:has(input[value="75"]) {
 			flex: 0 0 75%;
 		}
+
 		&:has(input[value="100"]) {
 			flex: 0 0 100%;
 		}
@@ -60,74 +65,6 @@
 			iframe {
 				height: 100px !important;
 				min-height: 100px !important;
-			}
-		}
-	}
-
-	.layout[data-layout="columns"] {
-		[data-key="field_columns-repeater"] {
-			container-type: inline-size;
-
-			> .acf-input > .acf-repeater > .acf-table > .ui-sortable {
-				> .acf-row {
-					position: relative;
-
-					> .acf-row-handle {
-						width: 1.5rem;
-						flex-basis: 1.5rem;
-					}
-
-					> .acf-row-handle.remove {
-						position: absolute;
-						top: 2rem;
-						left: -0.125rem;
-						background: transparent;
-
-						[data-event="remove-row"] {
-							display: block !important;
-							top: 1rem;
-						}
-					}
-
-					> .acf-fields {
-						order: 3;
-						flex-grow: 1;
-					}
-				}
-
-				@container (min-width: 600px) {
-					display: grid;
-					grid-template-columns: repeat(2, 1fr);
-					gap: 1rem;
-
-					> .acf-row {
-						display: flex;
-						align-items: flex-start;
-					}
-				}
-
-				@container (min-width: 940px) {
-					// We are expecting 2-4 columns (labelled with data-ids 0-3)
-					// if this changes in the future this will need to be updated
-					&:has([data-id="row-2"]) {
-						grid-template-columns: repeat(3, 1fr);
-					}
-					&:has([data-id="row-3"]) {
-						grid-template-columns: repeat(4, 1fr);
-					}
-				}
-
-				[data-key="field_column__content"] {
-					> .acf-label {
-						display: none;
-					}
-
-					.acf-fc-top-actions {
-						[data-name="add-layout"] {
-							display: none;
-						}
-					}
-				}
 			}
 		}
 	}

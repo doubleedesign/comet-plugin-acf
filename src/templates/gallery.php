@@ -16,5 +16,5 @@ $images = array_map(function($image) use ($fields) {
 
 $gallery = new Gallery(['columns' => 4, 'imageCrop' => true], $images);
 
-$component = new Container(['size'=> $fields['width'] ?? 'contained'], [$gallery]);
+$component = new Container(['size'=> $fields['width'] ?? 'contained', 'context' => 'gallery'], [$gallery]);
 $component->render();

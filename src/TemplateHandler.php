@@ -167,19 +167,19 @@ class TemplateHandler {
      * @return array
      */
     public static function transform_fields_to_comet_attributes(array $fields = []): array {
-		// Handle sub-fields that aren't flexible layouts
-		if(!isset($fields['acf_fc_layout'])) {
-			if(isset($fields['aspect_ratio'])) {
-				$kebab_case_component = 'image';
-			}
-			else {
-				$kebab_case_component = 'some-component';
-			}
-		}
-		// Default - handle as layout
-		else {
-			$kebab_case_component = Utils::kebab_case($fields['acf_fc_layout']);
-		}
+        // Handle sub-fields that aren't flexible layouts
+        if (!isset($fields['acf_fc_layout'])) {
+            if (isset($fields['aspect_ratio'])) {
+                $kebab_case_component = 'image';
+            }
+            else {
+                $kebab_case_component = 'some-component';
+            }
+        }
+        // Default - handle as layout
+        else {
+            $kebab_case_component = Utils::kebab_case($fields['acf_fc_layout']);
+        }
 
         // Simplify the field names to get as many of them as possible to automatically match Comet Components attribute names
         $result = array_combine(
@@ -212,7 +212,8 @@ class TemplateHandler {
         // Add exceptions here in future if necessary
         if (isset($result['width'])) {
             $container = array(
-                'size' => $result['width']
+                'size'    => $result['width'],
+                'context' => $kebab_case_component,
             );
             // Filter out the container attributes for the inner ones
             $component = array_filter($result, function($key) use ($container) {
