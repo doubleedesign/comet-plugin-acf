@@ -7,20 +7,20 @@ $attributes = TemplateHandler::transform_fields_to_comet_attributes($fields);
 
 // Special handling for posts, archives, etc
 $post_id = get_the_id();
-if ($post_id == get_option('page_for_posts') || get_post_type() == 'post') {
+if (is_single()) {
     $heading = get_the_title($post_id);
 }
-else if (is_category()) {
-    $heading = single_cat_title('', false);
-}
-else if (is_tag()) {
-    $heading = single_tag_title('', false);
-}
-else if (is_author()) {
-    $heading = get_the_author();
+else if ($post_id == get_option(PAGE_FOR_POSTS) || is_home()) {
+    $heading = get_the_title(PAGE_FOR_POSTS);
 }
 else if (is_archive()) {
-    $heading = get_the_archive_title();
+    $queried_object = get_queried_object();
+    if (isset($queried_object->name)) {
+        $heading = $queried_object->name;
+    }
+    else {
+        $heading = get_the_archive_title();
+    }
 }
 else {
     $heading = !empty($attributes['component']['heading'])

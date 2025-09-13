@@ -165,6 +165,7 @@ return array(
     'Doubleedesign\\Comet\\Core\\ContentImageAdvanced' => $vendorDir . '/doubleedesign/comet-components-core/src/components/ContentImageAdvanced/ContentImageAdvanced.php',
     'Doubleedesign\\Comet\\Core\\ContentImageBasic' => $vendorDir . '/doubleedesign/comet-components-core/src/components/ContentImageBasic/ContentImageBasic.php',
     'Doubleedesign\\Comet\\Core\\ContentImageComponent' => $vendorDir . '/doubleedesign/comet-components-core/src/base/components/ContentImageComponent.php',
+    'Doubleedesign\\Comet\\Core\\CopyBlock' => $vendorDir . '/doubleedesign/comet-components-core/src/components/CopyBlock/CopyBlock.php',
     'Doubleedesign\\Comet\\Core\\CoverImage' => $vendorDir . '/doubleedesign/comet-components-core/src/components/CoverImage/CoverImage.php',
     'Doubleedesign\\Comet\\Core\\DateBlock' => $vendorDir . '/doubleedesign/comet-components-core/src/components/DateBlock/DateBlock.php',
     'Doubleedesign\\Comet\\Core\\DateComponent' => $vendorDir . '/doubleedesign/comet-components-core/src/base/components/DateComponent.php',

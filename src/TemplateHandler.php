@@ -12,14 +12,13 @@ class TemplateHandler {
         self::$template_paths = [
             // First look in the child theme for overrides, then the parent theme,
             // and if no overrides, use the plugin templates
-            get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR,
-            get_template_directory() . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR,
+            get_stylesheet_directory() . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR,
+            get_template_directory() . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR,
             plugin_dir_path(__DIR__) . 'src' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR,
         ];
     }
 
     public function register_template_paths_for_dynamic_preview($paths): array {
-
         return [
             plugin_dir_path(__DIR__) . 'src' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR,
             ...$paths
@@ -227,6 +226,7 @@ class TemplateHandler {
             unset($component['acfFcLayout']);
             unset($component['editIntro']); // admin option not relevant to front-end rendering
             unset($component['editDescription']); // admin option not relevant to front-end rendering
+            unset($component['moreOptions']); // admin option not relevant to front-end rendering
 
             return [
                 'container' => $container,

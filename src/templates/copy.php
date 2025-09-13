@@ -1,26 +1,48 @@
 <?php
 /** @var $fields array */
 use Doubleedesign\Comet\WordPress\Classic\{PreprocessedHTML, TemplateHandler};
-use Doubleedesign\Comet\Core\{Container, Heading, Utils};
+use Doubleedesign\Comet\Core\{Button, ButtonGroup, CopyBlock, Heading, Utils};
 
 $attributes = TemplateHandler::transform_fields_to_comet_attributes($fields);
 $heading = $attributes['component']['heading'] ? new Heading([], $attributes['component']['heading']) : null;
 $content = $attributes['component']['copy'] ?? '';
 $content = new PreprocessedHTML([], Utils::sanitise_content($content));
 
-if ($fields['isNested'] || !isset($attributes['container'])) {
-    if ($heading) {
-        $heading->render();
-    }
-    $content->render();
+$containerAtts = array_merge(
+    $attributes['container'] ?? [],
+    ['context' => 'copy-block'],
+    Utils::array_pick($attributes['component'], ['colorTheme', 'isNested'])
+);
+
+$buttons = $attributes['component']['buttons'] ?? null;
+if (is_array($buttons['buttons']) && count($buttons['buttons']) > 0) {
+    $buttonGroup = new ButtonGroup(
+        [
+            'hAlign'      => $attributes['component']['buttons']['horizontalAlignment'] ?? null,
+            'orientation' => $attributes['component']['buttons']['orientation'] ?? null,
+        ],
+        array_map(
+            function($button) use ($attributes) {
+
+                return new Button(
+                    array_merge(
+                        [
+                            'colorTheme' => $attributes['component']['colorTheme'] ?? 'primary',
+                            'isOutline'  => $button['style'] === 'isOutline',
+                            'href'       => $button['button']['url'] ?? '#',
+                            'target'     => $button['button']['target'] ?? null,
+                        ],
+                    ),
+                    $button['button']['title'] ?? 'Read more'
+                );
+            },
+            $buttons['buttons']
+        )
+    );
 }
-else {
-    if ($heading) {
-        $component = new Container($attributes['container'], [$heading, $content]);
-        $component->render();
-    }
-    else {
-        $component = new Container($attributes['container'], [$content]);
-        $component->render();
-    }
-}
+
+$component = new CopyBlock(
+    $containerAtts,
+    [$heading, $content, ...(isset($buttonGroup) ? [$buttonGroup] : [])]
+);
+$component->render();

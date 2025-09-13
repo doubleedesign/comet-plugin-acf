@@ -110,16 +110,6 @@ class Fields {
                     'dark'  => 'Dark',
                     'white' => 'White'
                 ),
-                'Alignment', 'Vertical alignment', 'Horizontal alignment' => array(
-                    'default' => 'Inherit',
-                    'start'   => 'Start',
-                    'center'  => 'Middle',
-                    'end'     => 'End',
-                ),
-                'Orientation' => array(
-                    'horizontal' => 'Horizontal',
-                    'vertical'   => 'Vertical',
-                ),
                 default => [],
             };
         }
@@ -237,16 +227,17 @@ class Fields {
         );
     }
 
-    private function create_horizontal_alignment_field(string $parent_key, ?string $label = 'Horizontal alignment', ?string $default_value = 'start', ?int $wrapper_width = 30): array {
+    private function create_horizontal_alignment_field(string $parent_key, ?string $label = 'Horizontal alignment', ?string $default_value = 'default', ?int $wrapper_width = 30): array {
         return array(
             'key'           => "field__{$parent_key}__horizontal-alignment",
             'label'         => $label,
             'name'          => 'horizontal_alignment',
             'type'          => 'button_group',
             'choices'       => array(
-                'start'   => '<span class="acf-js-tooltip" title="Start"><i class="fa-solid fa-objects-align-left"></i></span>',
-                'center'  => '<span class="acf-js-tooltip" title="Middle"><i class="fa-solid fa-objects-align-center-horizontal"></i></span>',
-                'end'     => '<span class="acf-js-tooltip" title="End"><i class="fa-solid fa-objects-align-right"></i></span>',
+                'default'   => '<span class="acf-js-tooltip" title="Automatic"><i class="fa-solid fa-wand-sparkles"></i></span>',
+                'start'     => '<span class="acf-js-tooltip" title="Start"><i class="fa-solid fa-objects-align-left"></i></span>',
+                'center'    => '<span class="acf-js-tooltip" title="Middle"><i class="fa-solid fa-objects-align-center-horizontal"></i></span>',
+                'end'       => '<span class="acf-js-tooltip" title="End"><i class="fa-solid fa-objects-align-right"></i></span>',
             ),
             'default_value' => $default_value,
             'return_format' => 'value',
@@ -281,7 +272,28 @@ class Fields {
         );
     }
 
-    private function create_button_group_field($parent_key, $wrapper_width = 100): array {
+    private function create_orientation_field(string $parent_key, ?string $label = 'Orientation', ?string $default_value = 'horizontal', ?int $wrapper_width = 25): array {
+        return array(
+            'key'           => "field__{$parent_key}__orientation",
+            'label'         => $label,
+            'name'          => 'orientation',
+            'type'          => 'button_group',
+            'choices'       => array(
+                'horizontal'   => '<span class="acf-js-tooltip" title="Horizontal"><i class="fa-solid fa-arrow-right-to-line"></i></span>',
+                'vertical'     => '<span class="acf-js-tooltip" title="Vertical"><i class="fa-solid fa-arrow-down-to-line"></i></span>',
+            ),
+            'default_value' => $default_value,
+            'return_format' => 'value',
+            'multiple'      => false,
+            'allow_null'    => 0,
+            'ui'            => 1,
+            'wrapper'       => [
+                'width' => $wrapper_width
+            ]
+        );
+    }
+
+    private function create_button_group_repeater($parent_key, $wrapper_width = 100, $required = true): array {
         return array(
             'key'               => "field__{$parent_key}__button-group",
             'label'             => 'Buttons',
@@ -303,7 +315,7 @@ class Fields {
                     'type'              => 'link',
                     'return_format'     => 'array',
                     'repeatable'        => true,
-                    'required'          => $parent_key != 'banner-content', // buttons in banner content are optional
+                    'required'          => $required,
                     'wrapper'           => array(
                         'width' => 70,
                     ),
@@ -474,7 +486,7 @@ class Fields {
                                 'default_value' => '',
                                 'repeatable'    => true,
                             ),
-                            $this->create_button_group_field('banner-content')
+                            $this->create_button_group_repeater('banner-content', 100, false)
                         ),
                     ),
                     array(
@@ -519,11 +531,11 @@ class Fields {
                 'label'      => 'Button group',
                 'display'    => 'block',
                 'sub_fields' => array(
+                    $this->create_button_group_repeater('button-group'),
                     $this->create_select_field('button-group', 'Colour theme', 'Primary', 25),
-                    $this->create_select_field('button-group', 'Alignment', 'inherit', 25),
-                    $this->create_select_field('button-group', 'Orientation', 'horizontal', 25),
+                    $this->create_horizontal_alignment_field('button-group', 'Horizontal alignment', 'inherit', 25),
+                    $this->create_orientation_field('button"group'),
                     $this->create_select_field('button-group', 'Width', 'contained', 25),
-                    $this->create_button_group_field('button-group'),
                 ),
             ),
             'layout_call-to-action' => array(
@@ -578,7 +590,7 @@ class Fields {
                             ),
                         ),
                     ),
-                    $this->create_button_group_field('call-to-action'),
+                    $this->create_button_group_repeater('call-to-action'),
                     $this->create_select_field('call-to-action', 'Colour theme', 'primary', 20),
                     $this->create_select_field('call-to-action', 'Background colour', 'white', 20),
                     $this->create_select_field('call-to-action', 'Section width', 'contained', 20),
@@ -623,6 +635,9 @@ class Fields {
                         'name'              => 'heading',
                         'type'              => 'text',
                         'repeatable'        => true,
+                        'wrapper'           => array(
+                            'width' => 75,
+                        ),
                     ),
                     array(
                         'key'               => 'field__copy__content',
@@ -635,7 +650,42 @@ class Fields {
                         'delay'             => 0,
                         'repeatable'        => true,
                     ),
-                    $this->create_select_field('copy', 'Width'),
+                    $this->create_select_field('field__copy', 'Colour theme', 'primary', 25),
+                    $this->create_select_field('copy', 'Width', 'contained', 25),
+                    array(
+                        'key'           => 'field__copy__more-options',
+                        'label'         => 'Show additional options',
+                        'name'          => 'more_options',
+                        'type'          => 'true_false',
+                        'ui'            => 1,
+                        'ui_on_text'    => 'Editing',
+                        'ui_off_text'   => 'Closed',
+                        'default_value' => false,
+                        'repeatable'    => false,
+                        'wrapper' 	     => array(
+                            'width' => 25,
+                        ),
+                    ),
+                    array(
+                        'key'               => 'field__copy__buttons',
+                        'type'              => 'group',
+                        'name'              => 'buttons',
+                        'instructions'      => 'Optionally add some buttons below your content, in the same section within the document structure',
+                        'conditional_logic' => array(
+                            array(
+                                array(
+                                    'field'    => 'field__copy__more-options',
+                                    'operator' => '==',
+                                    'value'    => 1
+                                ),
+                            ),
+                        ),
+                        'sub_fields'    => array(
+                            $this->create_button_group_repeater('field__copy__buttons', 100, false),
+                            $this->create_horizontal_alignment_field('field__copy__buttons', 'Button group alignment', 'default', 20),
+                            $this->create_orientation_field('field__copy__buttons', 'Button group orientation', 'horizontal', 20)
+                        )
+                    ),
                 ),
             ),
             'layout_divider' => array(
@@ -750,6 +800,37 @@ class Fields {
                     ),
                 ),
             ),
+            'layout_featured-posts' => array(
+                'key'        => 'layout_featured-posts',
+                'name'       => 'featured_posts',
+                'label'      => 'Featured posts',
+                'display'    => 'block',
+                'sub_fields' => array(
+                    array(
+                        'key'               => 'field__featured-posts__heading',
+                        'label'             => 'Heading',
+                        'name'              => 'heading',
+                        'type'              => 'text',
+                        'default_value'     => 'Featured Posts',
+                        'placeholder'       => 'Featured Posts',
+                        'repeatable'        => true,
+                    ),
+                    array(
+                        'key'                  => 'field__featured-posts__posts',
+                        'label'                => 'Select posts to feature',
+                        'name'                 => 'posts',
+                        'type'                 => 'relationship',
+                        'post_type'            => array('post'),
+                        'return_format'        => 'id',
+                        'multiple'             => true,
+                        'repeatable'           => true,
+                        'min'                  => 1,
+                        'max'                  => 3
+                    ),
+                    $this->create_select_field('featured-posts', 'Colour theme'),
+                    $this->create_select_field('featured-posts', 'Width'),
+                ),
+            ),
             'layout_link-group' => array(
                 'key'        => 'layout_link-group',
                 'name'       => 'link_group',
@@ -781,7 +862,7 @@ class Fields {
         // Remove sub-fields that are not suitable for nested instances
         $default = array_map(function($module) {
             $module['sub_fields'] = array_filter($module['sub_fields'], function($field) {
-                return !in_array($field['name'], array('width'));
+                return isset($field['name']) && !in_array($field['name'], array('width'));
             });
 
             return $module;
@@ -913,7 +994,7 @@ class Fields {
                                 'media_upload'  => false,
                                 'repeatable'    => true,
                             ),
-                            $this->create_button_group_field('field__copy-image__content')
+                            $this->create_button_group_repeater('field__copy-image__content')
                         ),
                         'wrapper'       => array('width' => 50)
                     ),

@@ -344,6 +344,7 @@ class ComposerStaticInit9a64db011fec9cb21b75adf11958e641
         'Doubleedesign\\Comet\\Core\\ContentImageAdvanced' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/ContentImageAdvanced/ContentImageAdvanced.php',
         'Doubleedesign\\Comet\\Core\\ContentImageBasic' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/ContentImageBasic/ContentImageBasic.php',
         'Doubleedesign\\Comet\\Core\\ContentImageComponent' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/base/components/ContentImageComponent.php',
+        'Doubleedesign\\Comet\\Core\\CopyBlock' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/CopyBlock/CopyBlock.php',
         'Doubleedesign\\Comet\\Core\\CoverImage' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/CoverImage/CoverImage.php',
         'Doubleedesign\\Comet\\Core\\DateBlock' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/DateBlock/DateBlock.php',
         'Doubleedesign\\Comet\\Core\\DateComponent' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/base/components/DateComponent.php',
