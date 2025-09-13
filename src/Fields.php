@@ -91,7 +91,7 @@ class Fields {
     private function create_select_field(string $module, string $label, ?string $default_value = null, ?int $wrapper_width = null, ?array $choices = null, ?array $extra = null): array {
         if (empty($choices)) {
             $choices = match ($label) {
-                'Width' => array(
+                'Width', 'Section width' => array(
                     'contained' => 'Contained',
                     'narrow'    => 'Narrow',
                     'wide'      => 'Wide',
@@ -105,7 +105,7 @@ class Fields {
                     'dark'      => 'Dark',
                 ),
                 'Background colour' => array(
-                    'theme' => 'Inherit from colour theme',
+                    'theme' => 'Set by colour theme',
                     'light' => 'Light',
                     'dark'  => 'Dark',
                     'white' => 'White'
@@ -146,7 +146,7 @@ class Fields {
         );
     }
 
-    private function create_conditional_width_field(string $module, string $label, ?int $wrapper_width = 25): array {
+    private function create_conditional_width_field(string $module, string $label, string $conditional_field, ?int $wrapper_width = 25): array {
         $field_slug = Utils::kebab_case($label);
 
         $field_common = array(
@@ -159,7 +159,7 @@ class Fields {
         );
 
         $common_conditions = array(
-            'field'    => "field_width_{$module}",
+            'field'    => $conditional_field,
             'operator' => '==',
         );
 
@@ -485,7 +485,7 @@ class Fields {
                         'sub_fields'    => array(
                             $this->create_select_field('banner', 'Colour theme', 'Primary', 100),
                             $this->create_select_field('banner', 'Width', 'full', 50),
-                            ...$this->create_conditional_width_field('banner', 'Container width', 50),
+                            ...$this->create_conditional_width_field('banner', 'Container width', 'field_width_banner', 50),
                             array(
                                 'key'           => 'field__banner__content-width',
                                 'label'         => 'Content max width',
@@ -579,9 +579,11 @@ class Fields {
                         ),
                     ),
                     $this->create_button_group_field('call-to-action'),
-                    $this->create_select_field('call-to-action', 'Colour theme', 'primary', 33),
-                    $this->create_select_field('call-to-action', 'Background colour', 'white', 33),
-                    $this->create_select_field('call-to-action', 'Width', 'contained', 33),
+                    $this->create_select_field('call-to-action', 'Colour theme', 'primary', 20),
+                    $this->create_select_field('call-to-action', 'Background colour', 'white', 20),
+                    $this->create_select_field('call-to-action', 'Section width', 'contained', 20),
+                    ...$this->create_conditional_width_field('call-to-action', 'Content width', 'field_section-width_call-to-action', 20),
+                    $this->create_horizontal_alignment_field('call-to-action', 'Horizontal alignment', 'start', 20),
                 ),
             ),
             'layout_child-pages' => array(

@@ -192,8 +192,10 @@ class TemplateHandler {
                 $third = trim($second ?? $first, '_');
                 // Transform Australian/British spelling because Comet uses American spelling for "color" because that's what CSS uses
                 $fourth = str_replace('colour', 'color', $third);
+                $fifth = str_replace('horizontal_alignment', 'hAlign', $fourth);
+                $sixth = str_replace('vertical_alignment', 'vAlign', $fifth);
 
-                return Utils::camel_case($fourth);
+                return Utils::camel_case($sixth);
             }, array_keys($fields)),
             // Leave the values as they are
             $fields
@@ -210,9 +212,9 @@ class TemplateHandler {
 
         // The width field is generally expected to align with the Container component size field
         // Add exceptions here in future if necessary
-        if (isset($result['width'])) {
+        if (isset($result['width']) || isset($result['sectionWidth'])) {
             $container = array(
-                'size'    => $result['width'],
+                'size'    => $result['width'] ?? $result['sectionWidth'] ?? null,
                 'context' => $kebab_case_component,
             );
             // Filter out the container attributes for the inner ones
@@ -224,6 +226,7 @@ class TemplateHandler {
             unset($component['width']);
             unset($component['acfFcLayout']);
             unset($component['editIntro']); // admin option not relevant to front-end rendering
+            unset($component['editDescription']); // admin option not relevant to front-end rendering
 
             return [
                 'container' => $container,
