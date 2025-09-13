@@ -41,7 +41,7 @@ class ComponentAssets {
     public function enqueue_font_awesome(): void {
         $kit_id = get_option('options_font_awesome_kit');
         if ($kit_id) {
-            wp_enqueue_script('font-awesome', "https://kit.fontawesome.com/$kit_id.js", [], '7', true);
+            wp_enqueue_script('font-awesome', "https://kit.fontawesome.com/$kit_id.js", [], '7', false);
         }
     }
 
