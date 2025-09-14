@@ -35,6 +35,11 @@ if (class_exists('Doubleedesign\Breadcrumbs\Breadcrumbs') && isset($attributes['
 unset($attributes['component']['heading']);
 unset($attributes['component']['showBreadcrumbs']);
 
+if (is_single()) {
+    // Add an ID so we can use aria-labelledby on the <article> in single.php
+    $attributes['component']['id'] = 'page-header--post-' . $post_id;
+}
+
 if (isset($attributes['container'])) {
     $component = new PageHeader(array_merge($attributes['container'], $attributes['component']), $heading, $breadcrumbs ?? []);
     $component->render();
