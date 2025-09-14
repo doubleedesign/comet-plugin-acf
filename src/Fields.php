@@ -843,9 +843,10 @@ class Fields {
                         'name'          => 'heading',
                         'type'          => 'text',
                         'repeatable'    => true,
+                        'wrapper'       => ['width' => 75]
                     ),
-                    $this->create_link_group_field('link-group'),
                     $this->create_select_field('link-group', 'Colour theme', 'Primary', 25),
+                    $this->create_link_group_field('link-group'),
                     $this->create_select_field('link-group', 'Width', 'contained', 25),
                 ),
             ),

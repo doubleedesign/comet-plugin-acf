@@ -13,13 +13,15 @@ if ($links === null) {
 }
 
 $linkGroup = new LinkGroup(
-    [],
+    [
+        'heading'    => $attributes['component']['heading'] ?? null,
+        'colorTheme' => $attributes['component']['colorTheme'] ?? 'primary',
+    ],
     array_map(
         function($link) use ($attributes) {
             return new Link(
                 array_merge(
                     [
-                        'colorTheme' => $attributes['component']['colorTheme'] ?? 'primary',
                         'context'    => 'link-group',
                         'href'       => $link['link']['url'] ?? '#',
 
@@ -34,10 +36,9 @@ $linkGroup = new LinkGroup(
 );
 
 if ($fields['isNested'] || !isset($attributes['container'])) {
-    $heading->render();
     $linkGroup->render();
 }
 else {
-    $component = new Container($attributes['container'], [$heading, $linkGroup]);
+    $component = new Container($attributes['container'], [$linkGroup]);
     $component->render();
 }
