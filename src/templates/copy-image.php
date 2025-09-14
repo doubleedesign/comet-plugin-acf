@@ -1,7 +1,15 @@
 <?php
 /** @var array $fields */
 use Doubleedesign\Comet\WordPress\Classic\{TemplateHandler, PreprocessedHTML};
-use Doubleedesign\Comet\Core\{Container, ContentImageAdvanced, Columns, Column, Heading, ButtonGroup, Button, Utils};
+use Doubleedesign\Comet\Core\{Container,
+    ContentImageAdvanced,
+    Columns,
+    Column,
+    CopyBlock,
+    Heading,
+    ButtonGroup,
+    Button,
+    Utils};
 
 $attributes = TemplateHandler::transform_fields_to_comet_attributes($fields);
 
@@ -40,7 +48,15 @@ if (is_array($buttons) && !empty($buttons)) {
     ));
 }
 
-$content_col = new Column(['colorTheme' => $colorTheme], $content);
+$content_col = new Column(
+    [],
+    [
+        new CopyBlock([
+            'colorTheme' => $attributes['component']['colorTheme'],
+            'isNested'   => true
+        ], $content)
+    ]
+);
 
 $image = TemplateHandler::transform_fields_to_comet_attributes($attributes['component']['image']);
 $image = new ContentImageAdvanced($image['component']);
