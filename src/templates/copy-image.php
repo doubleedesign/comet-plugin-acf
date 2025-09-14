@@ -21,6 +21,11 @@ if (is_array($buttons) && !empty($buttons)) {
         [],
         array_map(
             function($button) use ($attributes, $colorTheme) {
+                if (isset($button['button']['url'])) {
+                    $button['button']['href'] = $button['button']['url'];
+                    unset($button['button']['url']);
+                }
+
                 return new Button(
                     array_merge(
                         ['colorTheme' => $colorTheme],

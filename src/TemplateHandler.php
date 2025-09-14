@@ -200,9 +200,18 @@ class TemplateHandler {
             $fields
         );
 
-        // Recurse into nested field arrays and camelCase their keys
+        // Recurse into nested field arrays, camelCase their keys and make other fixes
         $result = array_map(function($value) {
             if (is_array($value)) {
+                if (isset($value['button']['url'])) {
+                    $value['button']['href'] = $value['button']['url'];
+                    unset($value['button']['url']);
+                }
+                if (isset($value['link']['url'])) {
+                    $value['link']['href'] = $value['link']['url'];
+                    unset($value['link']['url']);
+                }
+
                 return Utils::camel_case_array_keys($value);
             }
 

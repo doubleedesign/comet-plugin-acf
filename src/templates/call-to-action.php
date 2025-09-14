@@ -4,12 +4,24 @@ use Doubleedesign\Comet\WordPress\Classic\{PreprocessedHTML, TemplateHandler};
 use Doubleedesign\Comet\Core\{Config, CallToAction, Heading, ButtonGroup, Button, Utils};
 
 $attributes = TemplateHandler::transform_fields_to_comet_attributes($fields);
+$current_url = get_the_permalink(get_the_id());
+
 $buttons = $attributes['component']['buttons'] ?? null;
 if (is_array($buttons) && count($buttons) > 0) {
     $buttonGroup = new ButtonGroup(
         [],
         array_map(
-            function($button) use ($attributes) {
+            function($button) use ($attributes, $current_url) {
+                if (isset($button['button']['url'])) {
+                    $button['button']['href'] = $button['button']['url'];
+                    unset($button['button']['url']);
+                }
+
+                // If this is shown on the same page it links to, make it a hash link to the top of the content
+                if ($button['button']['href'] == $current_url) {
+                    $button['button']['href'] = '#content';
+                }
+
                 return new Button(
                     array_merge(
                         ['colorTheme' => $attributes['component']['colorTheme'] ?? 'primary'],
