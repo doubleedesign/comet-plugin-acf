@@ -190,7 +190,7 @@ class ComposerStaticInit9a64db011fec9cb21b75adf11958e641
         'Doubleedesign\\Comet\\Core\\Accordion' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/Accordion/Accordion.php',
         'Doubleedesign\\Comet\\Core\\AccordionPanel' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/Accordion/AccordionPanel/AccordionPanel.php',
         'Doubleedesign\\Comet\\Core\\Banner' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/Banner/Banner.php',
-        'Doubleedesign\\Comet\\Core\\BannerAdvanced' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/BannerAdvanced/BannerAdvanced.php',
+        'Doubleedesign\\Comet\\Core\\BannerV2' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/BannerAdvanced/BannerV2.php',
         'Doubleedesign\\Comet\\Core\\Breadcrumbs' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/Breadcrumbs/Breadcrumbs.php',
         'Doubleedesign\\Comet\\Core\\Button' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/Button/Button.php',
         'Doubleedesign\\Comet\\Core\\ButtonGroup' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/ButtonGroup/ButtonGroup.php',

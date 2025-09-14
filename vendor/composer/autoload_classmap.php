@@ -11,7 +11,7 @@ return array(
     'Doubleedesign\\Comet\\Core\\Accordion' => $vendorDir . '/doubleedesign/comet-components-core/src/components/Accordion/Accordion.php',
     'Doubleedesign\\Comet\\Core\\AccordionPanel' => $vendorDir . '/doubleedesign/comet-components-core/src/components/Accordion/AccordionPanel/AccordionPanel.php',
     'Doubleedesign\\Comet\\Core\\Banner' => $vendorDir . '/doubleedesign/comet-components-core/src/components/Banner/Banner.php',
-    'Doubleedesign\\Comet\\Core\\BannerAdvanced' => $vendorDir . '/doubleedesign/comet-components-core/src/components/BannerAdvanced/BannerAdvanced.php',
+    'Doubleedesign\\Comet\\Core\\BannerV2' => $vendorDir . '/doubleedesign/comet-components-core/src/components/BannerAdvanced/BannerV2.php',
     'Doubleedesign\\Comet\\Core\\Breadcrumbs' => $vendorDir . '/doubleedesign/comet-components-core/src/components/Breadcrumbs/Breadcrumbs.php',
     'Doubleedesign\\Comet\\Core\\Button' => $vendorDir . '/doubleedesign/comet-components-core/src/components/Button/Button.php',
     'Doubleedesign\\Comet\\Core\\ButtonGroup' => $vendorDir . '/doubleedesign/comet-components-core/src/components/ButtonGroup/ButtonGroup.php',
