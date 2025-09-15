@@ -45,6 +45,15 @@ if (isset($fields['content']['buttons']) && is_array($fields['content']['buttons
     array_push($content, $buttonGroup);
 }
 
+// Make sure we get the full size image here
+$image_id = $fields['image']['image_id'] ?? null;
+if ($image_id) {
+    $image_data = wp_get_attachment_image_src($image_id, 'full');
+    if ($image_data) {
+        $fields['image']['src'] = $image_data[0];
+    }
+}
+
 $component = new BannerV2(
     [
         'width'            => $fields['options']['width'],
@@ -53,8 +62,8 @@ $component = new BannerV2(
             'src' => $fields['image']['src'] ?? $fields['image']['url'] ?? '',
             'alt' => $fields['image']['alt'] ?? '',
         ],
-        'aspectRatio'      => $fields['options']['aspect_ratio'],
-        'focalPoint'       => $fields['options']['focal_point'],
+        'aspectRatio'      => $fields['options']['aspect_ratio'] ?? null,
+        'focalPoint'       => $fields['options']['focal_point'] ?? null,
         'colorTheme'       => $colorTheme,
     ],
     $content
