@@ -10,8 +10,13 @@ $buttons = $attributes['component']['buttons'] ?? null;
 if (is_array($buttons) && count($buttons) > 0) {
     $buttonGroup = new ButtonGroup(
         [],
-        array_map(
+        array_filter(array_map(
             function($button) use ($attributes, $current_url) {
+                if (!is_array($button['button'])) {
+                    return null;
+                }
+
+                // Swap 'url' to 'href' for Button component
                 if (isset($button['button']['url'])) {
                     $button['button']['href'] = $button['button']['url'];
                     unset($button['button']['url']);
@@ -32,8 +37,7 @@ if (is_array($buttons) && count($buttons) > 0) {
                 );
             },
             $buttons
-        )
-    );
+        )));
 }
 
 $defaults = Config::getInstance()->get_component_defaults('call-to-action');

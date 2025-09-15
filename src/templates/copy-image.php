@@ -27,8 +27,13 @@ if (isset($bodyText) && is_string($bodyText)) {
 if (is_array($buttons) && !empty($buttons)) {
     array_push($content, new ButtonGroup(
         [],
-        array_map(
+        array_filter(array_map(
             function($button) use ($attributes, $colorTheme) {
+                if (!is_array($button['button'])) {
+                    return null;
+                }
+
+                // Swap 'url' to 'href'
                 if (isset($button['button']['url'])) {
                     $button['button']['href'] = $button['button']['url'];
                     unset($button['button']['url']);
@@ -36,7 +41,7 @@ if (is_array($buttons) && !empty($buttons)) {
 
                 return new Button(
                     array_merge(
-                        ['colorTheme' => $colorTheme],
+                        ['colorTheme' => $colorTheme ?? 'primary'],
                         $button['button'],
                         ['isOutline' => $button['style'] === 'isOutline']
                     ),
@@ -45,7 +50,7 @@ if (is_array($buttons) && !empty($buttons)) {
             },
             $buttons
         )
-    ));
+        )));
 }
 
 $content_col = new Column(
