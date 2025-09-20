@@ -16,7 +16,7 @@ else if ($post_id == get_option(PAGE_FOR_POSTS) || is_home()) {
 else if (is_archive()) {
     $queried_object = get_queried_object();
     if (isset($queried_object->name)) {
-        $heading = $queried_object->name;
+        $heading = $queried_object->labels->archives;
     }
     else {
         $heading = get_the_archive_title();
