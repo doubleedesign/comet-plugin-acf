@@ -13,9 +13,13 @@ if (is_single()) {
 else if ($post_id == get_option(PAGE_FOR_POSTS) || is_home()) {
     $heading = get_the_title(PAGE_FOR_POSTS);
 }
+else if (is_category()) {
+    $queried_object = get_queried_object();
+    $heading = $queried_object->name;
+}
 else if (is_archive()) {
     $queried_object = get_queried_object();
-    if (isset($queried_object->name)) {
+    if ($queried_object !== null && isset($queried_object->labels->archives)) {
         $heading = $queried_object->labels->archives;
     }
     else {
