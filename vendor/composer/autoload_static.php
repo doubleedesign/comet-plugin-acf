@@ -217,6 +217,7 @@ class ComposerStaticInit9a64db011fec9cb21b75adf11958e641
         'Doubleedesign\\Comet\\Core\\IconLinks' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/IconLinks/IconLinks.php',
         'Doubleedesign\\Comet\\Core\\IconWithText' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/IconWithText/IconWithText.php',
         'Doubleedesign\\Comet\\Core\\ImageAndText' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/ImageAndText/ImageAndText.php',
+        'Doubleedesign\\Comet\\Core\\LabelWithTooltip' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/LabelWithTooltip/LabelWithTooltip.php',
         'Doubleedesign\\Comet\\Core\\Link' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/Link/Link.php',
         'Doubleedesign\\Comet\\Core\\LinkGroup' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/LinkGroup/LinkGroup.php',
         'Doubleedesign\\Comet\\Core\\ListComponent' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/ListComponent/ListComponent.php',

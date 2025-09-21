@@ -38,6 +38,7 @@ return array(
     'Doubleedesign\\Comet\\Core\\IconLinks' => $vendorDir . '/doubleedesign/comet-components-core/src/components/IconLinks/IconLinks.php',
     'Doubleedesign\\Comet\\Core\\IconWithText' => $vendorDir . '/doubleedesign/comet-components-core/src/components/IconWithText/IconWithText.php',
     'Doubleedesign\\Comet\\Core\\ImageAndText' => $vendorDir . '/doubleedesign/comet-components-core/src/components/ImageAndText/ImageAndText.php',
+    'Doubleedesign\\Comet\\Core\\LabelWithTooltip' => $vendorDir . '/doubleedesign/comet-components-core/src/components/LabelWithTooltip/LabelWithTooltip.php',
     'Doubleedesign\\Comet\\Core\\Link' => $vendorDir . '/doubleedesign/comet-components-core/src/components/Link/Link.php',
     'Doubleedesign\\Comet\\Core\\LinkGroup' => $vendorDir . '/doubleedesign/comet-components-core/src/components/LinkGroup/LinkGroup.php',
     'Doubleedesign\\Comet\\Core\\ListComponent' => $vendorDir . '/doubleedesign/comet-components-core/src/components/ListComponent/ListComponent.php',
