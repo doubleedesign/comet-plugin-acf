@@ -47,7 +47,7 @@ return array(
     'Doubleedesign\\Comet\\Core\\ListItemSimple' => $vendorDir . '/doubleedesign/comet-components-core/src/components/ListComponent/ListItem/ListItemSimple/ListItemSimple.php',
     'Doubleedesign\\Comet\\Core\\Menu' => $vendorDir . '/doubleedesign/comet-components-core/src/components/Menu/Menu.php',
     'Doubleedesign\\Comet\\Core\\MenuList' => $vendorDir . '/doubleedesign/comet-components-core/src/components/Menu/MenuList/MenuList.php',
-    'Doubleedesign\\Comet\\Core\\MenuListItem' => $vendorDir . '/doubleedesign/comet-components-core/src/components/Menu/MenuListItem/MenuListItem.php',
+    'Doubleedesign\\Comet\\Core\\MenuListItem' => $vendorDir . '/doubleedesign/comet-components-core/src/components/Menu/MenuList/MenuListItem/MenuListItem.php',
     'Doubleedesign\\Comet\\Core\\PageHeader' => $vendorDir . '/doubleedesign/comet-components-core/src/components/PageHeader/PageHeader.php',
     'Doubleedesign\\Comet\\Core\\Paragraph' => $vendorDir . '/doubleedesign/comet-components-core/src/components/Paragraph/Paragraph.php',
     'Doubleedesign\\Comet\\Core\\PostNav' => $vendorDir . '/doubleedesign/comet-components-core/src/components/PostNav/PostNav.php',

@@ -226,7 +226,7 @@ class ComposerStaticInit9a64db011fec9cb21b75adf11958e641
         'Doubleedesign\\Comet\\Core\\ListItemSimple' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/ListComponent/ListItem/ListItemSimple/ListItemSimple.php',
         'Doubleedesign\\Comet\\Core\\Menu' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/Menu/Menu.php',
         'Doubleedesign\\Comet\\Core\\MenuList' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/Menu/MenuList/MenuList.php',
-        'Doubleedesign\\Comet\\Core\\MenuListItem' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/Menu/MenuListItem/MenuListItem.php',
+        'Doubleedesign\\Comet\\Core\\MenuListItem' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/Menu/MenuList/MenuListItem/MenuListItem.php',
         'Doubleedesign\\Comet\\Core\\PageHeader' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/PageHeader/PageHeader.php',
         'Doubleedesign\\Comet\\Core\\Paragraph' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/Paragraph/Paragraph.php',
         'Doubleedesign\\Comet\\Core\\PostNav' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/PostNav/PostNav.php',
