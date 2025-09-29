@@ -8,12 +8,6 @@ $heading = $attributes['component']['heading'] ? new Heading([], $attributes['co
 $content = $attributes['component']['copy'] ?? '';
 $content = new PreprocessedHTML([], Utils::sanitise_content($content));
 
-$containerAtts = array_merge(
-    $attributes['container'] ?? [],
-    ['context' => 'copy-block'],
-    Utils::array_pick($attributes['component'], ['colorTheme', 'isNested'])
-);
-
 $buttons = $attributes['component']['buttons'] ?? null;
 if (is_array($buttons['buttons']) && count($buttons['buttons']) > 0) {
     $buttonGroup = new ButtonGroup(
@@ -42,7 +36,10 @@ if (is_array($buttons['buttons']) && count($buttons['buttons']) > 0) {
 }
 
 $component = new CopyBlock(
-    $containerAtts,
+    array_merge(
+        $attributes['container'] ?? [],
+        Utils::array_pick($attributes['component'], ['colorTheme', 'isNested'])
+    ),
     [$heading, $content, ...(isset($buttonGroup) ? [$buttonGroup] : [])]
 );
 $component->render();
