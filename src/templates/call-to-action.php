@@ -52,16 +52,12 @@ unset($attributes['component']['heading']);
 unset($attributes['component']['button']);
 unset($attributes['component']['description']);
 
-// This component is declared not nestable in Fields.php, if that changes in the future this will need to account for that
-$attributes['component']['isNested'] = false;
-
 // We need to further transform some attributes for this particular module
 $finalAttrs = array_merge(
     $attributes['container'],
     Utils::array_pick($attributes['component'], ['backgroundColor', 'colorTheme', 'hAlign']),
     array(
-        'innerSize'   => $fields['section-width'] !== $fields['container_width'] ? $fields['container_width'] : null,
-        'orientation' => 'vertical'
+        'orientation' => 'vertical' // TODO get this from component defaults to themes can set it
     )
 );
 

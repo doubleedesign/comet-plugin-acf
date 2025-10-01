@@ -80,7 +80,7 @@ else {
 }
 
 $component = new Container(
-    array_merge(['withWrapper' => true], $attributes['container']),
+    [...$attributes['container'], 'shortName' => 'copy-image'],
     [$columns]
 );
 $component->render();

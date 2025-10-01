@@ -1,6 +1,6 @@
 <?php
 /** @var $fields array */
-use Doubleedesign\Comet\Core\{Container, Heading, Card};
+use Doubleedesign\Comet\Core\{Container, Group, Heading, Card};
 use Doubleedesign\Comet\WordPress\Classic\TemplateHandler;
 
 $attributes = TemplateHandler::transform_fields_to_comet_attributes($fields);
@@ -50,15 +50,15 @@ $cards = array_map(function($post_id) use ($attributes, $post_ids, $orientation)
 }, $post_ids);
 
 if ($fields['isNested'] || !isset($attributes['container'])) {
-    $heading->render();
-    foreach ($cards as $card) {
-        $card->render();
-    }
+    $component = new Group(
+        ['shortName' => 'featured-posts', 'colorTheme' => $attributes['component']['colorTheme'] ?? null],
+        [$heading, ...$cards]
+    );
 }
 else {
     $component = new Container(
-        [...$attributes['container'], 'withWrapper' => false],
+        [...$attributes['container'], 'shortName' => 'featured-posts'],
         [$heading, ...$cards]
     );
-    $component->render();
 }
+$component->render();
