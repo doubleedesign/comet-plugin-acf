@@ -1,6 +1,6 @@
 <?php return array(
     'root' => array(
-        'name' => 'doubleedesign/comet-plugin',
+        'name' => 'doubleedesign/comet-plugin-acf',
         'pretty_version' => '0.1.0',
         'version' => '0.1.0.0',
         'reference' => null,
@@ -29,15 +29,17 @@
             'dev_requirement' => false,
         ),
         'doubleedesign/comet-components-core' => array(
-            'pretty_version' => '0.2.0',
-            'version' => '0.2.0.0',
-            'reference' => '217560a10eba01dd122301eeb07ab2dca4749e8f',
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => '3c3c2ef175cbd99a3eb254fcad11d8fb287d0133',
             'type' => 'library',
             'install_path' => __DIR__ . '/../doubleedesign/comet-components-core',
-            'aliases' => array(),
+            'aliases' => array(
+                0 => '9999999-dev',
+            ),
             'dev_requirement' => false,
         ),
-        'doubleedesign/comet-plugin' => array(
+        'doubleedesign/comet-plugin-acf' => array(
             'pretty_version' => '0.1.0',
             'version' => '0.1.0.0',
             'reference' => null,
