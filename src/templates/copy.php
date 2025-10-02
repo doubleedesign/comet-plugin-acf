@@ -37,7 +37,7 @@ if (is_array($buttons['buttons']) && count($buttons['buttons']) > 0) {
 
 $component = new Copy(
     array_merge(
-        $attributes['container'] ?? [],
+        $attributes['container'],
         Utils::array_pick($attributes['component'], ['colorTheme', 'isNested'])
     ),
     [$heading, $content, ...(isset($buttonGroup) ? [$buttonGroup] : [])]
