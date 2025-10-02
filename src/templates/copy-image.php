@@ -5,7 +5,7 @@ use Doubleedesign\Comet\Core\{Container,
     ContentImageAdvanced,
     Columns,
     Column,
-    CopyBlock,
+    Copy,
     Heading,
     ButtonGroup,
     Button,
@@ -56,7 +56,7 @@ if (is_array($buttons) && !empty($buttons)) {
 $content_col = new Column(
     [],
     [
-        new CopyBlock([
+        new Copy([
             'colorTheme' => $attributes['component']['colorTheme'],
             'isNested'   => true
         ], $content)

@@ -1,6 +1,6 @@
 <?php
 /** @var $fields array */
-use Doubleedesign\Comet\Core\{BannerV2, Heading, CopyBlock, ButtonGroup, Button};
+use Doubleedesign\Comet\Core\{BannerV2, Heading, Copy, ButtonGroup, Button};
 use Doubleedesign\Comet\WordPress\Classic\{TemplateHandler, PreprocessedHTML};
 
 $content = [];
@@ -11,7 +11,7 @@ if (isset($fields['content']['heading'])) {
     array_push($content, new Heading(['level' => 1], $fields['content']['heading']));
 }
 if (isset($fields['content']['text'])) {
-    array_push($content, new CopyBlock(
+    array_push($content, new Copy(
         ['isNested' => true],
         [new PreprocessedHTML([], $fields['content']['text'])]
     ));

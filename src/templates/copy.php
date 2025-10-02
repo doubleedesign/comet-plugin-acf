@@ -1,7 +1,7 @@
 <?php
 /** @var $fields array */
 use Doubleedesign\Comet\WordPress\Classic\{PreprocessedHTML, TemplateHandler};
-use Doubleedesign\Comet\Core\{Button, ButtonGroup, CopyBlock, Heading, Utils};
+use Doubleedesign\Comet\Core\{Button, ButtonGroup, Copy, Heading, Utils};
 
 $attributes = TemplateHandler::transform_fields_to_comet_attributes($fields);
 $heading = $attributes['component']['heading'] ? new Heading([], $attributes['component']['heading']) : null;
@@ -35,7 +35,7 @@ if (is_array($buttons['buttons']) && count($buttons['buttons']) > 0) {
     );
 }
 
-$component = new CopyBlock(
+$component = new Copy(
     array_merge(
         $attributes['container'] ?? [],
         Utils::array_pick($attributes['component'], ['colorTheme', 'isNested'])
