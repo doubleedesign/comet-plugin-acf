@@ -453,6 +453,7 @@ class Fields {
                         'label'         => 'Image',
                         'name'          => 'image',
                         'type'          => 'image_advanced',
+                        'instructions'  => 'Note: Aspect ratio may be ignored on small viewports',
                         'required'      => 1,
                         'return_format' => 'array',
                         'preview_size'  => 'full',

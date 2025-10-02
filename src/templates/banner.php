@@ -62,8 +62,9 @@ $component = new BannerV2(
             'src' => $fields['image']['src'] ?? $fields['image']['url'] ?? '',
             'alt' => $fields['image']['alt'] ?? '',
         ],
-        'aspectRatio'      => $fields['options']['aspect_ratio'] ?? null,
-        'focalPoint'       => $fields['options']['focal_point'] ?? null,
+        'aspectRatio'      => $fields['image']['aspect_ratio'] ?? null,
+        'focalPoint'       => $fields['image']['focal_point'] ?? null,
+        'offset'           => $fields['image']['image_offset'] ?? null,
         'colorTheme'       => $colorTheme,
     ],
     $content
