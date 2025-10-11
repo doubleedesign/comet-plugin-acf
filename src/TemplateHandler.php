@@ -222,8 +222,8 @@ class TemplateHandler {
         // Add exceptions here in future if necessary
         if (isset($result['width']) || isset($result['sectionWidth'])) {
             $container = array(
-                'size'    => $result['width'] ?? $result['sectionWidth'] ?? null,
-                'context' => $kebab_case_component,
+                'size'        => $result['width'] ?? $result['sectionWidth'] ?? null,
+                'shortName'   => $kebab_case_component,
             );
             // Filter out the container attributes for the inner ones
             $component = array_filter($result, function($key) use ($container) {
