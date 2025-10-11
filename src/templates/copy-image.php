@@ -1,7 +1,7 @@
 <?php
 /** @var array $fields */
 use Doubleedesign\Comet\WordPress\Classic\{TemplateHandler, PreprocessedHTML};
-use Doubleedesign\Comet\Core\{Container,
+use Doubleedesign\Comet\Core\{
     ContentImageAdvanced,
     Columns,
     Column,
@@ -68,19 +68,16 @@ $image = new ContentImageAdvanced($image['component']);
 $image_col = new Column([], [$image]);
 
 $columnsAttrs = [
-    'backgroundColor' => $backgroundColor,
-    'vAlign'          => 'center',
+    'shortName'         => 'copy-image',
+    'backgroundColor'   => $backgroundColor,
+    'vAlign'            => 'center',
 ];
 
 if ($attributes['component']['order'] === 'copy-image') {
-    $columns = new Columns($columnsAttrs, [$content_col, $image_col]);
+    $component = new Columns($columnsAttrs, [$content_col, $image_col]);
 }
 else {
-    $columns = new Columns($columnsAttrs, [$image_col, $content_col]);
+    $component = new Columns($columnsAttrs, [$image_col, $content_col]);
 }
 
-$component = new Container(
-    [...$attributes['container'], 'shortName' => 'copy-image'],
-    [$columns]
-);
 $component->render();
