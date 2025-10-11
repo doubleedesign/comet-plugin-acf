@@ -1,6 +1,9 @@
 <?php
 /** @var $fields array */
+use Doubleedesign\Comet\WordPress\Classic\TemplateHandler;
 use Doubleedesign\Comet\Core\{Container, ContentImageBasic, Gallery, Utils, AspectRatio};
+
+$attributes = TemplateHandler::transform_fields_to_comet_attributes($fields);
 
 $images = array_map(function($image) use ($fields) {
     $attrs = Utils::array_pick($image, ['alt', 'caption']);
@@ -16,5 +19,5 @@ $images = array_map(function($image) use ($fields) {
 
 $gallery = new Gallery(['columns' => 4, 'imageCrop' => true], $images);
 
-$component = new Container(['size'=> $fields['width'] ?? 'contained', 'context' => 'gallery'], [$gallery]);
+$component = new Container($attributes['container'], [$gallery]);
 $component->render();
