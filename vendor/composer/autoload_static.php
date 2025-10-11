@@ -336,6 +336,7 @@ class ComposerStaticInit9a64db011fec9cb21b75adf11958e641
         'Doubleedesign\\Comet\\Core\\CallToAction' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/CallToAction/CallToAction.php',
         'Doubleedesign\\Comet\\Core\\Callout' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/Callout/Callout.php',
         'Doubleedesign\\Comet\\Core\\Card' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/Card/Card.php',
+        'Doubleedesign\\Comet\\Core\\CardList' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/CardList/CardList.php',
         'Doubleedesign\\Comet\\Core\\ColorTheme' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/base/traits/ColorTheme.php',
         'Doubleedesign\\Comet\\Core\\Column' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/Columns/Column/Column.php',
         'Doubleedesign\\Comet\\Core\\Columns' => __DIR__ . '/..' . '/doubleedesign/comet-components-core/src/components/Columns/Columns.php',
