@@ -157,6 +157,7 @@ return array(
     'Doubleedesign\\Comet\\Core\\CallToAction' => $vendorDir . '/doubleedesign/comet-components-core/src/components/CallToAction/CallToAction.php',
     'Doubleedesign\\Comet\\Core\\Callout' => $vendorDir . '/doubleedesign/comet-components-core/src/components/Callout/Callout.php',
     'Doubleedesign\\Comet\\Core\\Card' => $vendorDir . '/doubleedesign/comet-components-core/src/components/Card/Card.php',
+    'Doubleedesign\\Comet\\Core\\CardList' => $vendorDir . '/doubleedesign/comet-components-core/src/components/CardList/CardList.php',
     'Doubleedesign\\Comet\\Core\\ColorTheme' => $vendorDir . '/doubleedesign/comet-components-core/src/base/traits/ColorTheme.php',
     'Doubleedesign\\Comet\\Core\\Column' => $vendorDir . '/doubleedesign/comet-components-core/src/components/Columns/Column/Column.php',
     'Doubleedesign\\Comet\\Core\\Columns' => $vendorDir . '/doubleedesign/comet-components-core/src/components/Columns/Columns.php',

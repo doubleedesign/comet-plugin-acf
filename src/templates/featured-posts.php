@@ -10,7 +10,7 @@ if (!$post_ids) {
 }
 
 $heading = new Heading(
-    ['textColor' => $attributes['component']['colorTheme']],
+    ['context'   => 'featured-posts'],
     $attributes['component']['heading'] ?? 'Featured Posts'
 );
 
@@ -51,13 +51,20 @@ $cards = array_map(function($post_id) use ($attributes, $post_ids, $orientation)
 
 if ($fields['isNested'] || !isset($attributes['container'])) {
     $component = new Group(
-        ['shortName' => 'featured-posts', 'colorTheme' => $attributes['component']['colorTheme'] ?? null],
+        array(
+            'shortName'  => 'featured-posts',
+            'colorTheme' => $attributes['component']['colorTheme'] ?? null
+        ),
         [$heading, ...$cards]
     );
 }
 else {
     $component = new Container(
-        [...$attributes['container'], 'shortName' => 'featured-posts'],
+        array(
+            ...$attributes['container'],
+            'shortName'  => 'featured-posts',
+            'colorTheme' => $attributes['component']['colorTheme'] ?? null
+        ),
         [$heading, ...$cards]
     );
 }
