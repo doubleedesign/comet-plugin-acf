@@ -7,15 +7,15 @@ class PluginEntryPoint {
     public function __construct() {
         add_action('admin_init', [$this, 'handle_no_acf'], 1);
 
-        new Fields();
-        new TemplateHandler();
-        new ComponentAssets();
-        new GlobalSettings();
-
         if (is_admin()) {
             new AdminUI();
             new TinyMCEConfig();
         }
+
+        new Fields();
+        new TemplateHandler();
+        new ComponentAssets();
+        new GlobalSettings();
     }
 
     public function handle_no_acf(): void {

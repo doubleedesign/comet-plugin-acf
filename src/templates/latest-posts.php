@@ -56,6 +56,8 @@ $cards = array_map(function($post_id) use ($attributes, $post_ids) {
     ]);
 }, $post_ids);
 
+$header = new Group(['context' => 'latest-posts', 'shortName' => 'header'], [$heading, $button]);
+
 $cardList = new CardList(
     array(
         'context'    => 'latest-posts',
@@ -64,14 +66,22 @@ $cardList = new CardList(
     $cards
 );
 
-$component = new Container(
-    array(
-        'shortName'  => 'latest-posts',
-        'colorTheme' => $attributes['component']['colorTheme'] ?? null
-    ),
-    array(
-        new Group(['context' => 'latest-posts', 'shortName' => 'header'], [$heading, $button]),
-        $cardList
-    )
-);
+if ($fields['isNested'] || !isset($attributes['container'])) {
+    $component = new Group(
+        array(
+            'shortName'  => 'latest-posts',
+            'colorTheme' => $attributes['component']['colorTheme'] ?? null
+        ),
+        [$header, $cardList]
+    );
+}
+else {
+    $component = new Container(
+        array(
+            'shortName'  => 'latest-posts',
+            'colorTheme' => $attributes['component']['colorTheme'] ?? null
+        ),
+        [$header, $cardList]
+    );
+}
 $component->render();

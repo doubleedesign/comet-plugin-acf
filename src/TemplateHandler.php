@@ -2,12 +2,18 @@
 namespace Doubleedesign\Comet\WordPress\Classic;
 use Doubleedesign\Comet\Core\Utils;
 use Exception;
+use WP_Post;
 
 class TemplateHandler {
     protected static array $template_paths = [];
 
     public function __construct() {
         add_filter('acf_dynamic_preview_template_paths', [$this, 'register_template_paths_for_dynamic_preview'], 10, 1);
+
+        // Remove the default excerpt that uses the_content() because that can lead to infinite loops (due to how we use the_content's filter to render modules)
+        remove_filter('get_the_excerpt', 'wp_trim_excerpt');
+        // Add our own filter to get the excerpt from modules if it's empty
+        add_filter('get_the_excerpt', [$this, 'get_excerpt_from_modules_if_empty'], 10, 2);
 
         self::$template_paths = [
             // First look in the child theme for overrides, then the parent theme,
@@ -65,6 +71,49 @@ class TemplateHandler {
         }
     }
 
+    public function get_excerpt_from_modules_if_empty(string $excerpt, WP_Post $post): string {
+        // If the excerpt has been explicitly set, use that
+        if (has_excerpt($post->ID)) {
+            return $excerpt;
+        }
+
+        $modules = get_field('content_modules', $post->ID, false);
+        $keys_of_fields_to_use = apply_filters('comet_module_fields_for_excerpt_generation', array_column($modules, 'acf_fc_layout'));
+        if (empty($modules) || empty($keys_of_fields_to_use)) return '';
+
+        return $this->get_text_from_acf_module_fields($modules, $keys_of_fields_to_use);
+    }
+
+    /**
+     * @param  array  $modules  - indexed array of raw field data from ACF (the result of get_field with $format_value = false, or equivalent)
+     * @param  array  $field_keys  - the field keys to extract text from
+     *
+     * @return string
+     */
+    private function get_text_from_acf_module_fields(array $modules, array $field_keys): string {
+        // Note: Some default usages of auto-generated excerpts have CSS applied for line clamping,
+        // so if the visible text doesn't seem to match this length, that's probably why.
+        // Otherwise, we can get awkward truncation results (visually speaking).
+        $max_length = apply_filters('comet_generated_excerpt_max_length', 240);
+
+        return array_reduce($modules, function($carry, $module) use ($max_length, $field_keys) {
+            // Stop processing if we've requested max character length
+            if (strlen($carry) >= $max_length) {
+                return substr($carry, 0, $max_length) . '&hellip;';
+            }
+
+            $flat = Utils::array_flat_associative($module);
+            $valid_fields = Utils::array_pick($flat, $field_keys);
+            foreach ($valid_fields as $key => $value) {
+                if (is_string($value)) {
+                    $carry .= ' ' . Utils::sanitise_content($value);
+                }
+            }
+
+            return $carry;
+        }, '');
+    }
+
     /**
      * Return the top-level flexible content as HTML for a given post ID.
      *
@@ -101,6 +150,8 @@ class TemplateHandler {
                     }
                 }
             }
+
+            wp_reset_postdata();
 
             return ob_get_clean();
         }
@@ -181,6 +232,7 @@ class TemplateHandler {
         }
 
         // Simplify the field names to get as many of them as possible to automatically match Comet Components attribute names
+        /** @noinspection PhpUnhandledExceptionInspection */
         $result = array_combine(
             // Transform the keys to camelCase, removing the "field_" prefix and the component name
             array_map(function($key) use ($kebab_case_component) {

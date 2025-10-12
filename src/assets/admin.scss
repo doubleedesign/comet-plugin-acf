@@ -42,20 +42,45 @@
 	.layout[data-layout="latest_posts"]:not(.-collapsed):not([data-mode="preview"]) {
 		> .acf-fields {
 			display: grid;
-			grid-template-columns: repeat(3, 1fr);
+			grid-template-columns: repeat(20, 1fr);
 			grid-template-rows: repeat(2, auto);
 
 			> .acf-field {
 				width: unset !important;
 				min-height: unset !important;
 
-				&[data-width="66"] {
+				&[data-width="10"] {
 					grid-column: span 2;
 				}
 
-				&[data-type="taxonomy"] {
-					grid-row: span 2;
+				&[data-width="20"] {
+					grid-column: span 4;
 				}
+
+				&[data-width="40"] {
+					grid-column: span 8;
+				}
+
+				&[data-width="60"] {
+					grid-column: span 12;
+				}
+
+				&[data-width="80"] {
+					grid-column: span 18;
+				}
+
+				&[data-width="25"] {
+					grid-column: span 5;
+				}
+
+				&[data-width="50"] {
+					grid-column: span 10;
+				}
+
+				&[data-width="100"] {
+					grid-column: span 20;
+				}
+
 			}
 		}
 	}
