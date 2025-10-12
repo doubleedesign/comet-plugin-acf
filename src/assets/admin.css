@@ -32,18 +32,36 @@
 
 #acf-group_content-modules .layout[data-layout=latest_posts]:not(.-collapsed):not([data-mode=preview]) > .acf-fields {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(20, 1fr);
   grid-template-rows: repeat(2, auto);
 }
 #acf-group_content-modules .layout[data-layout=latest_posts]:not(.-collapsed):not([data-mode=preview]) > .acf-fields > .acf-field {
   width: unset !important;
   min-height: unset !important;
 }
-#acf-group_content-modules .layout[data-layout=latest_posts]:not(.-collapsed):not([data-mode=preview]) > .acf-fields > .acf-field[data-width="66"] {
+#acf-group_content-modules .layout[data-layout=latest_posts]:not(.-collapsed):not([data-mode=preview]) > .acf-fields > .acf-field[data-width="10"] {
   grid-column: span 2;
 }
-#acf-group_content-modules .layout[data-layout=latest_posts]:not(.-collapsed):not([data-mode=preview]) > .acf-fields > .acf-field[data-type=taxonomy] {
-  grid-row: span 2;
+#acf-group_content-modules .layout[data-layout=latest_posts]:not(.-collapsed):not([data-mode=preview]) > .acf-fields > .acf-field[data-width="20"] {
+  grid-column: span 4;
+}
+#acf-group_content-modules .layout[data-layout=latest_posts]:not(.-collapsed):not([data-mode=preview]) > .acf-fields > .acf-field[data-width="40"] {
+  grid-column: span 8;
+}
+#acf-group_content-modules .layout[data-layout=latest_posts]:not(.-collapsed):not([data-mode=preview]) > .acf-fields > .acf-field[data-width="60"] {
+  grid-column: span 12;
+}
+#acf-group_content-modules .layout[data-layout=latest_posts]:not(.-collapsed):not([data-mode=preview]) > .acf-fields > .acf-field[data-width="80"] {
+  grid-column: span 18;
+}
+#acf-group_content-modules .layout[data-layout=latest_posts]:not(.-collapsed):not([data-mode=preview]) > .acf-fields > .acf-field[data-width="25"] {
+  grid-column: span 5;
+}
+#acf-group_content-modules .layout[data-layout=latest_posts]:not(.-collapsed):not([data-mode=preview]) > .acf-fields > .acf-field[data-width="50"] {
+  grid-column: span 10;
+}
+#acf-group_content-modules .layout[data-layout=latest_posts]:not(.-collapsed):not([data-mode=preview]) > .acf-fields > .acf-field[data-width="100"] {
+  grid-column: span 20;
 }
 #acf-group_content-modules .layout[data-layout=call_to_action] .mce-edit-area iframe {
   height: 100px !important;

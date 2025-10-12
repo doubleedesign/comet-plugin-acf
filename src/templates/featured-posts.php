@@ -1,7 +1,7 @@
 <?php
 /** @var $fields array */
-use Doubleedesign\Comet\Core\{Container, Group, Heading, Card};
 use Doubleedesign\Comet\WordPress\Classic\TemplateHandler;
+use Doubleedesign\Comet\Core\{Container, Group, Heading, CardList, Card, Button};
 
 $attributes = TemplateHandler::transform_fields_to_comet_attributes($fields);
 $post_ids = $attributes['component']['posts'] ?? [];
@@ -12,6 +12,15 @@ if (!$post_ids) {
 $heading = new Heading(
     ['context'   => 'featured-posts'],
     $attributes['component']['heading'] ?? 'Featured Posts'
+);
+
+$button = new Button(
+    [
+        'colorTheme' => $attributes['component']['colorTheme'] ?? null,
+        'isOutline'  => true,
+        'href'       => get_the_permalink(get_option('page_for_posts')),
+    ],
+    $attributes['component']['buttonText'] ?? 'View all posts'
 );
 
 $orientation = 'vertical';
@@ -49,23 +58,37 @@ $cards = array_map(function($post_id) use ($attributes, $post_ids, $orientation)
     ]);
 }, $post_ids);
 
+if (count($post_ids) > 1) {
+    $header = new Group(['context' => 'latest-posts', 'shortName' => 'header'], [$heading, $button]);
+}
+else {
+    $header = new Group(['context' => 'latest-posts', 'shortName' => 'header'], [$heading]);
+}
+
+$cardList = new CardList(
+    array(
+        'context'    => 'featured-posts',
+        'colorTheme' => $attributes['component']['colorTheme'] ?? null
+    ),
+    $cards
+);
+
 if ($fields['isNested'] || !isset($attributes['container'])) {
     $component = new Group(
         array(
             'shortName'  => 'featured-posts',
             'colorTheme' => $attributes['component']['colorTheme'] ?? null
         ),
-        [$heading, ...$cards]
+        [$header, $cardList]
     );
 }
 else {
     $component = new Container(
         array(
-            ...$attributes['container'],
             'shortName'  => 'featured-posts',
             'colorTheme' => $attributes['component']['colorTheme'] ?? null
         ),
-        [$heading, ...$cards]
+        [$header, $cardList]
     );
 }
 $component->render();

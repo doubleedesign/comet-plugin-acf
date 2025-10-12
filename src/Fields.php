@@ -367,6 +367,7 @@ class Fields {
     }
 
     private function create_aspect_ratio_field(string $parent, ?string $label = 'Aspect ratio', ?AspectRatio $default_value = AspectRatio::SQUARE, ?int $wrapper_width = 33): array {
+        /** @noinspection PhpUnhandledExceptionInspection */
         $enum_array = array_combine(
             array_column(AspectRatio::cases(), 'name'),
             array_column(AspectRatio::cases(), 'value')
@@ -536,7 +537,7 @@ class Fields {
                     $this->create_button_group_repeater('button-group'),
                     $this->create_select_field('button-group', 'Colour theme', 'Primary', 25),
                     $this->create_horizontal_alignment_field('button-group', 'Horizontal alignment', 'inherit', 25),
-                    $this->create_orientation_field('button"group'),
+                    $this->create_orientation_field('button-group'),
                     $this->create_select_field('button-group', 'Width', 'contained', 25),
                 ),
             ),
@@ -615,6 +616,9 @@ class Fields {
                         'placeholder'   => 'In this section',
                         'repeatable'    => true,
                     ),
+                    $this->create_select_field('child-pages', 'Colour theme', 'primary', 25),
+                    $this->create_select_field('child-pages', 'Background colour', 'white', 25),
+                    $this->create_select_field('child-pages', 'Width', 'contained', 25),
                     array(
                         'key'               => 'field__child-pages__message',
                         'type'              => 'message',
@@ -697,7 +701,7 @@ class Fields {
                 'display'    => 'block',
                 'sub_fields' => array(
                     $this->create_select_field('divider', 'Width', 'contained', 25),
-                    $this->create_select_field('divider', 'Colour theme', 'light', 25),
+                    $this->create_select_field('divider', 'Colour theme', 'primary', 25),
                 )
             ),
             'layout_gallery' => array(
@@ -769,7 +773,21 @@ class Fields {
                         'placeholder'       => 'Latest Posts',
                         'repeatable'        => true,
                         'wrapper'           => array(
-                            'width' => 66,
+                            'width' => 60,
+                        )
+                    ),
+                    array(
+                        'key'               => 'field__latest-posts__number',
+                        'label'             => 'Number of posts to show',
+                        'name'              => 'number',
+                        'type'              => 'number',
+                        'default_value'     => 3,
+                        'min'               => 1,
+                        'max'               => 30,
+                        'step'              => 1,
+                        'repeatable'        => true,
+                        'wrapper'           => array(
+                            'width' => 20,
                         )
                     ),
                     array(
@@ -782,24 +800,13 @@ class Fields {
                         'return_format'        => 'id',
                         'repeatable'           => true,
                         'wrapper'              => array(
-                            'width' => 33,
+                            'width' => 20,
                         )
                     ),
-                    $this->create_select_field('latest-posts', 'Colour theme'),
-                    array(
-                        'key'               => 'field__latest-posts__number',
-                        'label'             => 'Number of posts to show',
-                        'name'              => 'number',
-                        'type'              => 'number',
-                        'default_value'     => 3,
-                        'min'               => 1,
-                        'max'               => 30,
-                        'step'              => 1,
-                        'repeatable'        => true,
-                        'wrapper'           => array(
-                            'width' => 33,
-                        )
-                    ),
+                    $this->create_select_field('latest-posts', 'Colour theme', 'primary', 25),
+                    $this->create_select_field('latest-posts', 'Background colour', 'white', 25),
+                    $this->create_select_field('latest-posts', 'Width', 'contained', 25),
+
                 ),
             ),
             'layout_featured-posts' => array(
@@ -997,7 +1004,7 @@ class Fields {
                                 'media_upload'  => false,
                                 'repeatable'    => true,
                             ),
-                            $this->create_button_group_repeater('field__copy-image__content')
+                            $this->create_button_group_repeater('field__copy-image__content', 100, false)
                         ),
                         'wrapper'       => array('width' => 50)
                     ),
