@@ -34,6 +34,7 @@ class TinyMCEConfig {
         );
 
         $toolbars['Minimal']['1'] = array_merge(
+            ['styleselect'],
             array_filter($filtered_basic, function($button) {
                 return !in_array($button, ['alignleft', 'alignjustify', 'aligncenter', 'alignright', 'blockquote', 'bullist', 'numlist']);
             }),
