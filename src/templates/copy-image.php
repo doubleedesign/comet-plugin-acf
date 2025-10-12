@@ -68,7 +68,7 @@ $image = new ContentImageAdvanced($image['component']);
 $image_col = new Column([], [$image]);
 
 $columnsAttrs = [
-    'shortName'         => 'copy-image',
+    ...$attributes['container'],
     'backgroundColor'   => $backgroundColor,
     'vAlign'            => 'center',
 ];
