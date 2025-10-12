@@ -8,6 +8,7 @@ class Fields {
         add_action('acf/include_fields', [$this, 'register_flexible_content_fields'], 5, 0);
         add_filter('acf/load_value/name=content_modules', [$this, 'set_default_modules'], 10, 3);
         add_filter('acf/fields/flexible_content/no_value_message', [$this, 'customise_no_value_message'], 10, 2);
+        add_filter('comet_module_fields_for_excerpt_generation', [$this, 'get_fields_for_excerpt_generation'], 10, 1);
     }
 
     public function customise_no_value_message($message, $field): string {
@@ -1049,5 +1050,38 @@ class Fields {
         }
 
         return $value;
+    }
+
+    /**
+     * @param  array<string>  $module_names
+     *
+     * @return array<string> List of ACF field keys for all wysiwyg fields in the given modules, in the order they appear in the modules
+     */
+    public function get_fields_for_excerpt_generation(array $module_names): array {
+        $all_modules = get_field_object('field_content-modules')['layouts'];
+        $present_modules = array_filter($all_modules, function($module) use ($module_names) {
+            return in_array($module['name'], $module_names);
+        });
+        // Sort by the order of $module_names
+        usort($present_modules, function($a, $b) use ($module_names) {
+            return array_search($a['name'], $module_names) <=> array_search($b['name'], $module_names);
+        });
+
+        return $this->find_all_fields_of_type($present_modules, 'wysiwyg');
+    }
+
+    private function find_all_fields_of_type(array $modules, string $type): array {
+        return array_reduce($modules, function($carry, $module) use ($type) {
+            foreach ($module['sub_fields'] as $field) {
+                if ($field['type'] === $type) {
+                    $carry[] = $field['key'];
+                }
+                else if (isset($field['sub_fields'])) {
+                    $carry = array_merge($carry, $this->find_all_fields_of_type(array($field), $type));
+                }
+            }
+
+            return $carry;
+        }, []);
     }
 }
