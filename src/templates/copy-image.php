@@ -53,7 +53,7 @@ if (is_array($buttons) && !empty($buttons)) {
         )));
 }
 
-$content_col = new Column(
+$content_col = (new Column(
     [],
     [
         new Copy([
@@ -61,16 +61,16 @@ $content_col = new Column(
             'isNested'   => true
         ], $content)
     ]
-);
+))->set_bem_modifier('copy');
 
 $image = TemplateHandler::transform_fields_to_comet_attributes($attributes['component']['image']);
 $image = new ContentImageAdvanced($image['component']);
-$image_col = new Column([], [$image]);
+$image_col = (new Column([], [$image]))->set_bem_modifier('image');
 
 $columnsAttrs = [
     ...$attributes['container'],
     'backgroundColor'   => $backgroundColor,
-    'vAlign'            => 'center',
+    'vAlign'            => $attributes['component']['vAlign']
 ];
 
 if ($attributes['component']['order'] === 'copy-image') {

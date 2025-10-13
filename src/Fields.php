@@ -974,13 +974,14 @@ class Fields {
                 'label'      => 'Copy + image',
                 'display'    => 'block',
                 'sub_fields' => array(
-                    $this->create_select_field('copy-image', 'Width', 'contained', 25),
-                    $this->create_select_field('copy-image', 'Colour theme', 'primary', 25),
-                    $this->create_select_field('copy-image', 'Background colour', 'white', 25),
-                    $this->create_select_field('copy-image', 'Order', 'copy-image', 25, array(
+                    $this->create_select_field('copy-image', 'Width', 'contained', 20),
+                    $this->create_select_field('copy-image', 'Colour theme', 'primary', 20),
+                    $this->create_select_field('copy-image', 'Background colour', 'white', 20),
+                    $this->create_select_field('copy-image', 'Order', 'copy-image', 20, array(
                         'copy-image' => 'Copy + Image',
                         'image-copy' => 'Image + Copy',
                     )),
+                    $this->create_vertical_alignment_field('copy-image', 'Vertical alignment', 'middle', 20),
                     array(
                         'key'           => 'field__copy-image__content',
                         'label'         => 'Content',
