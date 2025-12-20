@@ -16,6 +16,9 @@
 if (!defined('COMET_COMPOSER_VENDOR_URL')) {
     define('COMET_COMPOSER_VENDOR_URL', get_site_url() . '/wp-content/plugins/comet-plugin-acf/vendor');
 }
+if (!defined('COMET_COMPOSER_VENDOR_PATH')) {
+    define('COMET_COMPOSER_VENDOR_PATH', __DIR__ . '/vendor');
+}
 
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/vendor/doubleedesign/comet-components-core/src/base/Config.php';
