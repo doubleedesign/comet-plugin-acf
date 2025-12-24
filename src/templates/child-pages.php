@@ -1,7 +1,7 @@
 <?php
 /** @var $fields array */
+use Doubleedesign\Comet\Core\{Card, CardList, Container, Group, Heading};
 use Doubleedesign\Comet\WordPress\Classic\TemplateHandler;
-use Doubleedesign\Comet\Core\{Container, Group, Heading, CardList, Card};
 
 $attributes = TemplateHandler::transform_fields_to_comet_attributes($fields);
 
@@ -59,7 +59,7 @@ $cards = array_map(function($page_id) use ($attributes, $page_ids, $orientation)
 
 $cardList = new CardList(
     array(
-        'context'    => 'featured-posts',
+        'context'    => 'child-pages',
         'colorTheme' => $attributes['component']['colorTheme'] ?? null
     ),
     $cards
