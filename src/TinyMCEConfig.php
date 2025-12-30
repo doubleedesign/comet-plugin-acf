@@ -1,113 +1,106 @@
 <?php
 namespace Doubleedesign\Comet\WordPress\Classic;
+use Doubleedesign\Comet\Core\Config;
 
 class TinyMCEConfig {
 
     public function __construct() {
-        add_filter('acf/fields/wysiwyg/toolbars', [$this, 'customise_wysiwyg_toolbars'], 10, 1);
-        add_filter('mce_buttons_2', [$this, 'add_styleselect'], 10, 1);
-        add_filter('tiny_mce_before_init', [$this, 'populate_styleselect'], 10, 1);
+        add_action('admin_enqueue_scripts', [$this, 'editor_css']);
+        add_filter('tiny_mce_before_init', [$this, 'editor_css_acf'], 10, 1);
+        add_filter('doublee_tinymce_theme_colours', [$this, 'add_theme_colours_to_tinymce_tools']);
         add_action('admin_init', [$this, 'add_select2_custom_css']);
-
-        // Wondering where the main block formats (H1, H2, paragraph, etc) for ACF WYSIWYG fields are configured?
-        // It's in JavaScript - there's no PHP filter for it.
-        // Look for acf.addFilter('wysiwyg_tinymce_settings' ... )
     }
 
     /**
-     * Customise the buttons available in WYSIWYG field editors.
-     * Notes: Themes and other plugins may have their own customisations
-     *        The "full" toolbar is affected by TinyMCE filters such as tinymce_before_init and mce_buttons.
+     * Utility function to define all the CSS files to load in the various TinyMCE contexts
      *
-     * @param  $toolbars
-     *
-     * @return array
+     * @return array[]
      */
-    public function customise_wysiwyg_toolbars($toolbars): array {
-        $filtered_basic = array_filter($toolbars['Basic']['1'], function($button) {
-            return !in_array($button, ['underline', 'fullscreen', 'blockquote']);
-        });
-        $toolbars['Basic']['1'] = array_merge(
-            ['formatselect', 'styleselect', 'forecolor'],
-            $filtered_basic,
-            ['charmap', 'pastetext', 'removeformat', 'undo', 'redo']
+    private function get_css_files(): array {
+        return array(
+            [
+                'path' => COMET_COMPOSER_VENDOR_PATH . '/doubleedesign/comet-components-core/src/components/global.css',
+                'url'  => COMET_COMPOSER_VENDOR_URL . '/doubleedesign/comet-components-core/src/components/global.css',
+            ],
+            [
+                'path' => COMET_COMPOSER_VENDOR_PATH . '/doubleedesign/comet-components-core/src/components/common.css',
+                'url'  => COMET_COMPOSER_VENDOR_URL . '/doubleedesign/comet-components-core/src/components/common.css',
+            ],
+            [
+                'path' => get_template_directory() . '/tinymce.css',
+                'url'  => get_template_directory_uri() . '/tinymce.css',
+            ],
+            [
+                'path' => get_stylesheet_directory() . '/tinymce.css',
+                'url'  => get_stylesheet_directory_uri() . '/tinymce.css',
+            ],
+            [
+                'path' => __DIR__ . DIRECTORY_SEPARATOR . 'tinymce' . DIRECTORY_SEPARATOR . 'components.css',
+                'url'  => plugin_dir_url(__FILE__) . 'tinymce/components.css',
+            ],
         );
+    }
 
-        $toolbars['Minimal']['1'] = array_merge(
-            ['styleselect'],
-            array_filter($filtered_basic, function($button) {
-                return !in_array($button, ['alignleft', 'alignjustify', 'aligncenter', 'alignright', 'blockquote', 'bullist', 'numlist']);
-            }),
-            ['charmap', 'pastetext', 'removeformat', 'undo', 'redo'],
-        );
+    /**
+     * Load CSS in default TinyMCE
+     *
+     * @return void
+     */
+    public function editor_css(): void {
+        $css = $this->get_css_files();
 
-        $always_remove = ['fullscreen', 'wp_more', 'alignjustify', 'indent', 'outdent', 'underline'];
-        array_walk($toolbars, function(&$buttons) use ($always_remove) {
-            $rows = array_keys($buttons);
-            foreach ($rows as $row) {
-                $buttons[$row] = array_filter($buttons[$row], function($button) use ($always_remove) {
-                    return !in_array($button, $always_remove);
-                });
-                $buttons[$row] = array_unique($buttons[$row]); // ensure no accidental duplicates
+        foreach ($css as $file_info) {
+            if (file_exists($file_info['path'])) {
+                add_editor_style($file_info['url']);
             }
-        });
-
-        return $toolbars;
+        }
     }
 
     /**
-     * Add custom formats menu
+     * Load editor styles in ACF WYSIWYG fields
+     * Ref: https://pagegwood.com/web-development/custom-editor-stylesheets-advanced-custom-fields-wysiwyg/
      *
-     * @param  $buttons
+     * @param  $mce_init
+     *
+     * @wp-hook
      *
      * @return array
      */
-    public function add_styleselect($buttons): array {
-        array_unshift($buttons, 'styleselect');
+    public function editor_css_acf($mce_init): array {
+        $css = $this->get_css_files();
 
-        return $buttons;
+        foreach ($css as $file_info) {
+            if (file_exists($file_info['path'])) {
+                $version = filemtime($file_info['path']);
+                $css = $file_info['url'] . '?v=' . $version; // it caches hard, use this to force a refresh
+                if (isset($mce_init['content_css'])) {
+                    $mce_init['content_css'] .= ',' . $css;
+                }
+                else {
+                    $mce_init['content_css'] = $css;
+                }
+            }
+        }
+
+        return $mce_init;
     }
 
     /**
-     * Populate custom formats menu
-     * Notes: - 'selector' for block-level element that format is applied to; 'inline' to add wrapping tag e.g.'span'
-     *        - Using 'attributes' to apply the classes instead of 'class' ensures previous classes are replaced rather than added to
-     *        - 'styles' are inline styles that are applied to the items in the menu, not the output; options are pretty limited but enough to add things like colours
-     *          (further styling customisation to the menu may be done in the admin stylesheet)
+     * Add theme colours to the custom plugins added in the Double-E TinyMCE plugin
      *
-     * @param  $settings
+     * @param  $colours
      *
      * @return array
      */
-    public function populate_styleselect($settings): array {
-        $style_formats = array(
-            array(
-                'title'   => 'Lead paragraph',
-                'block'   => 'p',
-                'classes' => 'lead'
-            ),
-            array(
-                'title'    => 'Accent heading',
-                'selector' => 'h2,h3,h4',
-                'classes'  => 'is-style-accent'
-            ),
-            array(
-                'title'    => 'Small heading',
-                'selector' => 'h2,h3,h4,h5,h6',
-                'classes'  => 'is-style-small'
-            ),
-            array(
-                'title'    => 'Span within heading',
-                'inline'   => 'span',
-                'selector' => 'h2,h3,h4,h5,h6',
-            )
-        );
+    public function add_theme_colours_to_tinymce_tools($colours): array {
+        if (!class_exists('Doubleedesign\Comet\Core\Config')) {
+            return $colours;
+        }
 
-        $settings['style_formats'] = json_encode($style_formats);
+        $theme_colours = Config::getInstance()->get_theme_colours();
+        $filtered = array_filter($theme_colours, fn($key) => !in_array($key, ['black', 'white']), ARRAY_FILTER_USE_KEY);
 
-        unset($settings['preview_styles']);
-
-        return $settings;
+        return array_unique(array_merge($colours, $filtered));
     }
 
     public function add_select2_custom_css(): void {

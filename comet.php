@@ -5,7 +5,7 @@
  *
  * Author:              Double-E Design
  * Author URI:          https://www.doubleedesign.com.au
- * Version:             0.1.0
+ * Version:             0.5.0
  * Requires PHP:        8.3
  * Requires plugins:    advanced-custom-fields-pro
  * Recommends plugins:	doublee-breadcrumbs, acf-advanced-image-field
@@ -22,6 +22,7 @@ if (!defined('COMET_COMPOSER_VENDOR_PATH')) {
 
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/vendor/doubleedesign/comet-components-core/src/base/Config.php';
+
 use Doubleedesign\Comet\Core\Config;
 use Doubleedesign\Comet\WordPress\Classic\{PluginEntryPoint, TemplateHandler};
 
