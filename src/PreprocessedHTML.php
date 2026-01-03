@@ -3,7 +3,9 @@ namespace Doubleedesign\Comet\WordPress\Classic;
 
 /**
  * A class to handle the rendering of preprocessed HTML content, such as from ACF WYSIWYG fields
- * in a similar way to how Comet Components are rendered, for compatibility of handling
+ * in a similar way to how Comet Components are rendered, for compatibility of handling.
+ *
+ * @deprecated - use Comet Core PreprocessedHTML component instead
  */
 class PreprocessedHTML {
     private string $content;
